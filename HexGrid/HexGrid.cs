@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-namespace GameServer.HexGrid
+namespace Shared.HexGrid
 {
     public class HexGrid
     {

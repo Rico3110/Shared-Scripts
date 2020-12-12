@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 
-namespace GameServer.DataTypes
+namespace Shared.DataTypes
 {
     public enum HexCellBiome
     {

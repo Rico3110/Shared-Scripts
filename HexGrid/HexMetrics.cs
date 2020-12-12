@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Numerics;
 
-namespace GameServer.HexGrid
+namespace Shared.HexGrid
 {
     public static class HexMetrics
     {
