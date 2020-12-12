@@ -1,4 +1,4 @@
-﻿namespace GameServer.HexGrid
+﻿namespace Shared.HexGrid
 {
 	public enum HexDirection
 	{

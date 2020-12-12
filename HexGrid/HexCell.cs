@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using GameServer.DataTypes;
 using UnityEngine;
+using Shared.DataTypes;
 
-namespace GameServer.HexGrid
+namespace Shared.HexGrid
 {
     public class HexCell
     {

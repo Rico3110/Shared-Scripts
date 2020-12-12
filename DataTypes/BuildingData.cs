@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameServer.DataTypes
+namespace Shared.DataTypes
 {
     public enum BuildingType
     {

@@ -1,5 +1,5 @@
 ﻿
-namespace GameServer.GameState
+namespace Shared.GameState
 {
     public class GameState
     {
