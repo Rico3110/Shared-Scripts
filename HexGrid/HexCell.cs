@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using GameServer.DataTypes;
+using UnityEngine;
 
 namespace GameServer.HexGrid
 {
@@ -16,7 +17,18 @@ namespace GameServer.HexGrid
 
         public BuildingData Building { get; set; }
 
+        public Vector3 Position
+        {
+            get
+            {
+                Vector3 position;
+                position.x = (coordinates.X + coordinates.Z * 0.5f) * (HexMetrics.innerRadius * 2f);
+                position.y = Data.Elevation * HexMetrics.elevationStep;
+                position.z = coordinates.Z * (HexMetrics.outerRadius * 1.5f);
 
+                return position;
+            }
+        }
 
         public int GetElevationDifference(HexDirection direction)
         {
