@@ -5,6 +5,7 @@ using Shared.GameState;
 using Shared.HexGrid;
 using Shared.DataTypes;
 using UnityEngine;
+using Color = System.Drawing.Color;
 
 namespace Shared.MapGeneration
 {
@@ -104,7 +105,7 @@ namespace Shared.MapGeneration
                 int pixX = (int)((position.x / HEX_WIDTH) * (float)IMAGE_WIDTH);
                 int pixZ = (int)((position.z / HEX_WIDTH) * (float)IMAGE_HEIGHT);
 
-                Color landPix = landImages[pixX / 256, pixZ / 256].GetPixel(pixX % 256, 255 - pixZ % 256);
+                System.Drawing.Color landPix = landImages[pixX / 256, pixZ / 256].GetPixel(pixX % 256, 255 - pixZ % 256);
 
                 if(fromColorToBiome(landPix) == HexCellBiome.WATER){
                     return HexCellBiome.WATER;
