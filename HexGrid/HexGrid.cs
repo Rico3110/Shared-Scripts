@@ -1,24 +1,29 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Shared.GameState;
+using Shared.DataTypes;
 
 namespace Shared.HexGrid
 {
     public class HexGrid
     {
-        public int chunkCountX = 12, chunkCountZ = 12;
+        public int chunkCountX, chunkCountZ;
         public int cellCountX, cellCountZ;
 
         public HexCell[] cells;
 
         public HexGridChunk chunkPrefab;
 
-        private HexGridChunk[] chunks;
+        public HexGridChunk[] chunks;
 
+        public HexMap map;
 
-        public HexGrid()
+        public HexGrid(HexMap map)
         {
-            cellCountX = chunkCountX * HexMetrics.chunkSizeX;
-            cellCountZ = chunkCountZ * HexMetrics.chunkSizeZ;
+            this.map = map;
+
+            cellCountX = map.chunkCountX;
+            cellCountZ = map.chunkCountZ;
 
             CreateChunks();
             CreateCells();
@@ -52,6 +57,7 @@ namespace Shared.HexGrid
         void CreateCell(int x, int z, int i)
         {
             HexCell cell = cells[i] = new HexCell();
+            cell.Data = new HexCellData(map.data[i]);
             cell.coordinates = HexCoordinates.FromOffsetCoordinates(x, z);
 
             if (x > 0)

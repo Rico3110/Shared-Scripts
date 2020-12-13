@@ -1,15 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Numerics;
+using UnityEngine;
 
 namespace Shared.HexGrid
 {
     public static class HexMetrics
     {
         public const float outerRadius = 10f;
-        public const float innerRadius = outerRadius * 0.866025404f;
-
-        public const float elevationStep = .4f;
+        public const float innerRadius = outerRadius * 0.866025404f;      
 
         public const int chunkSizeX = 5, chunkSizeZ = 5;
         
@@ -31,7 +29,7 @@ namespace Shared.HexGrid
         public static Vector3 GetSecondCorner(HexDirection direction)
         {
             return corners[((int)direction + 1) % 6];
-        }              
+        }       
     }
 }
 

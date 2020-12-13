@@ -6,18 +6,18 @@ using System.Threading.Tasks;
 
 namespace Shared.GameState
 {
-    public class Map
+    public class HexMap
     {
-        uint[] map;
-        int chunkCountX;
-        int chunkCountZ;
+        public uint[] data;
+        public int chunkCountX;
+        public int chunkCountZ;
 
         double lat;
         double lon;
 
-        public Map(uint[] map, int chunkCountX, int chunkCountZ, double lat, double lon)
+        public HexMap(uint[] data, int chunkCountX, int chunkCountZ, double lat, double lon)
         {
-            this.map = map;
+            this.data = data;
             this.chunkCountX = chunkCountX;
             this.chunkCountZ = chunkCountZ;
             this.lat = lat;

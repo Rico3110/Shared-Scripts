@@ -17,18 +17,26 @@ namespace Shared.HexGrid
 
         public BuildingData Building { get; set; }
 
+        public Color Color = Color.white;
+
         public Vector3 Position
         {
             get
             {
                 Vector3 position;
                 position.x = (coordinates.X + coordinates.Z * 0.5f) * (HexMetrics.innerRadius * 2f);
-                position.y = Data.Elevation * HexMetrics.elevationStep;
+                position.y = 0;
                 position.z = coordinates.Z * (HexMetrics.outerRadius * 1.5f);
 
                 return position;
             }
         }
+
+        public HexCell()
+        {
+            neighbors = new HexCell[6];
+        }
+
 
         public int GetElevationDifference(HexDirection direction)
         {

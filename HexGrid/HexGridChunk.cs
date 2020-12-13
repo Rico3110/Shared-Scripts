@@ -5,7 +5,7 @@ namespace Shared.HexGrid
 {
     public class HexGridChunk
     {
-        HexCell[] cells;
+        public HexCell[] cells;
 
         public HexGridChunk()
         {
