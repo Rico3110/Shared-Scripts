@@ -8,14 +8,14 @@ namespace Shared.GameState
 {
     public class HexMap
     {
-        public uint[] data;
-        public int chunkCountX;
-        public int chunkCountZ;
+        public uint[] data { get; }
+        public int chunkCountX { get; }
+        public int chunkCountZ { get; }
 
-        double lat;
-        double lon;
+        public float lat { get; }
+        public float lon { get; }
 
-        public HexMap(uint[] data, int chunkCountX, int chunkCountZ, double lat, double lon)
+        public HexMap(uint[] data, int chunkCountX, int chunkCountZ, float lat, float lon)
         {
             this.data = data;
             this.chunkCountX = chunkCountX;

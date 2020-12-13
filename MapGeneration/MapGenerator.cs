@@ -10,8 +10,8 @@ namespace Shared.MapGeneration
 {
     public class MapGenerator
     {      
-        private readonly double LONGITUDE;
-        private readonly double LATITUDE;
+        private readonly float LONGITUDE;
+        private readonly float LATITUDE;
 
         private readonly int TILE_COUNT_X;
         private readonly int TILE_COUNT_Z;
@@ -38,7 +38,7 @@ namespace Shared.MapGeneration
         private Bitmap[,] heightImages;
 
 
-        public MapGenerator(double lat, double lon, int size)
+        public MapGenerator(float lat, float lon, int size)
         {
             LONGITUDE = lon;
             LATITUDE = lat;
@@ -56,7 +56,7 @@ namespace Shared.MapGeneration
             HEX_HEIGHT = 0.5f * HexMetrics.outerRadius + 1.5f * HexMetrics.outerRadius * (float)CELL_COUNT_Z;
         }
 
-        public uint[] createMap()
+        public HexMap createMap()
         {
             FetchMaps();
 
@@ -66,7 +66,7 @@ namespace Shared.MapGeneration
             Console.WriteLine("cellCountZ: " + CELL_COUNT_Z);
             
 
-            uint[] map = new uint[CELL_COUNT_X * CELL_COUNT_Z];
+            uint[] data = new uint[CELL_COUNT_X * CELL_COUNT_Z];
 
             for (int z = 0; z < CELL_COUNT_Z; z++)
             {
@@ -75,12 +75,16 @@ namespace Shared.MapGeneration
                     HexCellBiome biome = parseBiome(x, z);
                     ushort height = parseHeight(x, z);
 
-                    HexCellData data = new HexCellData(height, biome, HexCellRessource.NONE);
+                    HexCellData cellData = new HexCellData(height, biome, HexCellRessource.NONE);
                     
-                    map[z * CELL_COUNT_X + x] = data.toUint();
+                    data[z * CELL_COUNT_X + x] = cellData.toUint();
                 }
             }
-            return map;
+
+            int chunkCountX = CHUNKS_PER_TILE_X * TILE_COUNT_X;
+            int chunkCountZ = CHUNKS_PER_TILE_Z * TILE_COUNT_Z;
+            
+            return new HexMap(data, chunkCountX, chunkCountZ, LATITUDE, LONGITUDE);
         }
 
         private HexCellBiome parseBiome(int x, int z)
