@@ -16,9 +16,7 @@ namespace Shared.HexGrid
         public HexCellData Data { get; set; }
 
         public BuildingData Building { get; set; }
-
-        public Color Color = Color.white;
-
+       
         public Vector3 Position
         {
             get
