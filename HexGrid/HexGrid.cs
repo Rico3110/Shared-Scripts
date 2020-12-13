@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Shared.GameState;
 using Shared.DataTypes;
 
+
 namespace Shared.HexGrid
 {
     public class HexGrid
@@ -22,8 +23,11 @@ namespace Shared.HexGrid
         {
             this.map = map;
 
-            cellCountX = map.chunkCountX;
-            cellCountZ = map.chunkCountZ;
+            chunkCountX = map.chunkCountX;
+            chunkCountZ = map.chunkCountZ;
+
+            cellCountX = chunkCountX * HexMetrics.chunkSizeX;
+            cellCountZ = chunkCountZ * HexMetrics.chunkSizeZ;
 
             CreateChunks();
             CreateCells();
@@ -92,6 +96,7 @@ namespace Shared.HexGrid
         {
             int chunkX = x / HexMetrics.chunkSizeX;
             int chunkZ = z / HexMetrics.chunkSizeZ;
+
             HexGridChunk chunk = chunks[chunkX + chunkZ * chunkCountX];
 
             int localX = x - chunkX * HexMetrics.chunkSizeX;
