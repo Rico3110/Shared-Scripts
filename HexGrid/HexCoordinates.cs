@@ -41,6 +41,32 @@ namespace Shared.HexGrid
             this.z = z;
         }
 
+        public HexCoordinates InDirection(HexDirection direction)
+        {
+            if((int)direction % 3 == 0)
+            {
+                return new HexCoordinates(x, z + (((int)direction % 2 == 0) ? 1 : -1));
+            }
+            else if ((int)direction % 3 == 1)
+            {
+                return new HexCoordinates(x + (((int)direction % 2 == 0) ? 1 : -1), z);
+            }
+            else 
+            {
+                return new HexCoordinates(x + (((int)direction % 2 == 0) ? 1 : -1), z + (((int)direction % 2 == 0) ? -1 : 1));
+            }
+        }
+
+        public int ToOffsetX()
+        {
+            return x + z / 2;
+        }
+
+        public int ToOffsetZ()
+        {
+            return z;
+        }
+
         public static HexCoordinates FromOffsetCoordinates(int x, int z)
         {
             return new HexCoordinates(x - z / 2, z);
