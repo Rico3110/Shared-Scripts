@@ -16,6 +16,14 @@ namespace Shared.HexGrid
         public HexCellData Data { get; set; }
 
         public BuildingData Building { get; set; }
+
+        public uint Elevation
+        {
+            get
+            {
+                return Data.Elevation - (uint)Data.WaterDepth;
+            }
+        }
        
         public Vector3 Position
         {
