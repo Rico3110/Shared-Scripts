@@ -12,29 +12,25 @@ namespace Shared.DataTypes
         FOREST, GRASS, CROP, ROCK, SNOW, CITY, WATER
     }
 
-    public enum HexCellRessource
-    {
-        NONE, TREES, ROCKS, IRON_ORE
-    }
 
     public struct HexCellData
     {
         public uint Elevation { get; }
-        public HexCellBiome Biome { get; }
-        public HexCellRessource Ressource { get; }
+        public HexCellBiome Biome { get; }        
+        public byte WaterDepth { get; }
 
-        public HexCellData(uint elevation, HexCellBiome biome, HexCellRessource ressource)
+        public HexCellData(uint elevation, HexCellBiome biome, byte waterDepth)
         {
             Elevation = elevation;
             Biome = biome;
-            Ressource = ressource;
+            WaterDepth = waterDepth;
         }
 
         public HexCellData(uint data)
         {
             Elevation = data.toElevation();
             Biome = data.toBiome();
-            Ressource = data.toRessource();
+            WaterDepth = data.toWaterDepth();
         }
 
         public uint toUint()
@@ -42,13 +38,13 @@ namespace Shared.DataTypes
             uint data = 0;
             data = data.SetSubBits(Elevation, 0, 16);
             data = data.SetSubBits((uint)Biome, 16, 4);
-            data = data.SetSubBits((uint)Ressource, 20, 4);
+            data = data.SetSubBits((uint)WaterDepth, 20, 8);
             return data;
         }
 
         public string toString()
         {
-            return this.Biome + ", " + this.Elevation + ", " + this.Ressource;
+            return  this.Elevation + ", " + this.Biome + ", " + this.WaterDepth;
         }
     }
 
@@ -63,9 +59,9 @@ namespace Shared.DataTypes
         {
             return (HexCellBiome)data.GetSubBits(16, 4);
         }
-        internal static HexCellRessource toRessource(this uint data)
+        internal static byte toWaterDepth(this uint data)
         {
-            return (HexCellRessource)data.GetSubBits(20, 4);
+            return (byte)data.GetSubBits(20, 8);
         }
     }
 }
