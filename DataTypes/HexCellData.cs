@@ -64,7 +64,7 @@ namespace Shared.DataTypes
             return (byte)data.GetSubBits(20, 8);
         }
 
-        public uint SetElevation(this uint data, uint elevation)
+        public static uint SetElevation(this uint data, uint elevation)
         {
             HexCellData hexCellData = new HexCellData(elevation, data.toBiome(), data.toWaterDepth());
             data = hexCellData.toUint();
