@@ -16,12 +16,28 @@ namespace Shared.HexGrid
         public HexGridChunk chunkPrefab;
 
         public HexGridChunk[] chunks;
+        
 
-        public HexMap map;
+        private GameState.GameState gameState;
+
+
+        public HexGrid(GameState.GameState gameState)
+        {
+            this.gameState = gameState;
+
+            chunkCountX = gameState.map.chunkCountX;
+            chunkCountZ = gameState.map.chunkCountZ;
+
+            cellCountX = chunkCountX * HexMetrics.chunkSizeX;
+            cellCountZ = chunkCountZ * HexMetrics.chunkSizeZ;
+
+            CreateChunks();
+            CreateCells();
+        }
 
         public HexGrid(HexMap map)
         {
-            this.map = map;
+            this.gameState = new GameState.GameState(map);
 
             chunkCountX = map.chunkCountX;
             chunkCountZ = map.chunkCountZ;
@@ -61,7 +77,7 @@ namespace Shared.HexGrid
         void CreateCell(int x, int z, int i)
         {
             HexCell cell = cells[i] = new HexCell();
-            cell.Data = new HexCellData(map.data[i]);
+            cell.Data = new HexCellData(gameState.map.data[i]);
             cell.coordinates = HexCoordinates.FromOffsetCoordinates(x, z);
 
             if (x > 0)
@@ -102,6 +118,18 @@ namespace Shared.HexGrid
             int localX = x - chunkX * HexMetrics.chunkSizeX;
             int localZ = z - chunkZ * HexMetrics.chunkSizeZ;
             chunk.AddCell(localX + localZ * HexMetrics.chunkSizeX, cell);
+        }
+
+        public void ChangeData(HexCellData data, HexCoordinates coordinate)
+        {
+            GetCell(coordinate).Data = data;
+            gameState.map.data[coordinate.ToOffsetX() + coordinate.ToOffsetZ() * cellCountX] = data.toUint();
+        }
+
+        public void AddBuilding(BuildingData data, HexCoordinates coordinate)
+        {
+            GetCell(coordinate).Building = data;
+            
         }
 
         public HexCell GetCell(HexCoordinates coordinates)
