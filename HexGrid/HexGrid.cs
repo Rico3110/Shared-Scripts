@@ -128,8 +128,7 @@ namespace Shared.HexGrid
 
         public void AddBuilding(BuildingData data, HexCoordinates coordinate)
         {
-            GetCell(coordinate).Building = data;
-            
+            GetCell(coordinate).Building = data;           
         }
 
         public HexCell GetCell(HexCoordinates coordinates)
