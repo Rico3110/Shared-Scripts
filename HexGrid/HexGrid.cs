@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Shared.GameState;
 using Shared.DataTypes;
-
+using UnityEngine;
 
 namespace Shared.HexGrid
 {
@@ -102,6 +102,13 @@ namespace Shared.HexGrid
             int localX = x - chunkX * HexMetrics.chunkSizeX;
             int localZ = z - chunkZ * HexMetrics.chunkSizeZ;
             chunk.AddCell(localX + localZ * HexMetrics.chunkSizeX, cell);
+        }
+
+        public HexCell GetCell(Vector3 position)
+        {            
+            HexCoordinates coordinates = HexCoordinates.FromPosition(position);
+            int index = coordinates.X + coordinates.Z * cellCountX + coordinates.Z / 2;
+            return cells[index];
         }
 
         public HexCell GetCell(HexCoordinates coordinates)
