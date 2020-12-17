@@ -16,12 +16,28 @@ namespace Shared.HexGrid
         public HexGridChunk chunkPrefab;
 
         public HexGridChunk[] chunks;
+        
 
-        public HexMap map;
+        private GameState.GameState gameState;
+
+
+        public HexGrid(GameState.GameState gameState)
+        {
+            this.gameState = gameState;
+
+            chunkCountX = gameState.map.chunkCountX;
+            chunkCountZ = gameState.map.chunkCountZ;
+
+            cellCountX = chunkCountX * HexMetrics.chunkSizeX;
+            cellCountZ = chunkCountZ * HexMetrics.chunkSizeZ;
+
+            CreateChunks();
+            CreateCells();
+        }
 
         public HexGrid(HexMap map)
         {
-            this.map = map;
+            this.gameState = new GameState.GameState(map);
 
             chunkCountX = map.chunkCountX;
             chunkCountZ = map.chunkCountZ;
@@ -61,7 +77,7 @@ namespace Shared.HexGrid
         void CreateCell(int x, int z, int i)
         {
             HexCell cell = cells[i] = new HexCell();
-            cell.Data = new HexCellData(map.data[i]);
+            cell.Data = new HexCellData(gameState.map.data[i]);
             cell.coordinates = HexCoordinates.FromOffsetCoordinates(x, z);
 
             if (x > 0)
@@ -104,18 +120,30 @@ namespace Shared.HexGrid
             chunk.AddCell(localX + localZ * HexMetrics.chunkSizeX, cell);
         }
 
-        public HexCell GetCell(Vector3 position)
-        {            
-            HexCoordinates coordinates = HexCoordinates.FromPosition(position);
-            int index = coordinates.X + coordinates.Z * cellCountX + coordinates.Z / 2;
-            return cells[index];
+        
+        public void ChangeData(HexCellData data, HexCoordinates coordinate)
+        {
+            GetCell(coordinate).Data = data;
+            gameState.map.data[coordinate.ToOffsetX() + coordinate.ToOffsetZ() * cellCountX] = data.toUint();
         }
 
+        public void AddBuilding(BuildingData data, HexCoordinates coordinate)
+        {
+            GetCell(coordinate).Building = data;
+            
+        }
         public HexCell GetCell(HexCoordinates coordinates)
         {
             int z = coordinates.Z;
             int x = coordinates.X + z / 2;
             return cells[x + z * cellCountX];
+        }
+
+        public HexCell GetCell(Vector3 position)
+        {
+            HexCoordinates coordinates = HexCoordinates.FromPosition(position);
+            int index = coordinates.X + coordinates.Z * cellCountX + coordinates.Z / 2;
+            return cells[index];
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Shared.HexGrid;
 
 namespace Shared.DataTypes
 {
@@ -16,5 +17,6 @@ namespace Shared.DataTypes
         public BuildingType Type { get; }
         public byte Level { get; }
         public byte TeamID { get; }
+        public HexCoordinates coordinate { get; }
     }
 }
