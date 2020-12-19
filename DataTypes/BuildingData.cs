@@ -9,14 +9,14 @@ namespace Shared.DataTypes
 {
     public enum BuildingType
     {
-        NONE, HQ, FARM
+        NONE, HQ, FARM, WOODCUTTER
     }
 
     public class BuildingData
     {
-        public BuildingType Type { get; }
-        public byte Level { get; }
-        public byte TeamID { get; }
-        public HexCoordinates coordinate { get; }
+        public BuildingType Type { get; set; }
+        public byte Level { get; set; }
+        public byte TeamID { get; set; }
+        public HexCoordinates coordinate { get; set; }
     }
 }
