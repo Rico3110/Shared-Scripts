@@ -46,7 +46,13 @@ namespace Shared.HexGrid
 
         public int GetElevationDifference(HexDirection direction)
         {
-            int difference = (int)Data.Elevation - (int)GetNeighbor(direction).Data.Elevation;
+            HexCell neighbor = GetNeighbor(direction);
+            int difference = 0;
+            if(neighbor != null)
+            {
+                difference = (int)Elevation - (int)GetNeighbor(direction).Elevation;
+            }
+            
             return difference;
         }
 
