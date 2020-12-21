@@ -9,7 +9,7 @@ namespace Shared.DataTypes
 {
     public enum HexCellBiome
     {
-        FOREST, GRASS, CROP, ROCK, SNOW, CITY, WATER
+        FOREST, SCRUB, GRASS, CROP, ROCK, SNOW, CITY, BUILDINGS, WATER
     }
 
 
