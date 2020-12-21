@@ -89,7 +89,7 @@ namespace Shared.HexGrid
         void CreateCell(int x, int z, int i)
         {
             HexCell cell = cells[i] = new HexCell();
-            cell.Data = new HexCellData(gameState.map.data[i]);
+            cell.Data = new HexCellData();
             cell.coordinates = HexCoordinates.FromOffsetCoordinates(x, z);
             cell.Building = new BuildingData();
 
@@ -133,6 +133,13 @@ namespace Shared.HexGrid
             chunk.AddCell(localX + localZ * HexMetrics.chunkSizeX, cell);
         }
 
+        public void SetMap(HexMap map)
+        {
+            for(int i = 0; i < cellCountX * cellCountZ; i++)
+            {
+                cells[i].Data = new HexCellData(map.data[i]);
+            }       
+        }
         
         public void ChangeData(HexCellData data, HexCoordinates coordinate)
         {
