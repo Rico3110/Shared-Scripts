@@ -21,7 +21,7 @@ namespace Shared.HexGrid
         {
             get
             {
-                return Data.Elevation - (uint)Data.WaterDepth * 10;
+                return Data.Elevation - (uint)Data.WaterDepth;
             }
         }
        
