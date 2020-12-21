@@ -89,7 +89,7 @@ namespace Shared.HexGrid
         void CreateCell(int x, int z, int i)
         {
             HexCell cell = cells[i] = new HexCell();
-            cell.Data = new HexCellData();
+            cell.Data = new HexCellData(gameState.map.data[i]);
             cell.coordinates = HexCoordinates.FromOffsetCoordinates(x, z);
             cell.Building = new BuildingData();
 
