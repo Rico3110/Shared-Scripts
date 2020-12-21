@@ -21,6 +21,18 @@ namespace Shared.HexGrid
         private GameState.GameState gameState;
 
 
+        public HexGrid(int chunkCountX, int chunkCountZ)
+        {
+            this.chunkCountX = chunkCountX;
+            this.chunkCountZ = chunkCountZ;
+
+            cellCountX = chunkCountX * HexMetrics.chunkSizeX;
+            cellCountZ = chunkCountZ * HexMetrics.chunkSizeZ;
+
+            CreateChunks();
+            CreateCells();
+        }
+
         public HexGrid(GameState.GameState gameState)
         {
             this.gameState = gameState;
@@ -77,8 +89,9 @@ namespace Shared.HexGrid
         void CreateCell(int x, int z, int i)
         {
             HexCell cell = cells[i] = new HexCell();
-            cell.Data = new HexCellData(gameState.map.data[i]);
+            cell.Data = new HexCellData();
             cell.coordinates = HexCoordinates.FromOffsetCoordinates(x, z);
+            cell.Building = new BuildingData();
 
             if (x > 0)
             {
@@ -120,6 +133,13 @@ namespace Shared.HexGrid
             chunk.AddCell(localX + localZ * HexMetrics.chunkSizeX, cell);
         }
 
+        public void SetMap(HexMap map)
+        {
+            for(int i = 0; i < cellCountX * cellCountZ; i++)
+            {
+                cells[i].Data = new HexCellData(map.data[i]);
+            }       
+        }
         
         public void ChangeData(HexCellData data, HexCoordinates coordinate)
         {
@@ -131,6 +151,12 @@ namespace Shared.HexGrid
         {
             GetCell(coordinate).Building = data;           
         }
+
+        public HexCell GetCell(int x, int z)
+        {
+            return GetCell(HexCoordinates.FromOffsetCoordinates(x, z));
+        }
+
         public HexCell GetCell(HexCoordinates coordinates)
         {
             int z = coordinates.Z;
@@ -141,8 +167,17 @@ namespace Shared.HexGrid
         public HexCell GetCell(Vector3 position)
         {
             HexCoordinates coordinates = HexCoordinates.FromPosition(position);
-            int index = coordinates.X + coordinates.Z * cellCountX + coordinates.Z / 2;
-            return cells[index];
+            return GetCell(coordinates);
+        }
+
+        public uint[] SerializeData()
+        {
+            uint[] data = new uint[cellCountX * cellCountZ];
+            for(int i = 0; i < cellCountX * cellCountZ; i++)
+            {
+                data[i] = cells[i].Data.toUint();
+            }
+            return data;
         }
     }
 }

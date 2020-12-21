@@ -9,17 +9,17 @@ namespace Shared.DataTypes
 {
     public enum HexCellBiome
     {
-        FOREST, GRASS, CROP, ROCK, SNOW, CITY, WATER
+        FOREST, SCRUB, GRASS, CROP, ROCK, SNOW, CITY, BUILDINGS, WATER
     }
 
 
     public struct HexCellData
     {
-        public uint Elevation { get; }
-        public HexCellBiome Biome { get; }        
-        public byte WaterDepth { get; }
+        public ushort Elevation { get; }
+        public HexCellBiome Biome { get; set; }        
+        public byte WaterDepth { get; }      
 
-        public HexCellData(uint elevation, HexCellBiome biome, byte waterDepth)
+        public HexCellData(ushort elevation, HexCellBiome biome, byte waterDepth)
         {
             Elevation = elevation;
             Biome = biome;
@@ -50,9 +50,9 @@ namespace Shared.DataTypes
 
     internal static class HexCellDataHelper
     {
-        internal static uint toElevation(this uint data)
+        internal static ushort toElevation(this uint data)
         {
-            return data.GetSubBits(0, 16);
+            return (ushort)data.GetSubBits(0, 16);
         }
 
         internal static HexCellBiome toBiome(this uint data)
@@ -64,7 +64,7 @@ namespace Shared.DataTypes
             return (byte)data.GetSubBits(20, 8);
         }
 
-        public static uint SetElevation(this uint data, uint elevation)
+        public static uint SetElevation(this uint data, ushort elevation)
         {
             HexCellData hexCellData = new HexCellData(elevation, data.toBiome(), data.toWaterDepth());
             data = hexCellData.toUint();
