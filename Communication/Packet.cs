@@ -205,10 +205,10 @@ namespace Shared.Communication
         /// <param name="_value">The BuildingData to add.</param>
         public void Write(BuildingData _value)
         {
-            Write(_value.coordinate);
             Write(_value.Type);
             Write(_value.TeamID);
             Write(_value.Level);
+            Write(_value.coordinate);
         }
 
         #endregion
@@ -431,13 +431,9 @@ namespace Shared.Communication
         {
             try
             {
-                int x = ReadInt();
-                int z = ReadInt();
+                int x = ReadInt(_moveReadPos);
+                int z = ReadInt(_moveReadPos);
                 HexCoordinates _value = new HexCoordinates(x, z);
-                if (_moveReadPos)
-                {
-                    readPos += 8; // Increase readPos by the length of the HexCoordinates
-                }
                 return _value; // Return the HexCoordinates
             }
             catch
@@ -451,11 +447,7 @@ namespace Shared.Communication
         {
             try
             {
-                BuildingType _value = (BuildingType)ReadByte();
-                if (_moveReadPos)
-                {
-                    readPos += 1; // Increase readPos by the length of the BuildingType
-                }
+                BuildingType _value = (BuildingType)ReadByte(_moveReadPos);
                 return _value; // Return the BuildingType
             }
             catch
@@ -469,19 +461,16 @@ namespace Shared.Communication
         {
             try
             {
-                HexCoordinates coords = ReadHexCoordinates();
-                BuildingType type = ReadBuildingType();
-                byte teamID = ReadByte();
-                byte level = ReadByte();
+                BuildingType type = ReadBuildingType(_moveReadPos);
+                byte teamID = ReadByte(_moveReadPos);
+                byte level = ReadByte(_moveReadPos);
+                HexCoordinates coords = ReadHexCoordinates(_moveReadPos);
 
                 BuildingData _value = new BuildingData();
-                _value.coordinate = coords;
+                _value.Type = type;
                 _value.TeamID = teamID;
                 _value.Level = level;
-                if (_moveReadPos)
-                {
-                    readPos += 11; // Increase readPos by the length of the BuildingData
-                }
+                _value.coordinate = coords;
                 return _value; // Return the BuildingData
             }
             catch

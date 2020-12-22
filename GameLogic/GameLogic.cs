@@ -44,10 +44,13 @@ namespace Shared.GameLogic
                         for (int i = 0; i < 6; i++)
                         {
                             HexCell neighbor = cell.GetNeighbor((HexDirection)i);
-                            if (neighbor.Data.Biome == HexCellBiome.FOREST)
+                            if (neighbor != null)
                             {
-                                foundForest = true;
-                                break;
+                                if (neighbor.Data.Biome == HexCellBiome.FOREST)
+                                {
+                                    foundForest = true;
+                                    break;
+                                }
                             }
                         }
                         if (foundForest == false)
