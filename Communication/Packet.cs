@@ -28,7 +28,7 @@ namespace Shared.Communication
         hexMap = 4,
         hexData = 10,
         requestBuildingData = 11,
-        requestBuildBuilding = 12,
+        requestBuildBuilding = 12
     }
 
     public class Packet : IDisposable
@@ -199,7 +199,7 @@ namespace Shared.Communication
         /// <param name="_value">The BuildingType to add.</param>
         public void Write(BuildingType _value)
         {
-            buffer.AddRange(BitConverter.GetBytes((byte)_value));
+            Write((byte)_value);
         }
         /// <summary>Adds a BuildingData to the packet.</summary>
         /// <param name="_value">The BuildingData to add.</param>
