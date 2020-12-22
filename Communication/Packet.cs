@@ -28,7 +28,7 @@ namespace Shared.Communication
         hexMap = 4,
         hexData = 10,
         requestBuildingData = 11,
-        requestBuildBuilding = 12,
+        requestBuildBuilding = 12
     }
 
     public class Packet : IDisposable
@@ -199,16 +199,16 @@ namespace Shared.Communication
         /// <param name="_value">The BuildingType to add.</param>
         public void Write(BuildingType _value)
         {
-            buffer.AddRange(BitConverter.GetBytes((byte)_value));
+            Write((byte)_value);
         }
         /// <summary>Adds a BuildingData to the packet.</summary>
         /// <param name="_value">The BuildingData to add.</param>
         public void Write(BuildingData _value)
         {
-            Write(_value.coordinate);
             Write(_value.Type);
             Write(_value.TeamID);
             Write(_value.Level);
+            Write(_value.coordinate);
         }
 
         #endregion
@@ -469,15 +469,16 @@ namespace Shared.Communication
         {
             try
             {
-                HexCoordinates coords = ReadHexCoordinates();
                 BuildingType type = ReadBuildingType();
                 byte teamID = ReadByte();
                 byte level = ReadByte();
+                HexCoordinates coords = ReadHexCoordinates();
 
                 BuildingData _value = new BuildingData();
-                _value.coordinate = coords;
+                _value.Type = type;
                 _value.TeamID = teamID;
                 _value.Level = level;
+                _value.coordinate = coords;
                 if (_moveReadPos)
                 {
                     readPos += 11; // Increase readPos by the length of the BuildingData
