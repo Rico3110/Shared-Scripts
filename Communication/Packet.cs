@@ -16,7 +16,11 @@ namespace Shared.Communication
         hexData = 10,
         sendBuildingData = 11,
         hexCell = 13,
+<<<<<<< HEAD
         sendHexGrid = 14
+=======
+        sendHexGrid = 14,
+>>>>>>> 5e2d353215e53a4c6aa292b4af1fa5b038ee5680
 
     }
 
@@ -30,7 +34,11 @@ namespace Shared.Communication
         hexData = 10,
         requestBuildingData = 11,
         requestBuildBuilding = 12,
+<<<<<<< HEAD
         requestAllMapData = 14
+=======
+        requestAllMapData = 14,
+>>>>>>> 5e2d353215e53a4c6aa292b4af1fa5b038ee5680
     }
 
     public class Packet : IDisposable
@@ -143,6 +151,12 @@ namespace Shared.Communication
         {
             buffer.AddRange(BitConverter.GetBytes(_value));
         }
+        /// <summary>Adds a ushort to the packet.</summary>
+        /// <param name="_value">The ushort to add.</param>
+        public void Write(ushort _value)
+        {
+            buffer.AddRange(BitConverter.GetBytes(_value));
+        }
         /// <summary>Adds an int to the packet.</summary>
         /// <param name="_value">The int to add.</param>
         public void Write(int _value)
@@ -211,7 +225,46 @@ namespace Shared.Communication
             Write(_value.TeamID);
             Write(_value.Level);
         }
-
+        /// <summary>Adds a HexCellData to the packet.</summary>
+        /// <param name="_value">The HexCellData to add.</param>
+        public void Write(HexCellBiome _value)
+        {
+            Write((byte)_value);
+        }
+        /// <summary>Adds a HexCellData to the packet.</summary>
+        /// <param name="_value">The HexCellData to add.</param>
+        public void Write(HexCellData _value)
+        {
+            Write(_value.Elevation);
+            Write(_value.Biome);
+            Write(_value.WaterDepth);
+        }
+        /// <summary>Adds a HexCell to the packet.</summary>
+        /// <param name="_value">The HexCell to add.</param>
+        public void Write(HexCell _value)
+        {
+            Write(_value.coordinates);
+            Write(_value.Data);
+            Write(_value.Building);
+        }
+        /// <summary>Adds a HexCell[] to the packet.</summary>
+        /// <param name="_value">The HexCell[] to add.</param>
+        public void Write(HexCell[] _value)
+        {
+            Write(_value.Length);
+            foreach (HexCell cell in _value)
+            {
+                Write(cell);
+            }
+        }
+        /// <summary>Adds a HexGrid to the packet.</summary>
+        /// <param name="_value">The HexGrid to add.</param>
+        public void Write(HexGrid.HexGrid _value)
+        {
+            Write(_value.chunkCountX);
+            Write(_value.chunkCountZ);
+            Write(_value.cells);
+        }
         #endregion
 
         #region Read Data
@@ -349,11 +402,11 @@ namespace Shared.Communication
             if (buffer.Count > readPos)
             {
                 // If there are unread bytes
-                int length = ReadInt();
+                int length = ReadInt(_moveReadPos);
                 uint[] array = new uint[length];
                 for (int i = 0; i < length; i++)
                 {
-                    array[i] = ReadUInt();
+                    array[i] = ReadUInt(_moveReadPos);
                 }
                 return array; // Return the uint array
             }
@@ -432,7 +485,7 @@ namespace Shared.Communication
         {
             try
             {
-                int _length = ReadInt(); // Get the length of the string
+                int _length = ReadInt(_moveReadPos); // Get the length of the string
                 string _value = Encoding.ASCII.GetString(readableBuffer, readPos, _length); // Convert the bytes to a string
                 if (_moveReadPos && _value.Length > 0)
                 {
