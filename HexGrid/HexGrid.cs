@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Shared.GameState;
 using Shared.DataTypes;
 using UnityEngine;
 
@@ -16,43 +15,11 @@ namespace Shared.HexGrid
         public HexGridChunk chunkPrefab;
 
         public HexGridChunk[] chunks;
-        
-
-        private GameState.GameState gameState;
-
 
         public HexGrid(int chunkCountX, int chunkCountZ)
         {
             this.chunkCountX = chunkCountX;
             this.chunkCountZ = chunkCountZ;
-
-            cellCountX = chunkCountX * HexMetrics.chunkSizeX;
-            cellCountZ = chunkCountZ * HexMetrics.chunkSizeZ;
-
-            CreateChunks();
-            CreateCells();
-        }
-
-        public HexGrid(GameState.GameState gameState)
-        {
-            this.gameState = gameState;
-
-            chunkCountX = gameState.map.chunkCountX;
-            chunkCountZ = gameState.map.chunkCountZ;
-
-            cellCountX = chunkCountX * HexMetrics.chunkSizeX;
-            cellCountZ = chunkCountZ * HexMetrics.chunkSizeZ;
-
-            CreateChunks();
-            CreateCells();
-        }
-
-        public HexGrid(HexMap map)
-        {
-            this.gameState = new GameState.GameState(map);
-
-            chunkCountX = map.chunkCountX;
-            chunkCountZ = map.chunkCountZ;
 
             cellCountX = chunkCountX * HexMetrics.chunkSizeX;
             cellCountZ = chunkCountZ * HexMetrics.chunkSizeZ;
@@ -138,19 +105,10 @@ namespace Shared.HexGrid
             int localZ = z - chunkZ * HexMetrics.chunkSizeZ;
             chunk.AddCell(localX + localZ * HexMetrics.chunkSizeX, cell);
         }
-
-        public void SetMap(HexMap map)
-        {
-            for(int i = 0; i < cellCountX * cellCountZ; i++)
-            {
-                cells[i].Data = new HexCellData(map.data[i]);
-            }       
-        }
         
         public void ChangeData(HexCellData data, HexCoordinates coordinate)
         {
             GetCell(coordinate).Data = data;
-            gameState.map.data[coordinate.ToOffsetX() + coordinate.ToOffsetZ() * cellCountX] = data.toUint();
         }
 
         public void AddBuilding(BuildingData data, HexCoordinates coordinate)
