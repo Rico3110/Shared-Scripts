@@ -17,10 +17,9 @@ namespace Shared.GameLogic
 
         }
 
-        public bool verifyBuild(BuildingData buildingData) 
+        public bool verifyBuild(HexCoordinates coords, BuildingData buildingData) 
         {
-            HexCoordinates buildingCoords = buildingData.coordinate;
-            HexCell cell = this.grid.GetCell(buildingCoords);
+            HexCell cell = this.grid.GetCell(coords);
             if (cell.Building != null && cell.Building.Type != BuildingType.NONE)
             {
                 return false;
@@ -69,10 +68,9 @@ namespace Shared.GameLogic
             return true;
         }
 
-        public HexCell applyBuild(BuildingData buildingData)
+        public HexCell applyBuild(HexCoordinates coords, BuildingData buildingData)
         {
-            HexCoordinates buildingCoords = buildingData.coordinate;
-            HexCell cell = this.grid.GetCell(buildingCoords);
+            HexCell cell = this.grid.GetCell(coords);
             cell.Building = buildingData;
             return cell;
         }

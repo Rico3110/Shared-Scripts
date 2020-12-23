@@ -17,6 +17,5 @@ namespace Shared.DataTypes
         public BuildingType Type { get; set; }
         public byte Level { get; set; }
         public byte TeamID { get; set; }
-        public HexCoordinates coordinate { get; set; }
     }
 }
