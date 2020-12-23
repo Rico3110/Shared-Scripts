@@ -16,11 +16,7 @@ namespace Shared.Communication
         hexData = 10,
         sendBuildingData = 11,
         hexCell = 13,
-<<<<<<< HEAD
         sendHexGrid = 14
-=======
-        sendHexGrid = 14,
->>>>>>> 5e2d353215e53a4c6aa292b4af1fa5b038ee5680
 
     }
 
@@ -34,11 +30,7 @@ namespace Shared.Communication
         hexData = 10,
         requestBuildingData = 11,
         requestBuildBuilding = 12,
-<<<<<<< HEAD
         requestAllMapData = 14
-=======
-        requestAllMapData = 14,
->>>>>>> 5e2d353215e53a4c6aa292b4af1fa5b038ee5680
     }
 
     public class Packet : IDisposable
