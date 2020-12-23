@@ -93,6 +93,14 @@ namespace Shared.HexGrid
             cell.coordinates = HexCoordinates.FromOffsetCoordinates(x, z);
             cell.Building = new BuildingData();
 
+            UpdateNeighbors(x, z, i);
+
+            AddCellToChunk(x, z, cell);
+        }
+
+        public void UpdateNeighbors(int x, int z, int i) 
+        {
+            HexCell cell = cells[i];
             if (x > 0)
             {
                 cell.setNeighbor(HexDirection.W, cells[i - 1]);
@@ -117,11 +125,9 @@ namespace Shared.HexGrid
                     }
                 }
             }
-
-            AddCellToChunk(x, z, cell);
         }
 
-        void AddCellToChunk(int x, int z, HexCell cell)
+        public void AddCellToChunk(int x, int z, HexCell cell)
         {
             int chunkX = x / HexMetrics.chunkSizeX;
             int chunkZ = z / HexMetrics.chunkSizeZ;

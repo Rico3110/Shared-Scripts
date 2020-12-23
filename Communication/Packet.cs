@@ -15,7 +15,8 @@ namespace Shared.Communication
         hexMap = 4,
         hexData = 10,
         sendBuildingData = 11,
-        hexCell = 13
+        hexCell = 13,
+        sendHexGrid = 14
 
     }
 
@@ -28,7 +29,8 @@ namespace Shared.Communication
         hexMap = 4,
         hexData = 10,
         requestBuildingData = 11,
-        requestBuildBuilding = 12
+        requestBuildBuilding = 12,
+        requestAllMapData = 14
     }
 
     public class Packet : IDisposable
@@ -208,7 +210,6 @@ namespace Shared.Communication
             Write(_value.Type);
             Write(_value.TeamID);
             Write(_value.Level);
-            Write(_value.coordinate);
         }
 
         #endregion
@@ -275,6 +276,27 @@ namespace Shared.Communication
             else
             {
                 throw new Exception("Could not read value of type 'short'!");
+            }
+        }
+
+        /// <summary>Reads a ushort from the packet.</summary>
+        /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
+        public ushort ReadUShort(bool _moveReadPos = true)
+        {
+            if (buffer.Count > readPos)
+            {
+                // If there are unread bytes
+                ushort _value = BitConverter.ToUInt16(readableBuffer, readPos); // Convert the bytes to a ushort
+                if (_moveReadPos)
+                {
+                    // If _moveReadPos is true and there are unread bytes
+                    readPos += 2; // Increase readPos by 2
+                }
+                return _value; // Return the ushort
+            }
+            else
+            {
+                throw new Exception("Could not read value of type 'ushort'!");
             }
         }
 
@@ -464,18 +486,106 @@ namespace Shared.Communication
                 BuildingType type = ReadBuildingType(_moveReadPos);
                 byte teamID = ReadByte(_moveReadPos);
                 byte level = ReadByte(_moveReadPos);
-                HexCoordinates coords = ReadHexCoordinates(_moveReadPos);
 
                 BuildingData _value = new BuildingData();
                 _value.Type = type;
                 _value.TeamID = teamID;
                 _value.Level = level;
-                _value.coordinate = coords;
                 return _value; // Return the BuildingData
             }
             catch
             {
                 throw new Exception("Could not read value of type 'BuildingData'!");
+            }
+        }
+        /// <summary>Reads a HexCellBiome from the packet.</summary>
+        /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
+        public HexCellBiome ReadHexCellBiome(bool _moveReadPos = true)
+        {
+            try
+            {
+                HexCellBiome _value = (HexCellBiome)ReadByte();
+                return _value;
+            }
+            catch
+            {
+                throw new Exception("Could not read value of type 'HexCellBiome'!");
+            }
+        }
+        /// <summary>Reads a HexCellData from the packet.</summary>
+        /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
+        public HexCellData ReadHexCellData(bool _moveReadPos = true)
+        {
+            try
+            {
+                ushort Elevation = ReadUShort(_moveReadPos);
+                HexCellBiome Biome = ReadHexCellBiome(_moveReadPos);
+                byte WaterDepth = ReadByte(_moveReadPos);
+                HexCellData _value = new HexCellData(Elevation, Biome, WaterDepth);
+                return _value;
+            }
+            catch
+            {
+                throw new Exception("Could not read value of type 'HexCellData'!");
+            }
+        }
+        /// <summary>Reads a HexCell from the packet.</summary>
+        /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
+        public HexCell ReadHexCell(bool _moveReadPos = true)
+        {
+            try
+            {
+                HexCoordinates coordinates = ReadHexCoordinates(_moveReadPos);
+                HexCellData Data = ReadHexCellData(_moveReadPos);
+                BuildingData Building = ReadBuildingData(_moveReadPos);
+
+                HexCell _value = new HexCell();
+                _value.coordinates = coordinates;
+                _value.Data = Data;
+                _value.Building = Building;
+                return _value;
+            }
+            catch
+            {
+                throw new Exception("Could not read value of type 'HexCell'!");
+            }
+        }
+        /// <summary>Reads a HexCell[] from the packet.</summary>
+        /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
+        public HexCell[] ReadHexCells(bool _moveReadPos = true)
+        {
+            try
+            {
+                int length = ReadInt(_moveReadPos);
+                HexCell[] _value = new HexCell[length];
+                for (int i = 0; i < length; i++)
+                {
+                    _value[i] = ReadHexCell(_moveReadPos);
+                }
+                return _value;
+            }
+            catch
+            {
+                throw new Exception("Could not read value of type 'HexCell[]'!");
+            }
+        }
+        /// <summary>Reads a HexGrid from the packet.</summary>
+        /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
+        public HexGrid.HexGrid ReadHexGrid(bool _moveReadPos = true)
+        {
+            try
+            {
+                int chunkCountX = ReadInt(_moveReadPos);
+                int chunkCountZ = ReadInt(_moveReadPos);
+                HexCell[] cells = ReadHexCells(_moveReadPos);
+                
+                HexGrid.HexGrid _value = new HexGrid.HexGrid(chunkCountX, chunkCountZ);
+                _value.cells = cells;
+                return _value;
+            }
+            catch
+            {
+                throw new Exception("Could not read value of type 'HexGrid'!");
             }
         }
         #endregion
