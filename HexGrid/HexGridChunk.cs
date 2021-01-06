@@ -17,5 +17,10 @@ namespace Shared.HexGrid
             cells[index] = cell;
             cell.chunk = this;
         }
+
+        public HexCell GetCell(HexCoordinates coordinates)
+        {
+            return cells[coordinates.ToOffsetX() % HexMetrics.chunkSizeX + (coordinates.ToOffsetZ() % HexMetrics.chunkSizeZ) * HexMetrics.chunkSizeX];
+        }
     }
 }

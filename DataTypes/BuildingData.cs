@@ -9,7 +9,7 @@ namespace Shared.DataTypes
 {
     public enum BuildingType
     {
-        NONE, HQ, FARM, WOODCUTTER
+        NONE, WOODCUTTER, HQ, FARM
     }
 
     public class BuildingData
@@ -17,5 +17,16 @@ namespace Shared.DataTypes
         public BuildingType Type { get; set; }
         public byte Level { get; set; }
         public byte TeamID { get; set; }
+
+
+        public BuildingData()
+        {
+            
+        }
+
+        public BuildingData(BuildingType type)
+        {
+            Type = type;
+        }
     }
 }

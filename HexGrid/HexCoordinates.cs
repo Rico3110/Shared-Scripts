@@ -67,16 +67,22 @@ namespace Shared.HexGrid
             return z;
         }
 
+        public int ToChunkX()
+        {
+            return ToOffsetX() / HexMetrics.chunkSizeX;
+        }
+
+        public int ToChunkZ()
+        {
+            return ToOffsetZ() / HexMetrics.chunkSizeZ;
+        }
+
+
         public static HexCoordinates FromOffsetCoordinates(int x, int z)
         {
             return new HexCoordinates(x - z / 2, z);
         }
        
-        public override string ToString()
-        {
-            return "(" + X.ToString() + ", " + Y.ToString() + ", " + Z.ToString() + ")";
-        }
-
         public static HexCoordinates FromPosition(Vector3 position)
         {
             float x = position.x / (HexMetrics.innerRadius * 2f);
@@ -105,6 +111,11 @@ namespace Shared.HexGrid
             }
 
             return new HexCoordinates(iX, iZ);
+        }
+
+        public override string ToString()
+        {
+            return "(" + X.ToString() + ", " + Y.ToString() + ", " + Z.ToString() + ")";
         }
 
         public string ToStringOnSeperateLines()
