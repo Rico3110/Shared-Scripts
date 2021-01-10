@@ -19,6 +19,7 @@ namespace Shared.DataTypes
         public byte TeamID { get; set; }
 
 
+
         public BuildingData()
         {
             
