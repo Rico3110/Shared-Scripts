@@ -11,9 +11,9 @@ namespace Shared.Structures
 {
     abstract class InventoryBuilding : ProtectedBuilding
     {
-        protected Dictionary<RessourceType, int> Inventory;
+        public Dictionary<RessourceType, int> Inventory;
 
-        protected Dictionary<RessourceType, int> RessourceLimits;
+        public Dictionary<RessourceType, int> RessourceLimits;
 
         public int RessourceLimit;
 

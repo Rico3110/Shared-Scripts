@@ -9,7 +9,7 @@ namespace Shared.Structures
 {
     abstract class ProtectedBuilding : Building
     {
-        int TroopCount;
+        public int TroopCount;
 
         public ProtectedBuilding(HexCell Cell, byte Tribe, byte Level, byte Health, int TroopCount) : base(Cell, Tribe, Level, Health)
         {
