@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace Shared.DataTypes
 {
+    public enum StructureType
+    {
+        BIG_ROCK, ROCK, SCRUB, TREES, BIG_TREES, FISH, WHEAT
+    }
+
     public enum RessourceType
     {
         WOOD, STONE, IRON_ORE, IRON, COAL
