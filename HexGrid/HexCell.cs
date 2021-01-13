@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Shared.DataTypes;
+using Shared.Structures;
 
 namespace Shared.HexGrid
 {
@@ -16,6 +17,8 @@ namespace Shared.HexGrid
         public HexCellData Data { get; set; }
 
         public BuildingData Building { get; set; }
+
+        public Structure Structure { get; set; }
 
         public uint Elevation
         {
