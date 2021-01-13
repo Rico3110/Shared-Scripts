@@ -38,6 +38,11 @@ namespace Shared.Structures
             this.allowReceive = allowReceive;
         }
 
+        public override void DoTick()
+        {
+            base.DoTick();
+        }
+
         protected int AvailableSpace()
         {
             int totalCount = 0;

@@ -15,5 +15,10 @@ namespace Shared.Structures
         {
             this.TroopCount = TroopCount;
         }
+
+        public override void DoTick()
+        {
+            base.DoTick();
+        }
     }
 }
