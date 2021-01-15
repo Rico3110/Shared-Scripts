@@ -17,7 +17,8 @@ namespace Shared.Communication
         sendBuildingData = 11,
         hexCell = 13,
         sendHexGrid = 14,
-        building = 69
+        building = 69,
+        testBuilding = 420
     }
 
     /// <summary>Sent from client to server.</summary>
@@ -30,7 +31,8 @@ namespace Shared.Communication
         requestBuildingData = 11,
         requestBuildBuilding = 12,
         requestAllMapData = 14,
-        building = 69
+        building = 69,
+        testBuilding = 420
     }
 
     public class Packet : IDisposable
