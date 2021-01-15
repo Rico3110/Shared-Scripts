@@ -10,6 +10,12 @@ namespace Shared.Structures
 {
     class Woodcutter : InventoryBuilding
     {
+        public Woodcutter() : base()
+        {
+            this.MaxHealth = 100;
+            this.MaxLevel = 3;
+        }
+
         public Woodcutter(
             HexCell Cell,
             byte Tribe,
@@ -18,8 +24,8 @@ namespace Shared.Structures
             int TroopCount,
             Dictionary<RessourceType, int> Inventory,
             Dictionary<RessourceType, int> RessourceLimits,
-            bool allowReceive
-            ) : base(Cell, Tribe, Level, Health, TroopCount, Inventory, RessourceLimits, allowReceive)
+            bool AllowReceive
+            ) : base(Cell, Tribe, Level, Health, TroopCount, Inventory, RessourceLimits, AllowReceive)
         {
 
         }

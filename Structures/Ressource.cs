@@ -8,13 +8,18 @@ using Shared.HexGrid;
 
 namespace Shared.Structures
 {
-    public class Ressource : Structure    
+    public abstract class Ressource : Structure
     {
         public byte Progress;
-        public byte MaxProgress;
-        public int gain;
-        public RessourceType ressourceType;
 
+        public abstract int MaxProgress { get; }
+        public abstract int gain { get; }
+        public abstract RessourceType ressourceType { get; }
+
+        public Ressource() : base()
+        {
+            this.Progress = 0;
+        }
 
         public Ressource(HexCell Cell, byte Progress) : base(Cell)
         {

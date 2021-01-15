@@ -11,6 +11,11 @@ namespace Shared.Structures
     {
         public HexCell Cell { get; protected set; }
 
+        public Structure()
+        {
+            this.Cell = null;
+        }
+
         public Structure(HexCell Cell)
         {
             this.Cell = Cell;

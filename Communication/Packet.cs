@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Shared.HexGrid;
 using Shared.DataTypes;
+using Shared.Structures;
 
 namespace Shared.Communication
 {
@@ -124,6 +125,8 @@ namespace Shared.Communication
         #endregion
 
         #region Write Data
+
+        #region Write Primitives
         /// <summary>Adds a byte to the packet.</summary>
         /// <param name="_value">The byte to add.</param>
         public void Write(byte _value)
@@ -195,6 +198,8 @@ namespace Shared.Communication
             Write(_value.Length); // Add the length of the string to the packet
             buffer.AddRange(Encoding.ASCII.GetBytes(_value)); // Add the string itself
         }
+        #endregion
+
         /// <summary>Adds a HexCoordinates to the packet.</summary>
         /// <param name="_value">The HexCoordinate to add.</param>
         public void Write(HexCoordinates _value)
@@ -256,9 +261,75 @@ namespace Shared.Communication
             Write(_value.chunkCountZ);
             Write(_value.cells);
         }
+        /// <summary>Adds a Structure to the packet.</summary>
+        /// <param name="_value">The Structure to add.</param>
+        public void Write(Structure _value)
+        {
+            Write(_value.ToByte());
+
+            if(_value is Ressource)
+            {
+                Write((Ressource)_value);
+            }
+            if(_value is Building)
+            {
+                Write((Building)_value);
+            }
+        }
+        /// <summary>Adds a Ressource to the packet.</summary>
+        /// <param name="_value">The Ressource to add.</param>
+        private void Write(Ressource _value)
+        {
+            Write(_value.Progress);
+        }
+        /// <summary>Adds a Building to the packet.</summary>
+        /// <param name="_value">The Building to add.</param>
+        private void Write(Building _value)
+        {
+            Write(_value.Tribe);
+            Write(_value.Level);
+            Write(_value.Health);
+
+            if (_value is ProtectedBuilding)
+            {
+                Write((ProtectedBuilding)_value);
+            }
+        }
+        /// <summary>Adds a ProtectedBuilding to the packet.</summary>
+        /// <param name="_value">The ProtectedBuilding to add.</param>
+        private void Write(ProtectedBuilding _value)
+        {
+            Write(_value.TroopCount);
+
+            if(_value is InventoryBuilding)
+            {
+                Write((InventoryBuilding)_value);
+            }
+        }
+        /// <summary>Adds an InventoryBuilding to the packet.</summary>
+        /// <param name="_value">The InventoryBuilding to add.</param>
+        private void Write(InventoryBuilding _value)
+        {
+            Write(_value.Inventory);
+            Write(_value.RessourceLimits);
+            Write(_value.AllowReceive);
+        }
+        /// <summary>Adds a Dictionary to the packet.</summary>
+        /// <param name="_value">The Dictionary to add.</param>
+        public void Write(Dictionary<RessourceType, int> _value)
+        {
+            Write(_value.Count);
+            foreach(KeyValuePair<RessourceType, int> pair in _value)
+            {
+                Write((byte)pair.Key);
+                Write(pair.Value);
+            }
+        }
         #endregion
 
         #region Read Data
+
+        #region Read Primitives
         /// <summary>Reads a byte from the packet.</summary>
         /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
         public byte ReadByte(bool _moveReadPos = true)
@@ -491,6 +562,8 @@ namespace Shared.Communication
             }
         }
 
+        #endregion
+
         /// <summary>Reads a HexCoordinates from the packet.</summary>
         /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
         public HexCoordinates ReadHexCoordinates(bool _moveReadPos = true)
@@ -621,15 +694,147 @@ namespace Shared.Communication
             {
                 int chunkCountX = ReadInt(_moveReadPos);
                 int chunkCountZ = ReadInt(_moveReadPos);
+                HexGrid.HexGrid _value = new HexGrid.HexGrid(chunkCountX, chunkCountZ);
+
                 HexCell[] cells = ReadHexCells(_moveReadPos);
                 
-                HexGrid.HexGrid _value = new HexGrid.HexGrid(chunkCountX, chunkCountZ);
                 _value.cells = cells;
+
                 return _value;
             }
             catch
             {
                 throw new Exception("Could not read value of type 'HexGrid'!");
+            }
+        }
+
+        public Structure ReadStructure(bool _moveReadPos = true)
+        {
+            try
+            {
+                Type type = ReadByte(false).ToType();
+                if (typeof(Building).IsAssignableFrom(type))
+                    return ReadBuilding(_moveReadPos);
+                else if (typeof(Ressource).IsAssignableFrom(type))
+                    return ReadRessource(_moveReadPos);
+                else
+                {
+                    ReadByte(_moveReadPos);
+                    throw new Exception("Unknown Type");
+                }
+            }
+            catch
+            {
+                throw new Exception("Could not read value of type 'Structure'!");
+            }
+        }
+        public Ressource ReadRessource(bool _moveReadPos = true)
+        {
+            try
+            {
+                Type type = ReadByte(_moveReadPos).ToType();
+                HexCell cell = ReadHexCell(_moveReadPos);
+                byte progress = ReadByte(_moveReadPos);
+                if (type == typeof(Tree))
+                {
+                    return new Tree(cell, progress);
+                } 
+                else
+                {
+                    throw new Exception("Couldn't find fitting Type.");
+                }
+            }
+            catch
+            {
+                throw new Exception("Could not read value of type 'Ressource'!");
+            }
+        }
+        public Building ReadBuilding(bool _moveReadPos = true)
+        {
+            try
+            {
+                Type type = ReadByte(false).ToType();
+                if (typeof(ProtectedBuilding).IsAssignableFrom(type))
+                    return ReadProtectedBuilding(_moveReadPos);
+                else
+                {
+                    ReadByte(_moveReadPos);
+                    ReadByte(_moveReadPos);
+                    ReadByte(_moveReadPos);
+                    throw new Exception("Couldn't find fitting Type.");
+                }
+            }
+            catch
+            {
+                throw new Exception("Could not read value of type 'Building'!");
+            }
+        }
+        public ProtectedBuilding ReadProtectedBuilding(bool _moveReadPos = true)
+        {
+            try
+            {
+                Type type = ReadByte(false).ToType();
+                if (typeof(InventoryBuilding).IsAssignableFrom(type))
+                    return ReadInventoryBuilding(_moveReadPos);
+                else
+                {
+                    ReadByte(_moveReadPos);
+                    ReadByte(_moveReadPos);
+                    ReadByte(_moveReadPos);
+                    ReadInt(_moveReadPos);
+                    throw new Exception("Couldn't find fitting Type.");
+                }
+            }
+            catch
+            {
+                throw new Exception("Could not read value of type 'ProtectedBuilding'!");
+            }
+        }
+        public InventoryBuilding ReadInventoryBuilding(bool _moveReadPos = true)
+        {
+            try
+            {
+                Type type = ReadByte(_moveReadPos).ToType();
+                if (typeof(Woodcutter).IsAssignableFrom(type))
+                {
+                    byte Tribe = ReadByte(_moveReadPos);
+                    byte Level = ReadByte(_moveReadPos);
+                    byte Health = ReadByte(_moveReadPos);
+                    int TroopCount = ReadInt(_moveReadPos);
+                    Dictionary<RessourceType, int> Inventory = ReadDictionaryRessourceTypeInt(_moveReadPos);
+                    Dictionary<RessourceType, int> RessourceLimits = ReadDictionaryRessourceTypeInt(_moveReadPos);
+                    bool AllowReceive = ReadBool(_moveReadPos);
+                    return new Woodcutter(null, Tribe, Level, Health, TroopCount, Inventory, RessourceLimits, AllowReceive);
+                } 
+                else
+                {
+                    throw new Exception("Couldn't find fitting Type.");
+                }
+                return null;
+            }
+            catch
+            {
+                throw new Exception("Could not read value of type 'ProtectedBuilding'!");
+            }
+        }
+        public Dictionary<RessourceType, int> ReadDictionaryRessourceTypeInt(bool _moveReadPos = true)
+        {
+            try
+            {
+                Dictionary<RessourceType, int> _value = new Dictionary<RessourceType, int>();
+                int count = ReadInt(_moveReadPos);
+                while(count > 0)
+                {
+                    RessourceType ressourceType = (RessourceType)ReadByte(_moveReadPos);
+                    int amount = ReadInt(_moveReadPos);
+                    _value.Add(ressourceType, amount);
+                    count--;
+                }
+                return _value;
+            }
+            catch
+            {
+                throw new Exception("Could not read value of type 'Dictionary<RessourceType, int>'!");
             }
         }
         #endregion
@@ -655,6 +860,31 @@ namespace Shared.Communication
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+    }
+
+    internal static class StructureTypeExtension
+    {
+        private static Dictionary<Type, byte> typeToByte = new Dictionary<Type, byte>()
+        {
+            {typeof(Woodcutter), 0},
+            {typeof(Tree),1 }
+        };
+        
+        private static Dictionary<byte, Type> byteToType = new Dictionary<byte, Type>()
+        {
+            {0, typeof(Woodcutter)},
+            {1, typeof(Tree) }
+        };
+
+        internal static byte ToByte(this Structure structure)
+        {
+            return typeToByte[structure.GetType()];
+        }
+
+        internal static Type ToType(this byte b)
+        {
+            return byteToType[b];
         }
     }
 }

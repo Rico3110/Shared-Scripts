@@ -7,9 +7,14 @@ using Shared.HexGrid;
 
 namespace Shared.Structures
 {
-    abstract class ProtectedBuilding : Building
+    public abstract class ProtectedBuilding : Building
     {
         public int TroopCount;
+
+        public ProtectedBuilding() : base()
+        {
+            this.TroopCount = 0;
+        }
 
         public ProtectedBuilding(HexCell Cell, byte Tribe, byte Level, byte Health, int TroopCount) : base(Cell, Tribe, Level, Health)
         {

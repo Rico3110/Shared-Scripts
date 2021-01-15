@@ -9,7 +9,7 @@ using Shared.HexGrid;
 
 namespace Shared.Structures
 {
-    abstract class InventoryBuilding : ProtectedBuilding
+    public abstract class InventoryBuilding : ProtectedBuilding
     {
         public Dictionary<RessourceType, int> Inventory;
 
@@ -17,10 +17,18 @@ namespace Shared.Structures
 
         public int RessourceLimit;
 
-        public bool allowReceive;
+        public bool AllowReceive;
 
         public List<InventoryBuilding> ConnectedInventories;
 
+        public InventoryBuilding() : base()
+        {
+            this.Inventory = new Dictionary<RessourceType, int>();
+            this.RessourceLimits= new Dictionary<RessourceType, int>();
+            this.RessourceLimit = 100;
+            this.AllowReceive = false;
+            this.ConnectedInventories = new List<InventoryBuilding>();
+        }
 
         public InventoryBuilding(
             HexCell Cell, 
@@ -30,12 +38,12 @@ namespace Shared.Structures
             int TroopCount, 
             Dictionary<RessourceType, int> Inventory, 
             Dictionary<RessourceType, int> RessourceLimits, 
-            bool allowReceive
+            bool AllowReceive
             ) : base(Cell, Tribe, Level, Health, TroopCount)
         {
             this.Inventory = Inventory;
             this.RessourceLimits = RessourceLimits;
-            this.allowReceive = allowReceive;
+            this.AllowReceive = AllowReceive;
         }
 
         public override void DoTick()
@@ -103,7 +111,7 @@ namespace Shared.Structures
         {
             foreach(InventoryBuilding inventoryBuilding in ConnectedInventories)
             {
-                if (inventoryBuilding.allowReceive)
+                if (inventoryBuilding.AllowReceive)
                     inventoryBuilding.ReceiveRessources(Inventory, 2);
             }
         }

@@ -8,14 +8,24 @@ using UnityEngine;
 
 namespace Shared.Structures
 {
-    abstract class Building : Structure
+    public abstract class Building : Structure
     {
         public byte Tribe;       
         public byte Level;
         public byte Health;
 
-        private byte MaxLevel;
-        private byte MaxHealth;
+        protected byte MaxLevel;
+        protected byte MaxHealth;
+
+        public Building() : base()
+        {
+            this.Tribe = 0;
+            this.Level = 1;
+            this.Health = 100;
+            this.MaxLevel = 3;
+            this.MaxHealth = 100;
+        }
+
         public Building(HexCell Cell, byte Tribe, byte Level, byte Health) : base(Cell)
         {
             this.Tribe = Tribe;

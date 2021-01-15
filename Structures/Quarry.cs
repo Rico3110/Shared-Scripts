@@ -18,12 +18,12 @@ namespace Shared.Structures
             int TroopCount,
             Dictionary<RessourceType, int> Inventory,
             Dictionary<RessourceType, int> RessourceLimits,
-            bool allowReceive
-            ) : base(Cell, Tribe, Level, Health, TroopCount, Inventory, RessourceLimits, allowReceive)
+            bool AllowReceive
+            ) : base(Cell, Tribe, Level, Health, TroopCount, Inventory, RessourceLimits, AllowReceive)
         {
             this.Inventory = Inventory;
             this.RessourceLimits = RessourceLimits;
-            this.allowReceive = allowReceive;
+            this.AllowReceive = AllowReceive;
         }
 
         public override void DoTick()
