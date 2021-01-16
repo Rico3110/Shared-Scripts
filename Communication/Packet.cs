@@ -13,7 +13,8 @@ namespace Shared.Communication
         welcome = 1,
         ping = 2,
         testArray = 3,
-        hexData = 10,
+        hexGrid = 4,
+
         sendBuildingData = 11,
         hexCell = 13,
         sendHexGrid = 14,
@@ -27,7 +28,8 @@ namespace Shared.Communication
         welcomeReceived = 1,
         ping = 2,
         testArray = 3,
-        hexData = 10,
+        hexGrid = 4,
+
         requestBuildingData = 11,
         requestBuildBuilding = 12,
         requestAllMapData = 14,
@@ -325,6 +327,16 @@ namespace Shared.Communication
             {
                 Write((byte)pair.Key);
                 Write(pair.Value);
+            }
+        }
+        /// <summary>Adds a List<Structure> to the packet.</summary>
+        /// <param name="_value">The List<Structure> to add.</param>
+        public void Write(List<Structure> _value)
+        {
+            Write(_value.Count);
+            foreach(Structure structure in _value)
+            {
+                Write(structure);
             }
         }
         #endregion
@@ -709,7 +721,8 @@ namespace Shared.Communication
                 throw new Exception("Could not read value of type 'HexGrid'!");
             }
         }
-
+        /// <summary>Reads a Structure from the packet.</summary>
+        /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
         public Structure ReadStructure(bool _moveReadPos = true)
         {
             try
@@ -730,6 +743,8 @@ namespace Shared.Communication
                 throw new Exception("Could not read value of type 'Structure'!");
             }
         }
+        /// <summary>Reads a Ressource from the packet.</summary>
+        /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
         public Ressource ReadRessource(bool _moveReadPos = true)
         {
             try
@@ -751,6 +766,8 @@ namespace Shared.Communication
                 throw new Exception("Could not read value of type 'Ressource'!");
             }
         }
+        /// <summary>Reads a Building from the packet.</summary>
+        /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
         public Building ReadBuilding(bool _moveReadPos = true)
         {
             try
@@ -771,6 +788,8 @@ namespace Shared.Communication
                 throw new Exception("Could not read value of type 'Building'!");
             }
         }
+        /// <summary>Reads a ProtectedBuilding from the packet.</summary>
+        /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
         public ProtectedBuilding ReadProtectedBuilding(bool _moveReadPos = true)
         {
             try
@@ -792,6 +811,8 @@ namespace Shared.Communication
                 throw new Exception("Could not read value of type 'ProtectedBuilding'!");
             }
         }
+        /// <summary>Reads an InventoryBuilding from the packet.</summary>
+        /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
         public InventoryBuilding ReadInventoryBuilding(bool _moveReadPos = true)
         {
             try
@@ -819,6 +840,8 @@ namespace Shared.Communication
                 throw new Exception("Could not read value of type 'ProtectedBuilding'!");
             }
         }
+        /// <summary>Reads a Dictionary<RessourceType, int> from the packet.</summary>
+        /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
         public Dictionary<RessourceType, int> ReadDictionaryRessourceTypeInt(bool _moveReadPos = true)
         {
             try
@@ -837,6 +860,27 @@ namespace Shared.Communication
             catch
             {
                 throw new Exception("Could not read value of type 'Dictionary<RessourceType, int>'!");
+            }
+        }
+        /// <summary>Reads a List<Structure> from the packet.</summary>
+        /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
+        public List<Structure> ReadStructures(bool _moveReadPos = true)
+        {
+            try
+            {
+                List<Structure> _value = new List<Structure>();
+                int count = ReadInt(_moveReadPos);
+                while (count > 0)
+                {
+                    Structure structure = ReadStructure(_moveReadPos);
+                    _value.Add(structure);
+                    count--;
+                }
+                return _value;
+            }
+            catch
+            {
+                throw new Exception("Could not read value of type 'List<Structure>'!");
             }
         }
         #endregion

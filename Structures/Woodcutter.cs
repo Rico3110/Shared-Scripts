@@ -14,6 +14,7 @@ namespace Shared.Structures
         {
             this.MaxHealth = 100;
             this.MaxLevel = 3;
+            this.Inventory.Add(RessourceType.WOOD, 0);
         }
 
         public Woodcutter(
