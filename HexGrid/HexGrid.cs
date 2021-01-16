@@ -57,8 +57,7 @@ namespace Shared.HexGrid
         {
             HexCell cell = cells[i] = new HexCell();
             cell.Data = new HexCellData();
-            cell.coordinates = HexCoordinates.FromOffsetCoordinates(x, z);
-            cell.Building = new BuildingData();
+            cell.coordinates = HexCoordinates.FromOffsetCoordinates(x, z);           
 
             UpdateNeighbors(x, z, i);
 
@@ -104,16 +103,6 @@ namespace Shared.HexGrid
             int localX = x - chunkX * HexMetrics.chunkSizeX;
             int localZ = z - chunkZ * HexMetrics.chunkSizeZ;
             chunk.AddCell(localX + localZ * HexMetrics.chunkSizeX, cell);
-        }
-        
-        public void ChangeData(HexCellData data, HexCoordinates coordinate)
-        {
-            GetCell(coordinate).Data = data;
-        }
-
-        public void AddBuilding(BuildingData data, HexCoordinates coordinate)
-        {
-            GetCell(coordinate).Building = data;           
         }
 
         public HexCell GetCell(int x, int z)

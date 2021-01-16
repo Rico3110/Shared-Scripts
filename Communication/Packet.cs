@@ -12,13 +12,8 @@ namespace Shared.Communication
     {
         welcome = 1,
         ping = 2,
-        testArray = 3,
-        hexGrid = 4,
+        sendHexGrid = 3,
 
-        sendBuildingData = 11,
-        hexCell = 13,
-        sendHexGrid = 14,
-        building = 69,
         testBuilding = 420
     }
 
@@ -27,13 +22,8 @@ namespace Shared.Communication
     {
         welcomeReceived = 1,
         ping = 2,
-        testArray = 3,
-        hexGrid = 4,
+        requestHexGrid = 3,
 
-        requestBuildingData = 11,
-        requestBuildBuilding = 12,
-        requestAllMapData = 14,
-        building = 69,
         testBuilding = 420
     }
 
@@ -210,21 +200,7 @@ namespace Shared.Communication
         {
             Write(_value.X);
             Write(_value.Z);
-        }
-        /// <summary>Adds a BuildingType to the packet.</summary>
-        /// <param name="_value">The BuildingType to add.</param>
-        public void Write(BuildingType _value)
-        {
-            Write((byte)_value);
-        }
-        /// <summary>Adds a BuildingData to the packet.</summary>
-        /// <param name="_value">The BuildingData to add.</param>
-        public void Write(BuildingData _value)
-        {
-            Write(_value.Type);
-            Write(_value.TeamID);
-            Write(_value.Level);
-        }
+        }       
         /// <summary>Adds a HexCellData to the packet.</summary>
         /// <param name="_value">The HexCellData to add.</param>
         public void Write(HexCellBiome _value)
@@ -244,8 +220,7 @@ namespace Shared.Communication
         public void Write(HexCell _value)
         {
             Write(_value.coordinates);
-            Write(_value.Data);
-            Write(_value.Building);
+            Write(_value.Data);           
         }
         /// <summary>Adds a HexCell[] to the packet.</summary>
         /// <param name="_value">The HexCell[] to add.</param>
@@ -270,7 +245,10 @@ namespace Shared.Communication
         public void Write(Structure _value)
         {
             Write(_value.ToByte());
-
+            if(_value == null)
+            {
+                return;
+            }
             if(_value is Ressource)
             {
                 Write((Ressource)_value);
@@ -593,42 +571,7 @@ namespace Shared.Communication
             {
                 throw new Exception("Could not read value of type 'HexCoordinates'!");
             }
-        }
-        /// <summary>Reads a BuildingType from the packet.</summary>
-        /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
-        public BuildingType ReadBuildingType(bool _moveReadPos = true)
-        {
-            try
-            {
-                BuildingType _value = (BuildingType)ReadByte(_moveReadPos);
-                return _value; // Return the BuildingType
-            }
-            catch
-            {
-                throw new Exception("Could not read value of type 'BuildingType'!");
-            }
-        }
-        /// <summary>Reads a BuildingData from the packet.</summary>
-        /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
-        public BuildingData ReadBuildingData(bool _moveReadPos = true)
-        {
-            try
-            {
-                BuildingType type = ReadBuildingType(_moveReadPos);
-                byte teamID = ReadByte(_moveReadPos);
-                byte level = ReadByte(_moveReadPos);
-
-                BuildingData _value = new BuildingData();
-                _value.Type = type;
-                _value.TeamID = teamID;
-                _value.Level = level;
-                return _value; // Return the BuildingData
-            }
-            catch
-            {
-                throw new Exception("Could not read value of type 'BuildingData'!");
-            }
-        }
+        }      
         /// <summary>Reads a HexCellBiome from the packet.</summary>
         /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
         public HexCellBiome ReadHexCellBiome(bool _moveReadPos = true)
@@ -667,13 +610,11 @@ namespace Shared.Communication
             try
             {
                 HexCoordinates coordinates = ReadHexCoordinates(_moveReadPos);
-                HexCellData Data = ReadHexCellData(_moveReadPos);
-                BuildingData Building = ReadBuildingData(_moveReadPos);
+                HexCellData Data = ReadHexCellData(_moveReadPos);               
 
                 HexCell _value = new HexCell();
                 _value.coordinates = coordinates;
-                _value.Data = Data;
-                _value.Building = Building;
+                _value.Data = Data;                
                 return _value;
             }
             catch
@@ -728,6 +669,8 @@ namespace Shared.Communication
             try
             {
                 Type type = ReadByte(false).ToType();
+                if (type == null)
+                    return null;
                 if (typeof(Building).IsAssignableFrom(type))
                     return ReadBuilding(_moveReadPos);
                 else if (typeof(Ressource).IsAssignableFrom(type))
@@ -914,22 +857,28 @@ namespace Shared.Communication
         private static Dictionary<Type, byte> typeToByte = new Dictionary<Type, byte>()
         {
             {typeof(Woodcutter), 0},
-            {typeof(Tree),1 }
+            {typeof(Tree),1 },
         };
         
         private static Dictionary<byte, Type> byteToType = new Dictionary<byte, Type>()
         {
             {0, typeof(Woodcutter)},
-            {1, typeof(Tree) }
+            {1, typeof(Tree) },
         };
 
         internal static byte ToByte(this Structure structure)
         {
+            if (structure == null)
+                return 255;
             return typeToByte[structure.GetType()];
         }
 
         internal static Type ToType(this byte b)
-        {
+        { 
+            if(b == 255)
+            {
+                return null;
+            }
             return byteToType[b];
         }
     }
