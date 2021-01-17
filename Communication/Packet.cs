@@ -881,7 +881,8 @@ namespace Shared.Communication
             {typeof(Rock), 2},
             {typeof(Fish), 3},
             {typeof(Scrub), 4},
-            {typeof(Grass), 5}
+            {typeof(Grass), 5},
+            {typeof(Quarry), 6}
         };
         
         private static Dictionary<byte, Type> byteToType = new Dictionary<byte, Type>()
@@ -892,6 +893,7 @@ namespace Shared.Communication
             {3, typeof(Fish) },
             {4, typeof(Scrub) },
             {5, typeof(Grass) },
+            {6, typeof(Quarry) }
         };
 
         internal static byte ToByte(this Structure structure)

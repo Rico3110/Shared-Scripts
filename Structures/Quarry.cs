@@ -10,6 +10,16 @@ namespace Shared.Structures
 {
     class Quarry : InventoryBuilding
     {
+
+        public Quarry() : base()
+        {
+            this.MaxHealth = 100;
+            this.MaxLevel = 3;
+            this.Inventory.Add(RessourceType.STONE, 0);
+            this.RessourceLimit = 20;
+            this.RessourceLimits.Add(RessourceType.STONE, 13);
+        }
+
         public Quarry(
             HexCell Cell,
             byte Tribe,
@@ -26,15 +36,10 @@ namespace Shared.Structures
             this.AllowReceive = AllowReceive;
         }
 
-        public Quarry() : base()
-        {
-
-        }
-
         public override void DoTick()
         {
             int count = 0;
-            if (AvailableSpace() > 0)
+            if (AvailableSpace(RessourceType.STONE) > 0)
             {
                 count = Harvest();
             }
