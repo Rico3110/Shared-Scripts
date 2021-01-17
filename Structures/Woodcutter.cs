@@ -64,7 +64,7 @@ namespace Shared.Structures
 
         public override bool IsPlaceable(HexCell cell)
         {            
-            if (!base.IsPlaceable())
+            if (!base.IsPlaceable(cell))
             {
                 return false;
             }

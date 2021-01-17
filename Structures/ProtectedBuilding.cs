@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Shared.HexGrid;
+using Shared.DataTypes;
 
 namespace Shared.Structures
 {
@@ -26,9 +27,9 @@ namespace Shared.Structures
             base.DoTick();
         }
 
-        public override bool IsPlaceable()
+        public override bool IsPlaceable(HexCell cell)
         {
-            if (!base.IsPlaceable())
+            if (!base.IsPlaceable(cell))
             {
                 return false;
             }

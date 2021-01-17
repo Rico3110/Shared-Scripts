@@ -116,9 +116,9 @@ namespace Shared.Structures
             }
         }
 
-        public override bool IsPlaceable()
+        public override bool IsPlaceable(HexCell cell)
         {
-            return base.IsPlaceable();
+            return base.IsPlaceable(cell);
         }
     }
 }
