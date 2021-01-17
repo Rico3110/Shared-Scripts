@@ -38,7 +38,6 @@ namespace Shared.Structures
         public override void DoTick()
         {
             base.DoTick();
-            Debug.Log(Inventory[RessourceType.WOOD]);
             int count = 0;
             if(AvailableSpace(RessourceType.WOOD) > 0)
             {

@@ -67,7 +67,6 @@ namespace Shared.Structures
             int localRessourceSpace = totalRessourceSpace;            
             if (RessourceLimits.TryGetValue(ressourceType, out localRessourceSpace))
             {
-                Debug.Log(localRessourceSpace);
                 int count;
                 if (Inventory.TryGetValue(ressourceType, out count))              
                     localRessourceSpace = localRessourceSpace - count;

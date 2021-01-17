@@ -94,26 +94,30 @@ namespace Shared.Game
         }
 
         public static void DoTick()
-        {
-            foreach(Ressource ressource in ressources)
+        {   
+            if (initialized)
             {
-                ressource.DoTick();
-            }
-            foreach (Building building in buildings)
-            {
-                building.DoTick();
-                /*
-                for(HexDirection d = HexDirection.NE; d <= HexDirection.NW; d++)
+                foreach (Ressource ressource in ressources)
                 {
-                    HexCell neighbor = building.Cell.GetNeighbor(d);
-                    if (neighbor != null && neighbor.Structure != null && neighbor.Structure is Ressource)
-                    {
-                        if(((Ressource)neighbor.Structure).Progress == 0)
-                            this.AddStructureToList(neighbor.Structure);
-                    }
+                    ressource.DoTick();
                 }
-                */
+                foreach (Building building in buildings)
+                {
+                    building.DoTick();
+                    /*
+                    for(HexDirection d = HexDirection.NE; d <= HexDirection.NW; d++)
+                    {
+                        HexCell neighbor = building.Cell.GetNeighbor(d);
+                        if (neighbor != null && neighbor.Structure != null && neighbor.Structure is Ressource)
+                        {
+                            if(((Ressource)neighbor.Structure).Progress == 0)
+                                this.AddStructureToList(neighbor.Structure);
+                        }
+                    }
+                    */
+                }
             }
+            
         }
     }
 }
