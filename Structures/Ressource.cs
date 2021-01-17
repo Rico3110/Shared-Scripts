@@ -26,7 +26,7 @@ namespace Shared.Structures
             this.Progress = Progress;
         }
 
-        public bool Harvestable()
+        public virtual bool Harvestable()
         {
             if(Progress == MaxProgress)
             {

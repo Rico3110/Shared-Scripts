@@ -12,7 +12,7 @@ namespace Shared.Structures
     {
         public override int MaxProgress => 0;
         public override int gain => 0;
-        public override RessourceType ressourceType => null;
+        public override RessourceType ressourceType => RessourceType.WOOD;
 
         public Grass(HexCell Cell, byte Progress) : base(Cell, Progress)
         {
