@@ -13,9 +13,14 @@ namespace Shared.GameLogic
     {
         public HexGrid.HexGrid grid;
 
+        public List<Building> buildings;
+
+        public List<Ressource> ressources;
+
         public GameLogic()
         {
-
+            buildings = new List<Building>();
+            ressources = new List<Ressource>();
         }
 
         public bool verifyBuild(HexCoordinates coords, Structure structure) 
@@ -35,11 +40,6 @@ namespace Shared.GameLogic
             cell.Structure = structure;
             return cell;
         }
-
-
-        public List<Building> buildings;
-
-        public List<Ressource> ressources;
 
         public void Init(HexGrid.HexGrid grid)
         {
