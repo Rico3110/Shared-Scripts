@@ -713,6 +713,22 @@ namespace Shared.Communication
                 {
                     return new Tree(cell, progress);
                 } 
+                else if (type == typeof(Rock))
+                {
+                    return new Rock(cell, progress);
+                }
+                else if (type == typeof(Fish))
+                {
+                    return new Fish(cell, progress);
+                }
+                else if (type == typeof(Scrub))
+                {
+                    return new Scrub(cell, progress);
+                }
+                else if (type == typeof(Grass))
+                {
+                    return new Grass(cell, progress);
+                }
                 else
                 {
                     throw new Exception("Couldn't find fitting Type.");
@@ -883,12 +899,20 @@ namespace Shared.Communication
         {
             {typeof(Woodcutter), 0},
             {typeof(Tree), 1},
+            {typeof(Rock), 2},
+            {typeof(Fish), 3},
+            {typeof(Scrub), 4},
+            {typeof(Grass), 5}
         };
         
         private static Dictionary<byte, Type> byteToType = new Dictionary<byte, Type>()
         {
             {0, typeof(Woodcutter)},
             {1, typeof(Tree) },
+            {2, typeof(Rock) },
+            {3, typeof(Fish) },
+            {4, typeof(Scrub) },
+            {5, typeof(Grass) },
         };
 
         internal static byte ToByte(this Structure structure)
