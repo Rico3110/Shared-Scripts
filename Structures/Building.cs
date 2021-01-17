@@ -43,11 +43,20 @@ namespace Shared.Structures
             this.Health = (byte)Mathf.Min(this.MaxHealth, this.Health + count);
         }
 
-
         public void Updgrade()
         {
             if(Level < MaxLevel)
                 Level++;
+        }
+
+        public virtual bool IsPlaceable() 
+        {
+            if (cell.Structure != null && typeof(Building).IsAssignableFrom(cell.Structure.GetType()))
+            {
+                return false;
+            }
+            
+            return true;
         }
     }
 }

@@ -25,5 +25,18 @@ namespace Shared.Structures
         {
             base.DoTick();
         }
+
+        public override bool IsPlaceable()
+        {
+            if (!base.IsPlaceable())
+            {
+                return false;
+            }
+            if(cell.Data.Biome == HexCellBiome.WATER)
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }

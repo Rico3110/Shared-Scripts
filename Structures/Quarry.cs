@@ -26,6 +26,11 @@ namespace Shared.Structures
             this.AllowReceive = AllowReceive;
         }
 
+        public Quarry() : base()
+        {
+
+        }
+
         public override void DoTick()
         {
             int count = 0;
@@ -58,7 +63,7 @@ namespace Shared.Structures
 
         public override bool IsPlaceable(HexCell cell)
         {
-            if (cell.Data.Biome == HexCellBiome.WATER)
+            if (!base.IsPlaceable())
             {
                 return false;
             }

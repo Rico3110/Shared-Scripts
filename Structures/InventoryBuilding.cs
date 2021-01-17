@@ -115,5 +115,10 @@ namespace Shared.Structures
                     inventoryBuilding.ReceiveRessources(Inventory, 2);
             }
         }
+
+        public override bool IsPlaceable()
+        {
+            return base.IsPlaceable();
+        }
     }
 }

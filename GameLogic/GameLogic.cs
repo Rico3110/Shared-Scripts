@@ -37,5 +37,61 @@ namespace Shared.GameLogic
         }
 
 
+        public List<Building> buildings;
+
+        public List<Ressource> ressources;
+
+        public void Init(HexGrid.HexGrid grid)
+        {
+            foreach (HexCell cell in grid.cells)
+            {
+                if (cell.Structure != null) {
+                    this.AddStructureToList(cell.Structure);
+                }
+            }
+        }
+
+        private void AddStructureToList(Structure structure)
+        {           
+            if (typeof(Building).IsAssignableFrom(structure.GetType()))
+            {
+                if (!buildings.Contains(structure))
+                {
+                    buildings.Add((Building)structure);
+                }
+            }
+            else if (typeof(Ressource).IsAssignableFrom(structure.GetType()))
+            {
+                if (!ressources.Contains(structure))
+                {
+                    ressources.Add((Ressource)structure);
+                }
+            }
+        }
+
+        public void DoTick()
+        {
+            foreach (Building building in buildings)
+            {
+                building.DoTick();
+                for(HexDirection d = HexDirection.NE; d <= HexDirection.NW; d++)
+                {
+                    HexCell neighbor = building.Cell.GetNeighbor(d);
+                    if (neighbor != null && neighbor.Structure != null && neighbor.Structure is Ressource)
+                    {
+                        if(((Ressource)neighbor.Structure).Progress == 0)
+                            this.AddStructureToList(neighbor.Structure);
+                    }
+                }
+            }
+            foreach(Ressource ressource in ressources)
+            {
+                ressource.DoTick();
+                if (ressource.Progress == ressource.MaxProgress)
+                {
+                    this.ressources.Remove(ressource);
+                }
+            }
+        }
     }
 }

@@ -27,6 +27,11 @@ namespace Shared.Structures
 
         }
 
+        public Fisher() : base()
+        {
+
+        }
+
         public override void DoTick()
         {
             base.DoTick();
@@ -60,7 +65,7 @@ namespace Shared.Structures
 
         public override bool IsPlaceable(HexCell cell)
         {
-            if (cell.Data.Biome == HexCellBiome.WATER)
+            if (!base.IsPlaceable())
             {
                 return false;
             }
