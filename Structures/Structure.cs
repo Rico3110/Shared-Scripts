@@ -9,7 +9,7 @@ namespace Shared.Structures
 {
     public abstract class Structure
     {
-        public HexCell Cell { get; protected set; }
+        public HexCell Cell;
 
         public Structure()
         {

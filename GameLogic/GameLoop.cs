@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Shared.DataTypes;
 using Shared.HexGrid;
+using Shared.Structures;
 
 namespace Shared.GameLogic
 {
@@ -16,7 +17,7 @@ namespace Shared.GameLogic
         {
             foreach(HexCell cell in grid.cells)
             {
-                if(cell.Building != null)
+                if(cell.Structure != null)
                 {
                     //buildings.Add(cell.Building);
                 }

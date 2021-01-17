@@ -13,6 +13,7 @@ namespace Shared.Communication
         welcome = 1,
         ping = 2,
         sendHexGrid = 3,
+        sendStructure = 4,
 
         testBuilding = 420
     }
@@ -23,6 +24,7 @@ namespace Shared.Communication
         welcomeReceived = 1,
         ping = 2,
         requestHexGrid = 3,
+        requestPlaceBuilding = 4,
 
         testBuilding = 420
     }
@@ -670,7 +672,10 @@ namespace Shared.Communication
             {
                 Type type = ReadByte(false).ToType();
                 if (type == null)
+                {
+                    ReadByte(_moveReadPos);
                     return null;
+                }
                 if (typeof(Building).IsAssignableFrom(type))
                     return ReadBuilding(_moveReadPos);
                 else if (typeof(Ressource).IsAssignableFrom(type))
@@ -857,7 +862,7 @@ namespace Shared.Communication
         private static Dictionary<Type, byte> typeToByte = new Dictionary<Type, byte>()
         {
             {typeof(Woodcutter), 0},
-            {typeof(Tree),1 },
+            {typeof(Tree), 1},
         };
         
         private static Dictionary<byte, Type> byteToType = new Dictionary<byte, Type>()
