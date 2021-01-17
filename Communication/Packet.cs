@@ -674,12 +674,7 @@ namespace Shared.Communication
         {
             try
             {
-                Console.WriteLine("starting");
-                byte b = ReadByte(false);
-                Console.WriteLine("read byte");
-                Console.WriteLine(b);
-                Type type = b.ToType();
-                Console.WriteLine("casted");
+                Type type = ReadByte(false).ToType();
                 if (type == null)
                 {
                     ReadByte(_moveReadPos);
@@ -687,13 +682,14 @@ namespace Shared.Communication
                 }
                 if (typeof(Building).IsAssignableFrom(type))
                     return ReadBuilding(_moveReadPos);
-                else if (typeof(Ressource).IsAssignableFrom(type))
+                if (typeof(Ressource).IsAssignableFrom(type))
                     return ReadRessource(_moveReadPos);
-                else
-                {
-                    ReadByte(_moveReadPos);
-                    throw new Exception("Unknown Type");
-                }
+                
+                ReadByte(_moveReadPos);
+
+                Structure _value = (Structure)Activator.CreateInstance(type);
+                
+                return _value; 
             }
             catch
             {
@@ -707,32 +703,12 @@ namespace Shared.Communication
             try
             {
                 Type type = ReadByte(_moveReadPos).ToType();
-                HexCell cell = ReadHexCell(_moveReadPos);
+
+                Ressource _value = (Ressource)Activator.CreateInstance(type);                
                 byte progress = ReadByte(_moveReadPos);
-                if (type == typeof(Tree))
-                {
-                    return new Tree(cell, progress);
-                } 
-                else if (type == typeof(Rock))
-                {
-                    return new Rock(cell, progress);
-                }
-                else if (type == typeof(Fish))
-                {
-                    return new Fish(cell, progress);
-                }
-                else if (type == typeof(Scrub))
-                {
-                    return new Scrub(cell, progress);
-                }
-                else if (type == typeof(Grass))
-                {
-                    return new Grass(cell, progress);
-                }
-                else
-                {
-                    throw new Exception("Couldn't find fitting Type.");
-                }
+
+                _value.Progress = progress;
+                return _value;
             }
             catch
             {
@@ -751,9 +727,14 @@ namespace Shared.Communication
                 else
                 {
                     ReadByte(_moveReadPos);
-                    ReadByte(_moveReadPos);
-                    ReadByte(_moveReadPos);
-                    throw new Exception("Couldn't find fitting Type.");
+
+                    Building _value = (Building)Activator.CreateInstance(type);
+
+                    _value.Tribe = ReadByte(_moveReadPos);
+                    _value.Level = ReadByte(_moveReadPos);
+                    _value.Health = ReadByte(_moveReadPos);
+
+                    return _value;
                 }
             }
             catch
@@ -770,14 +751,15 @@ namespace Shared.Communication
                 Type type = ReadByte(false).ToType();
                 if (typeof(InventoryBuilding).IsAssignableFrom(type))
                     return ReadInventoryBuilding(_moveReadPos);
-                else
-                {
-                    ReadByte(_moveReadPos);
-                    ReadByte(_moveReadPos);
-                    ReadByte(_moveReadPos);
-                    ReadInt(_moveReadPos);
-                    throw new Exception("Couldn't find fitting Type.");
-                }
+
+                ReadByte(_moveReadPos);
+
+                ProtectedBuilding _value = (ProtectedBuilding)Activator.CreateInstance(type);
+                _value.Tribe = ReadByte(_moveReadPos);
+                _value.Level = ReadByte(_moveReadPos);
+                _value.Health =  ReadByte(_moveReadPos);
+                _value.TroopCount = ReadInt(_moveReadPos);
+                return _value;                
             }
             catch
             {
@@ -791,22 +773,18 @@ namespace Shared.Communication
             try
             {
                 Type type = ReadByte(_moveReadPos).ToType();
-                if (typeof(Woodcutter).IsAssignableFrom(type))
-                {
-                    byte Tribe = ReadByte(_moveReadPos);
-                    byte Level = ReadByte(_moveReadPos);
-                    byte Health = ReadByte(_moveReadPos);
-                    int TroopCount = ReadInt(_moveReadPos);
-                    Dictionary<RessourceType, int> Inventory = ReadDictionaryRessourceTypeInt(_moveReadPos);
-                    Dictionary<RessourceType, int> RessourceLimits = ReadDictionaryRessourceTypeInt(_moveReadPos);
-                    bool AllowReceive = ReadBool(_moveReadPos);
-                    return new Woodcutter(null, Tribe, Level, Health, TroopCount, Inventory, RessourceLimits, AllowReceive);
-                } 
-                else
-                {
-                    throw new Exception("Couldn't find fitting Type.");
-                }
-                return null;
+
+                InventoryBuilding _value = (InventoryBuilding)Activator.CreateInstance(type);
+
+                _value.Tribe = ReadByte(_moveReadPos);
+                _value.Level = ReadByte(_moveReadPos);
+                _value.Health = ReadByte(_moveReadPos);
+                _value.TroopCount = ReadInt(_moveReadPos);
+                _value.Inventory = ReadDictionaryRessourceTypeInt(_moveReadPos);
+                _value.RessourceLimits = ReadDictionaryRessourceTypeInt(_moveReadPos);
+                _value.AllowReceive = ReadBool(_moveReadPos);
+
+                return _value;
             }
             catch
             {

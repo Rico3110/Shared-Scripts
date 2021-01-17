@@ -14,6 +14,11 @@ namespace Shared.Structures
         public override int gain => 5;
         public override RessourceType ressourceType => RessourceType.FISH;
 
+        public Fish() : base()
+        {
+
+        }
+
         public Fish(HexCell Cell, byte Progress) : base(Cell, Progress)
         {
             

@@ -14,6 +14,11 @@ namespace Shared.Structures
         public override int gain => 2;
         public override RessourceType ressourceType => RessourceType.WOOD;
 
+        public Scrub() : base()
+        {
+
+        }
+
         public Scrub(HexCell Cell, byte Progress) : base(Cell, Progress)
         {
             

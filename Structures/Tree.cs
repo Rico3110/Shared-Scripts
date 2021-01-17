@@ -14,6 +14,11 @@ namespace Shared.Structures
         public override int gain => 5;
         public override RessourceType ressourceType => RessourceType.WOOD;
 
+        public Tree() : base()
+        {
+            
+        }
+
         public Tree(HexCell Cell, byte Progress) : base(Cell, Progress)
         {
             
