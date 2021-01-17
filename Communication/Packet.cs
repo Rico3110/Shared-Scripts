@@ -14,6 +14,7 @@ namespace Shared.Communication
         ping = 2,
         sendHexGrid = 3,
         sendStructure = 4,
+        sendGameTick = 5,
         testBuilding = 420
     }
 
