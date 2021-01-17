@@ -13,7 +13,7 @@ namespace Shared.Communication
         welcome = 1,
         ping = 2,
         sendHexGrid = 3,
-
+        sendStructure = 4,
         testBuilding = 420
     }
 
@@ -23,7 +23,7 @@ namespace Shared.Communication
         welcomeReceived = 1,
         ping = 2,
         requestHexGrid = 3,
-
+        requestPlaceBuilding = 4,
         testBuilding = 420
     }
 
@@ -316,6 +316,12 @@ namespace Shared.Communication
             {
                 Write(structure);
             }
+        }
+        /// <summary>Adds a Type to the packet.</summary>
+        /// <param name="_value">The Type to add.</param>
+        public void Write(Type _value)
+        {
+            Write(_value.ToByte());
         }
         #endregion
 
@@ -668,7 +674,12 @@ namespace Shared.Communication
         {
             try
             {
-                Type type = ReadByte(false).ToType();
+                Console.WriteLine("starting");
+                byte b = ReadByte(false);
+                Console.WriteLine("read byte");
+                Console.WriteLine(b);
+                Type type = b.ToType();
+                Console.WriteLine("casted");
                 if (type == null)
                     return null;
                 if (typeof(Building).IsAssignableFrom(type))
@@ -826,6 +837,17 @@ namespace Shared.Communication
                 throw new Exception("Could not read value of type 'List<Structure>'!");
             }
         }
+        public Type ReadType(bool _moveReadPos = true)
+        {
+            try
+            {
+                return ReadByte(_moveReadPos).ToType();
+            }
+            catch
+            {
+                throw new Exception("Could not read value of type 'List<Structure>'!");
+            }
+        }
         #endregion
 
         private bool disposed = false;
@@ -871,6 +893,13 @@ namespace Shared.Communication
             if (structure == null)
                 return 255;
             return typeToByte[structure.GetType()];
+        }
+
+        internal static byte ToByte(this Type type)
+        {
+            if (type == null)
+                return 255;
+            return typeToByte[type];
         }
 
         internal static Type ToType(this byte b)
