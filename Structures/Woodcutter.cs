@@ -16,6 +16,8 @@ namespace Shared.Structures
             this.MaxHealth = 100;
             this.MaxLevel = 3;
             this.Inventory.Add(RessourceType.WOOD, 0);
+            this.RessourceLimit = 20;
+            this.RessourceLimits.Add(RessourceType.WOOD, 13);
         }
 
         public Woodcutter(
@@ -29,14 +31,16 @@ namespace Shared.Structures
             bool AllowReceive
             ) : base(Cell, Tribe, Level, Health, TroopCount, Inventory, RessourceLimits, AllowReceive)
         {
-
+            
         }
+
 
         public override void DoTick()
         {
             base.DoTick();
+            Debug.Log(Inventory[RessourceType.WOOD]);
             int count = 0;
-            if(AvailableSpace() > 0)
+            if(AvailableSpace(RessourceType.WOOD) > 0)
             {
                 count = Harvest();
             }

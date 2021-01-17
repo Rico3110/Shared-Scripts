@@ -11,6 +11,8 @@ namespace Shared.Game
 {
     public static class GameLogic
     {
+        public static bool initialized { get; private set; } = false;
+
         public static HexGrid.HexGrid grid { get; private set; }
 
         private static List<Building> buildings;
@@ -19,6 +21,7 @@ namespace Shared.Game
 
         public static void Init(HexGrid.HexGrid hexGrid)
         {
+            initialized = true;
             grid = hexGrid;
 
             buildings = new List<Building>();
