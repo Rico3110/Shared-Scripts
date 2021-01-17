@@ -49,7 +49,7 @@ namespace Shared.Structures
                 Level++;
         }
 
-        public virtual bool IsPlaceable(HexCell cell) 
+        public override bool IsPlaceable(HexCell cell) 
         {
             if (cell.Structure != null && typeof(Building).IsAssignableFrom(cell.Structure.GetType()))
             {

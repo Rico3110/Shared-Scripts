@@ -58,7 +58,6 @@ namespace Shared.Structures
             {
                 totalCount += count;
             }
-            return 100;
             return RessourceLimit - totalCount;
         }
 

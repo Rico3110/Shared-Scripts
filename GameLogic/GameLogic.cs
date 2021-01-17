@@ -7,39 +7,47 @@ using Shared.HexGrid;
 using Shared.DataTypes;
 using Shared.Structures;
 
-namespace Shared.GameLogic
+namespace Shared.Game
 {
-    public class GameLogic
+    public static class GameLogic
     {
-        public HexGrid.HexGrid grid;
+        public static HexGrid.HexGrid grid { get; private set; }
 
-        public List<Building> buildings;
+        private static List<Building> buildings;
 
-        public List<Ressource> ressources;
+        private static List<Ressource> ressources;
 
-        public GameLogic()
+        public static void Init(HexGrid.HexGrid hexGrid)
         {
+            grid = hexGrid;
+
             buildings = new List<Building>();
             ressources = new List<Ressource>();
+
+            foreach (HexCell cell in grid.cells)
+            {
+                if (cell.Structure != null) {
+                    AddStructureToList(cell.Structure);
+                }
+            }
         }
 
-        public bool verifyBuild(HexCoordinates coords, Structure structure) 
+        public static bool verifyBuild(HexCoordinates coords, Structure structure) 
         {
-            HexCell cell = this.grid.GetCell(coords);
+            HexCell cell = grid.GetCell(coords);
             if (structure != null && structure.IsPlaceable(cell))
             { 
                 return true;
             }
-
             return false;
         }
 
-        public HexCell applyBuild(HexCoordinates coords, Structure structure)
+        public static HexCell applyBuild(HexCoordinates coords, Structure structure)
         {
-            HexCell cell = this.grid.GetCell(coords);
+            HexCell cell = grid.GetCell(coords);
             if (cell.Structure != null)
             {
-                ressources.Remove((Ressource)cell.Structure);
+                DestroyStructure(coords);
             }
             cell.Structure = structure;
             structure.Cell = cell;
@@ -47,18 +55,7 @@ namespace Shared.GameLogic
             return cell;
         }
 
-        public void Init(HexGrid.HexGrid grid)
-        {
-            this.grid = grid;
-            foreach (HexCell cell in grid.cells)
-            {
-                if (cell.Structure != null) {
-                    this.AddStructureToList(cell.Structure);
-                }
-            }
-        }
-
-        private void AddStructureToList(Structure structure)
+        private static void AddStructureToList(Structure structure)
         {           
             if (typeof(Building).IsAssignableFrom(structure.GetType()))
             {
@@ -76,7 +73,24 @@ namespace Shared.GameLogic
             }
         }
 
-        public void DoTick()
+        public static void DestroyStructure(HexCoordinates coords)
+        {
+            HexCell cell = grid.GetCell(coords);
+            Structure structure = cell.Structure;
+            if (structure != null)
+            {
+                if (typeof(Building).IsAssignableFrom(structure.GetType()))
+                {
+                    buildings.RemoveAll(elem => elem == structure);
+                }
+                else if (typeof(Ressource).IsAssignableFrom(structure.GetType()))
+                {
+                    ressources.RemoveAll(elem => elem == structure);
+                }
+            }
+        }
+
+        public static void DoTick()
         {
             foreach(Ressource ressource in ressources)
             {

@@ -10,7 +10,7 @@ namespace Shared.Structures
 {
     public class Tree : Ressource
     {
-        public override int MaxProgress => 5;
+        public override int MaxProgress => 2;
         public override int gain => 5;
         public override RessourceType ressourceType => RessourceType.WOOD;
 
