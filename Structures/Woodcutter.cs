@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Shared.HexGrid;
+using UnityEngine;
 
 namespace Shared.Structures
 {
@@ -33,11 +34,13 @@ namespace Shared.Structures
 
         public override void DoTick()
         {
+            Debug.Log("tick");
             base.DoTick();
             int count = 0;
             if(AvailableSpace() > 0)
             {
                 count = Harvest();
+                Debug.Log("harvest");
             }
             AddRessource(RessourceType.WOOD, count);
 

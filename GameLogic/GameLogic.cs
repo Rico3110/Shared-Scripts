@@ -37,12 +37,19 @@ namespace Shared.GameLogic
         public HexCell applyBuild(HexCoordinates coords, Structure structure)
         {
             HexCell cell = this.grid.GetCell(coords);
+            if (cell.Structure != null)
+            {
+                ressources.Remove((Ressource)cell.Structure);
+            }
             cell.Structure = structure;
+            structure.Cell = cell;
+            AddStructureToList(structure);
             return cell;
         }
 
         public void Init(HexGrid.HexGrid grid)
         {
+            this.grid = grid;
             foreach (HexCell cell in grid.cells)
             {
                 if (cell.Structure != null) {
@@ -71,9 +78,14 @@ namespace Shared.GameLogic
 
         public void DoTick()
         {
+            foreach(Ressource ressource in ressources)
+            {
+                ressource.DoTick();
+            }
             foreach (Building building in buildings)
             {
                 building.DoTick();
+                /*
                 for(HexDirection d = HexDirection.NE; d <= HexDirection.NW; d++)
                 {
                     HexCell neighbor = building.Cell.GetNeighbor(d);
@@ -83,14 +95,7 @@ namespace Shared.GameLogic
                             this.AddStructureToList(neighbor.Structure);
                     }
                 }
-            }
-            foreach(Ressource ressource in ressources)
-            {
-                ressource.DoTick();
-                if (ressource.Progress == ressource.MaxProgress)
-                {
-                    this.ressources.Remove(ressource);
-                }
+                */
             }
         }
     }
