@@ -64,10 +64,12 @@ namespace Shared.Structures
 
         public override bool IsPlaceable(HexCell cell)
         {
+            
             if(cell.Data.Biome == HexCellBiome.WATER)
             {
                 return false;
             }
+            return true;
             bool hasForest = false;
             for (HexDirection d = HexDirection.NE; d <= HexDirection.NW; d++)
             {

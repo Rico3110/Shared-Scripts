@@ -21,12 +21,12 @@ namespace Shared.GameLogic
         public bool verifyBuild(HexCoordinates coords, Structure structure) 
         {
             HexCell cell = this.grid.GetCell(coords);
-            if (cell.Structure != null)
-            {
-                return false;
+            if (structure != null && structure.IsPlaceable(cell))
+            { 
+                return true;
             }
 
-            return true;
+            return false;
         }
 
         public HexCell applyBuild(HexCoordinates coords, Structure structure)
