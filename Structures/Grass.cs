@@ -10,8 +10,8 @@ namespace Shared.Structures
 {
     public class Grass : Ressource
     {
-        public override int MaxProgress => 0;
-        public override int gain => 0;
+        public override int MaxProgress => 4;
+        public override int gain => 1;
         public override RessourceType ressourceType => RessourceType.WOOD;
 
         public Grass() : base()
@@ -26,7 +26,7 @@ namespace Shared.Structures
 
         public override void DoTick() 
         {
-            return;
+            base.DoTick();
         }
 
         public override bool Harvestable()
