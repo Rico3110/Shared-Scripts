@@ -12,7 +12,7 @@ namespace Shared.Structures
     {
         public override int MaxProgress => 4;
         public override int gain => 1;
-        public override RessourceType ressourceType => RessourceType.WOOD;
+        public override RessourceType ressourceType => RessourceType.FISH;
 
         public Grass() : base()
         {

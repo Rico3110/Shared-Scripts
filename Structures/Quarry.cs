@@ -58,7 +58,7 @@ namespace Shared.Structures
                     if (neighbor.Structure is Ressource)
                     {
                         Ressource ressource = (Ressource)neighbor.Structure;
-                        if (ressource.Harvestable())
+                        if (ressource.ressourceType == RessourceType.STONE && ressource.Harvestable())
                             return ressource.Harvest();
                     }
                 }
