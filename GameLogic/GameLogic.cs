@@ -58,6 +58,13 @@ namespace Shared.Game
             return cell;
         }
 
+        public static void applyUpgrade(HexCoordinates coords)
+        {
+            HexCell cell = grid.GetCell(coords);
+            if (cell.Structure is Building)
+                ((Building)cell.Structure).Upgrade();
+        }
+
         private static void AddStructureToList(Structure structure)
         {           
             if (typeof(Building).IsAssignableFrom(structure.GetType()))
