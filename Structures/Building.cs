@@ -43,7 +43,7 @@ namespace Shared.Structures
             this.Health = (byte)Mathf.Min(this.MaxHealth, this.Health + count);
         }
 
-        public void Updgrade()
+        public void Upgrade()
         {
             if(Level < MaxLevel)
                 Level++;
