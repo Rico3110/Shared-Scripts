@@ -47,7 +47,21 @@ namespace Shared.Structures
             HexCell neighbor = Cell.GetNeighbor(direction);
             if (neighbor == null)
                 return false;
-            if (Cell.Structure != null && Cell.Structure is Road)
+            if (neighbor.Structure != null && neighbor.Structure is Road)
+                return true;
+            return false;
+        }
+
+        public bool hasStraightLine(HexDirection direction)
+        {
+            if (hasRoad(direction) && !hasRoad(direction.Next()) && !hasRoad(direction.Next().Next()) && hasRoad(direction.Opposite()))
+                return true;
+            return false;
+        }
+
+        public bool hasSmoothCorner(HexDirection direction)
+        {
+            if (hasRoad(direction) && !hasRoad(direction.Next()) && hasRoad(direction.Next().Next()))
                 return true;
             return false;
         }
