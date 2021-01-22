@@ -15,7 +15,7 @@ namespace Shared.Communication
         sendHexGrid = 3,
         sendStructure = 4,
         sendGameTick = 5,
-        upgradeBuilding = 6,
+        sendUpgradeBuilding = 6,
         testBuilding = 420
     }
 

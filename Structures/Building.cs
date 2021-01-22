@@ -14,16 +14,13 @@ namespace Shared.Structures
         public byte Level;
         public byte Health;
 
-        protected byte MaxLevel;
-        protected byte MaxHealth;
-
+        public abstract byte MaxLevel { get; }
+        public abstract byte MaxHealth { get; }
         public Building() : base()
         {
             this.Tribe = 0;
             this.Level = 1;
             this.Health = 100;
-            this.MaxLevel = 3;
-            this.MaxHealth = 100;
         }
 
         public Building(HexCell Cell, byte Tribe, byte Level, byte Health) : base(Cell)
@@ -45,7 +42,7 @@ namespace Shared.Structures
 
         public void Upgrade()
         {
-            if(Level < MaxLevel)
+            if(Level <= MaxLevel)
                 Level++;
         }
 

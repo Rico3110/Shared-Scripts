@@ -11,10 +11,11 @@ namespace Shared.Structures
 {
     class Woodcutter : InventoryBuilding
     {
+        public override byte MaxLevel => 3;
+        public override byte MaxHealth => 100;
+
         public Woodcutter() : base()
         {
-            this.MaxHealth = 100;
-            this.MaxLevel = 3;
             this.Inventory.Add(RessourceType.WOOD, 0);
             this.RessourceLimit = 20;
             this.RessourceLimits.Add(RessourceType.WOOD, 13);

@@ -10,11 +10,11 @@ namespace Shared.Structures
 {
     class Quarry : InventoryBuilding
     {
+        public override byte MaxLevel => 1;
+        public override byte MaxHealth => 100;
 
         public Quarry() : base()
         {
-            this.MaxHealth = 100;
-            this.MaxLevel = 3;
             this.Inventory.Add(RessourceType.STONE, 0);
             this.RessourceLimit = 20;
             this.RessourceLimits.Add(RessourceType.STONE, 13);

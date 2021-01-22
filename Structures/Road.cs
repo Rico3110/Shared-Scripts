@@ -9,13 +9,15 @@ namespace Shared.Structures
 {
     class Road : Building
     {
+        public override byte MaxLevel => 1;
+
+        public override byte MaxHealth => 100;
+
         public Road() : base()
         {
             this.Tribe = 0;
             this.Level = 1;
             this.Health = 100;
-            this.MaxLevel = 3;
-            this.MaxHealth = 100;
         }
 
         public Road(HexCell Cell, byte Tribe, byte Level, byte Health) : base(Cell, Tribe, Level, Health)

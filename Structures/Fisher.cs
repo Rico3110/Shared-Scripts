@@ -11,7 +11,10 @@ namespace Shared.Structures
 {
     class Fisher : InventoryBuilding
     {
-        private static int elevationThreshold = 40;
+        public override byte MaxLevel => 1;
+        public override byte MaxHealth => 100;
+
+        private const int elevationThreshold = 40;
 
         public Fisher(
             HexCell Cell,
