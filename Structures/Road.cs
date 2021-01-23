@@ -32,40 +32,57 @@ namespace Shared.Structures
             return base.IsPlaceable(cell);
         }
 
-        public bool hasAnyRoad()
+        public bool HasAnyConnection()
         {
             for(HexDirection d = HexDirection.NE; d < HexDirection.NW; d++)
             {
-                if (hasRoad(d))
+                if (HasBuilding(d))
                     return true;
             }
             return false;
         }
 
-        public bool hasRoad(HexDirection direction)
+        public bool HasRoad(HexDirection direction)
         {
             if (Cell == null)
                 return false;
             HexCell neighbor = Cell.GetNeighbor(direction);
             if (neighbor == null)
                 return false;
-            if (neighbor.Structure != null && neighbor.Structure is Road)
+            if (neighbor.Structure != null && neighbor.Structure is Road && Math.Abs(Cell.GetElevationDifference(direction)) < 12)
                 return true;
             return false;
         }
 
-        public bool hasStraightLine(HexDirection direction)
+        public bool HasBuilding(HexDirection direction)
         {
-            if (hasRoad(direction) && !hasRoad(direction.Next()) && !hasRoad(direction.Next().Next()) && hasRoad(direction.Opposite()))
+            if (Cell == null)
+                return false;
+            HexCell neighbor = Cell.GetNeighbor(direction);
+            if (neighbor == null)
+                return false;
+            if (neighbor.Structure != null && neighbor.Structure is Building && Math.Abs(Cell.GetElevationDifference(direction)) < 12)
                 return true;
             return false;
         }
 
-        public bool hasSmoothCorner(HexDirection direction)
+        public bool HasStraightLine(HexDirection direction)
         {
-            if (hasRoad(direction) && !hasRoad(direction.Next()) && hasRoad(direction.Next().Next()))
+            if (HasBuilding(direction) && !HasBuilding(direction.Next()) && !HasBuilding(direction.Next().Next()) && HasBuilding(direction.Opposite()))
                 return true;
             return false;
+        }
+
+        public bool IsSmoothCorner(HexDirection direction)
+        {
+            if (HasBuilding(direction.Previous()) && !HasBuilding(direction) && HasBuilding(direction.Next()))
+                return true;
+            return false;
+        }
+
+        public bool IsEmpty(HexDirection direction)
+        {
+            return !(IsSmoothCorner(direction) || HasStraightLine(direction.Previous()) || HasBuilding(direction));
         }
     }
 }

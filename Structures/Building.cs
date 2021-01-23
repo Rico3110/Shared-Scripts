@@ -42,7 +42,7 @@ namespace Shared.Structures
 
         public void Upgrade()
         {
-            if(Level <= MaxLevel)
+            if(Level < MaxLevel)
                 Level++;
         }
 
