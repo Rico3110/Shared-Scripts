@@ -13,6 +13,6 @@ namespace Shared.DataTypes
 
     public enum RessourceType
     {
-        WOOD, STONE, IRON_ORE, IRON, COAL, FISH
+        WOOD, STONE, IRON_ORE, IRON, COAL, FISH, WHEAT
     }
 }

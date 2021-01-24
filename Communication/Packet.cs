@@ -885,8 +885,10 @@ namespace Shared.Communication
             {typeof(Scrub), 4},
             {typeof(Grass), 5},
             {typeof(Quarry), 6},
-            {typeof(Road), 7}
-
+            {typeof(Road), 7},
+            {typeof(IronOre), 8},
+            {typeof(CoalOre), 9},
+            {typeof(Wheat), 10},
 
         };
         
@@ -899,7 +901,10 @@ namespace Shared.Communication
             {4, typeof(Scrub) },
             {5, typeof(Grass) },
             {6, typeof(Quarry) },
-            {7, typeof(Road) }
+            {7, typeof(Road) },
+            {8, typeof(IronOre)},
+            {9, typeof(CoalOre)},
+            {10, typeof(Wheat)},
         };
 
         internal static byte ToByte(this Structure structure)
