@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Shared.HexGrid;
 using Shared.DataTypes;
 using Shared.Structures;
+using UnityEngine;
 
 namespace Shared.Game
 {
@@ -54,6 +55,12 @@ namespace Shared.Game
             }
             cell.Structure = structure;
             structure.Cell = cell;
+
+            if (structure is InventoryBuilding || structure is Road)
+            {
+                ComputeConnectedStorages();
+            }
+            
             AddStructureToList(structure);
             return cell;
         }
@@ -125,6 +132,78 @@ namespace Shared.Game
                 }
             }
             
+        }
+
+        public static void ComputeConnectedStorages()
+        {
+            foreach (HexCell cell in grid.cells)
+            {
+                if (cell.Structure is InventoryBuilding)
+                {
+                    ComputeConnectedStorages((InventoryBuilding)cell.Structure);
+                }
+            }
+        }
+
+        private static void ComputeConnectedStorages(InventoryBuilding building)
+        {
+            bool[] visited = new bool[grid.cellCountX * grid.cellCountZ];
+            visited[building.Cell.coordinates.X + building.Cell.coordinates.Z * grid.cellCountX] = true;
+            
+            List<Tuple<InventoryBuilding, int, int>> foundBuildings = new List<Tuple<InventoryBuilding, int, int>>();
+            for (HexDirection dir = HexDirection.NE; dir <= HexDirection.NW; dir++)
+            {
+                HexCell neighbor = building.Cell.GetNeighbor(dir);
+                if (neighbor.Structure is Road)
+                {
+                    foundBuildings = visitRoad(neighbor, ref visited, foundBuildings, 0, 100);
+                }
+            }
+
+            Dictionary<InventoryBuilding, int> connectedStorages = new Dictionary<InventoryBuilding, int>();
+            foreach (Tuple<InventoryBuilding, int, int> tpl in foundBuildings)
+            {
+                connectedStorages.Add(tpl.Item1, tpl.Item3);
+            }
+            building.ConnectedInventories = connectedStorages;
+        }
+
+        private static List<Tuple<InventoryBuilding, int, int>> visitRoad(HexCell cell, ref bool[] visited, List<Tuple<InventoryBuilding, int, int>> foundBuildings, int depth, int minimumRoadLevel)
+        {
+            visited[cell.coordinates.X + cell.coordinates.Z * grid.cellCountX] = true;
+            for (HexDirection dir = HexDirection.NE; dir <= HexDirection.NW; dir++)
+            {
+                HexCell neighbor = cell.GetNeighbor(dir);
+                if (visited[neighbor.coordinates.X + neighbor.coordinates.Z * grid.cellCountX])
+                {
+                    continue;
+                }
+                if (neighbor.Structure is Road)
+                {
+                    foundBuildings = visitRoad(neighbor, ref visited, foundBuildings, depth + 1, Mathf.Min(((Road)neighbor.Structure).Level, minimumRoadLevel));
+                }
+                if (neighbor.Structure is InventoryBuilding)
+                {
+                    InventoryBuilding building = (InventoryBuilding)neighbor.Structure;
+                    int foundIndex = foundBuildings.FindIndex(elem => elem.Item1 == building);
+                    if (foundIndex == -1)
+                    {
+                        foundBuildings.Add(new Tuple<InventoryBuilding, int, int>(building, depth, minimumRoadLevel));
+                    }
+                    else
+                    {
+                        if (minimumRoadLevel > foundBuildings[foundIndex].Item3)
+                        {
+                            foundBuildings[foundIndex] = new Tuple<InventoryBuilding, int, int>(foundBuildings[foundIndex].Item1, depth, minimumRoadLevel);
+                        }
+                        else if (minimumRoadLevel == foundBuildings[foundIndex].Item3 && depth < foundBuildings[foundIndex].Item2)
+                        {
+                            foundBuildings[foundIndex] = new Tuple<InventoryBuilding, int, int>(foundBuildings[foundIndex].Item1, depth, minimumRoadLevel);
+                        }
+                    }
+                }
+            }
+            return foundBuildings;
         }
     }
 }
