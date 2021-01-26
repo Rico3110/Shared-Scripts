@@ -15,9 +15,9 @@ namespace Shared.Structures
 
         public Quarry() : base()
         {
-            this.Inventory.Add(RessourceType.STONE, 0);
-            this.RessourceLimit = 20;
-            this.RessourceLimits.Add(RessourceType.STONE, 13);
+            this.Inventory.Storage.Add(RessourceType.STONE, 0);
+            this.Inventory.RessourceLimit = 20;
+            this.Inventory.RessourceLimits.Add(RessourceType.STONE, 13);
         }
 
         public Quarry(
@@ -26,24 +26,20 @@ namespace Shared.Structures
             byte Level,
             byte Health,
             int TroopCount,
-            Dictionary<RessourceType, int> Inventory,
-            Dictionary<RessourceType, int> RessourceLimits,
-            bool AllowReceive
-            ) : base(Cell, Tribe, Level, Health, TroopCount, Inventory, RessourceLimits, AllowReceive)
+            Inventory Inventory
+            ) : base(Cell, Tribe, Level, Health, TroopCount, Inventory)
         {
-            this.Inventory = Inventory;
-            this.RessourceLimits = RessourceLimits;
-            this.AllowReceive = AllowReceive;
+
         }
 
         public override void DoTick()
         {
             int count = 0;
-            if (AvailableSpace(RessourceType.STONE) > 0)
+            if (Inventory.AvailableSpace(RessourceType.STONE) > 0)
             {
                 count = Harvest();
             }
-            AddRessource(RessourceType.STONE, count);
+            Inventory.AddRessource(RessourceType.STONE, count);
 
             SendRessources();
         }

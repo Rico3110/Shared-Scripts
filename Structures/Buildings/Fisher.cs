@@ -9,42 +9,41 @@ using UnityEngine;
 
 namespace Shared.Structures
 {
-    class Woodcutter : InventoryBuilding
+    class Fisher : InventoryBuilding
     {
-        public override byte MaxLevel => 3;
+        public override byte MaxLevel => 1;
         public override byte MaxHealth => 100;
 
-        public Woodcutter() : base()
+        private const int elevationThreshold = 40;
+
+        public Fisher() : base()
         {
-            this.Inventory.Add(RessourceType.WOOD, 0);
-            this.RessourceLimit = 20;
-            this.RessourceLimits.Add(RessourceType.WOOD, 13);
+            this.Inventory.Storage.Add(RessourceType.FISH, 0);
+            this.Inventory.RessourceLimit = 20;
+            this.Inventory.RessourceLimits.Add(RessourceType.FISH, 13);
         }
 
-        public Woodcutter(
+        public Fisher(
             HexCell Cell,
             byte Tribe,
             byte Level,
             byte Health,
             int TroopCount,
-            Dictionary<RessourceType, int> Inventory,
-            Dictionary<RessourceType, int> RessourceLimits,
-            bool AllowReceive
-            ) : base(Cell, Tribe, Level, Health, TroopCount, Inventory, RessourceLimits, AllowReceive)
+            Inventory Inventory
+            ) : base(Cell, Tribe, Level, Health, TroopCount, Inventory)
         {
-            
-        }
 
+        }
 
         public override void DoTick()
         {
             base.DoTick();
             int count = 0;
-            if(AvailableSpace(RessourceType.WOOD) > 0)
+            if (this.Inventory.AvailableSpace() > 0)
             {
                 count = Harvest();
             }
-            AddRessource(RessourceType.WOOD, count);
+            this.Inventory.AddRessource(RessourceType.FISH, count);
 
             SendRessources();
         }
@@ -54,12 +53,12 @@ namespace Shared.Structures
             for (HexDirection d = HexDirection.NE; d <= HexDirection.NW; d++)
             {
                 HexCell neighbor = Cell.GetNeighbor(d);
-                if(neighbor != null)
+                if (neighbor != null)
                 {
-                    if(neighbor.Structure is Ressource)
+                    if (neighbor.Structure is Ressource)
                     {
                         Ressource ressource = (Ressource)neighbor.Structure;
-                        if (ressource.ressourceType == RessourceType.WOOD && ressource.Harvestable())
+                        if (ressource.ressourceType == RessourceType.FISH && ressource.Harvestable())
                             return ressource.Harvest();
                     }
                 }
@@ -68,25 +67,29 @@ namespace Shared.Structures
         }
 
         public override bool IsPlaceable(HexCell cell)
-        {            
+        {
             if (!base.IsPlaceable(cell))
             {
                 return false;
             }
-            bool hasForest = false;
+            ushort currentElevation = cell.Data.Elevation;
+            bool hasSuitableWater = false;
             for (HexDirection d = HexDirection.NE; d <= HexDirection.NW; d++)
             {
                 HexCell neighbor = cell.GetNeighbor(d);
                 if (neighbor != null)
                 {
-                    if (neighbor.Structure is Ressource && ((Ressource) neighbor.Structure).ressourceType == RessourceType.WOOD)
+                    if (neighbor.Structure is Ressource && ((Ressource) neighbor.Structure).ressourceType == RessourceType.FISH)
                     {
-                        hasForest = true;
-                        break;
+                        if (Mathf.Abs(neighbor.Data.Elevation - currentElevation) <= Fisher.elevationThreshold)
+                        {
+                            hasSuitableWater = true;
+                            break;
+                        }
                     }
                 }
-            }            
-            return hasForest;
+            }
+            return hasSuitableWater;
         }
     }
 }

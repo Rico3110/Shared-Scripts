@@ -296,8 +296,15 @@ namespace Shared.Communication
         private void Write(InventoryBuilding _value)
         {
             Write(_value.Inventory);
+        }
+        /// <summary>Adds an Inventory to the packet.</summary>
+        /// <param name="_value">The Inventory to add.</param>
+        private void Write(Inventory _value)
+        {
+            Write(_value.Storage);
             Write(_value.RessourceLimits);
-            Write(_value.AllowReceive);
+            Write(_value.Outgoing);
+            Write(_value.Incoming);
         }
         /// <summary>Adds a Dictionary to the packet.</summary>
         /// <param name="_value">The Dictionary to add.</param>
@@ -308,6 +315,16 @@ namespace Shared.Communication
             {
                 Write((byte)pair.Key);
                 Write(pair.Value);
+            }
+        }
+        /// <summary>Adds a List<RessourceType> to the packet.</summary>
+        /// <param name="_value">The List<RessourceType> to add.</param>
+        public void Write(List<RessourceType> _value)
+        {
+            Write(_value.Count);
+            foreach (RessourceType ressourceType in _value)
+            {
+                Write((byte)ressourceType);
             }
         }
         /// <summary>Adds a List<Structure> to the packet.</summary>
@@ -778,20 +795,36 @@ namespace Shared.Communication
                 Type type = ReadByte(_moveReadPos).ToType();
 
                 InventoryBuilding _value = (InventoryBuilding)Activator.CreateInstance(type);
-
                 _value.Tribe = ReadByte(_moveReadPos);
                 _value.Level = ReadByte(_moveReadPos);
                 _value.Health = ReadByte(_moveReadPos);
                 _value.TroopCount = ReadInt(_moveReadPos);
-                _value.Inventory = ReadDictionaryRessourceTypeInt(_moveReadPos);
-                _value.RessourceLimits = ReadDictionaryRessourceTypeInt(_moveReadPos);
-                _value.AllowReceive = ReadBool(_moveReadPos);
+                _value.Inventory = ReadInventory(_moveReadPos);
 
                 return _value;
             }
             catch
             {
                 throw new Exception("Could not read value of type 'ProtectedBuilding'!");
+            }
+        }
+        /// <summary>Reads an Inventory from the packet.</summary>
+        /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
+        public Inventory ReadInventory(bool _moveReadPos = true)
+        {
+            try 
+            {
+                Inventory _value = new Inventory();
+                _value.Storage = ReadDictionaryRessourceTypeInt();
+                _value.RessourceLimits = ReadDictionaryRessourceTypeInt();
+                _value.UpdateOutgoing(ReadRessourceTypes());
+                _value.UpdateIncoming(ReadRessourceTypes());
+                
+                return _value;
+            }
+            catch
+            {
+                throw new Exception("Could not read value of type 'Inventory'!");
             }
         }
         /// <summary>Reads a Dictionary<RessourceType, int> from the packet.</summary>
@@ -814,6 +847,27 @@ namespace Shared.Communication
             catch
             {
                 throw new Exception("Could not read value of type 'Dictionary<RessourceType, int>'!");
+            }
+        }
+        /// <summary>Reads a List<RessourceType> from the packet.</summary>
+        /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
+        public List<RessourceType> ReadRessourceTypes(bool _moveReadPos = true)
+        {
+            try
+            {
+                List<RessourceType> _value = new List<RessourceType>();
+                int count = ReadInt(_moveReadPos);
+                while (count > 0)
+                {
+                    RessourceType ressourceType = (RessourceType)ReadByte(_moveReadPos);
+                    _value.Add(ressourceType);
+                    count--;
+                }
+                return _value;
+            }
+            catch
+            {
+                throw new Exception("Could not read value of type 'List<RessourceType'!");
             }
         }
         /// <summary>Reads a List<Structure> from the packet.</summary>
