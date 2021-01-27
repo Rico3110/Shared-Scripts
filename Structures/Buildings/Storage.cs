@@ -40,5 +40,10 @@ namespace Shared.Structures
 
             SendRessources();
         }
+
+        public override bool IsPlaceable(HexCell cell)
+        {
+            return true;
+        }
     }
 }
