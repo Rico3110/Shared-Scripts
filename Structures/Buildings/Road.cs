@@ -9,7 +9,7 @@ namespace Shared.Structures
 {
     class Road : Building
     {
-        public override byte MaxLevel => 1;
+        public override byte MaxLevel => 3;
 
         public override byte MaxHealth => 100;
 

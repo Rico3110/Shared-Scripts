@@ -150,12 +150,12 @@ namespace Shared.Game
             List<Tuple<InventoryBuilding, int>> foundBuildings = new List<Tuple<InventoryBuilding, int>>();
             for (HexDirection dir = HexDirection.NE; dir <= HexDirection.NW; dir++)
             {
-                bool[] visited = new bool[grid.cellCountX * grid.cellCountZ];
-                visited[building.Cell.coordinates.X + building.Cell.coordinates.Z * grid.cellCountX] = true;
+                float[] visited = new float[grid.cellCountX * grid.cellCountZ];
+                visited[building.Cell.coordinates.X + building.Cell.coordinates.Z * grid.cellCountX] = float.MaxValue;
                 HexCell neighbor = building.Cell.GetNeighbor(dir);
-                if (neighbor.Structure is Road)
+                if (neighbor.Structure is Road && ((Road)neighbor.Structure).HasBuilding(dir.Opposite()))
                 {
-                    foundBuildings = visitRoad(neighbor, visited, foundBuildings, 0, 100);
+                    foundBuildings = visitRoad(neighbor, visited, foundBuildings, 0, ((Road) neighbor.Structure).Level);
                 }
             }
 
@@ -169,46 +169,50 @@ namespace Shared.Game
             building.ConnectedInventories = connectedStorages;
         }
 
-        private static List<Tuple<InventoryBuilding, int>> visitRoad(HexCell cell, bool[] visited, List<Tuple<InventoryBuilding, int>> foundBuildings, int depth, int minimumRoadLevel)
+        private static List<Tuple<InventoryBuilding, int>> visitRoad(HexCell cell, float[] visited, List<Tuple<InventoryBuilding, int>> foundBuildings, int depth, int minimumRoadLevel)
         {
-            visited[cell.coordinates.X + cell.coordinates.Z * grid.cellCountX] = true;
+            float currentRoadValue = ItemAmountForConnection(depth, minimumRoadLevel);
+            visited[cell.coordinates.X + cell.coordinates.Z * grid.cellCountX] = currentRoadValue;
             for (HexDirection dir = HexDirection.NE; dir <= HexDirection.NW; dir++)
             {
                 HexCell neighbor = cell.GetNeighbor(dir);
-                if (visited[neighbor.coordinates.X + neighbor.coordinates.Z * grid.cellCountX])
+                if (neighbor == null)
                 {
                     continue;
                 }
-                if (neighbor.Structure is Road)
+                if (visited[neighbor.coordinates.X + neighbor.coordinates.Z * grid.cellCountX] >= currentRoadValue)
+                {
+                    continue;
+                }
+                if (neighbor.Structure is Road && ((Road)neighbor.Structure).HasRoad(dir.Opposite()))
                 {
                     foundBuildings = visitRoad(neighbor, visited, foundBuildings, depth + 1, Mathf.Min(((Road)neighbor.Structure).Level, minimumRoadLevel));
                 }
-                if (neighbor.Structure is InventoryBuilding)
+                if (neighbor.Structure is InventoryBuilding && ((Road)neighbor.Structure).HasBuilding(dir.Opposite()))
                 {
                     InventoryBuilding building = (InventoryBuilding)neighbor.Structure;
                     int foundIndex = foundBuildings.FindIndex(elem => elem.Item1 == building);
                     if (foundIndex == -1)
                     {
-                        foundBuildings.Add(new Tuple<InventoryBuilding, int>(building, ItemAmountForConnection(depth, minimumRoadLevel)));
+                        foundBuildings.Add(new Tuple<InventoryBuilding, int>(building, (int)currentRoadValue));
                     }
                     else
                     {
                         if (ItemAmountForConnection(depth, minimumRoadLevel) > foundBuildings[foundIndex].Item2)
                         {
-                            foundBuildings[foundIndex] = new Tuple<InventoryBuilding, int>(foundBuildings[foundIndex].Item1, ItemAmountForConnection(depth, minimumRoadLevel));
+                            foundBuildings[foundIndex] = new Tuple<InventoryBuilding, int>(foundBuildings[foundIndex].Item1, (int)currentRoadValue);
                         }
                     }
                 }
             }
-            visited[cell.coordinates.X + cell.coordinates.Z * grid.cellCountX] = false;
             return foundBuildings;
         }
 
-        private static int ItemAmountForConnection(int roadLength, int minimumRoadLevel)
+        private static float ItemAmountForConnection(int roadLength, int minimumRoadLevel)
         {
-            int roadBaseAmount = (minimumRoadLevel + 1) * (minimumRoadLevel + 1);
-            int lossDueToLength = (roadLength / (3 * minimumRoadLevel));
-            int minAmount = 1;
+            float roadBaseAmount = (minimumRoadLevel + 1.0f) * (minimumRoadLevel + 1.0f);
+            float lossDueToLength = (roadLength / (3.0f * minimumRoadLevel));
+            float minAmount = 1;
             return Mathf.Max(minAmount, roadBaseAmount - lossDueToLength); 
         } 
     }
