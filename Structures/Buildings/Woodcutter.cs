@@ -19,6 +19,7 @@ namespace Shared.Structures
             this.Inventory.Storage.Add(RessourceType.WOOD, 0);
             this.Inventory.RessourceLimit = 20;
             this.Inventory.RessourceLimits.Add(RessourceType.WOOD, 13);
+            this.Inventory.Outgoing.Add(RessourceType.WOOD);
         }
 
         public Woodcutter(
