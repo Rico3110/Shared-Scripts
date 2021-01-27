@@ -147,29 +147,28 @@ namespace Shared.Game
 
         private static void ComputeConnectedStorages(InventoryBuilding building)
         {
-            List<Tuple<InventoryBuilding, int>> foundBuildings = new List<Tuple<InventoryBuilding, int>>();
+            bool[] visited = new bool[grid.cellCountX * grid.cellCountZ];
+            visited[building.Cell.coordinates.X + building.Cell.coordinates.Z * grid.cellCountX] = true;
+            
+            List<Tuple<InventoryBuilding, int, int>> foundBuildings = new List<Tuple<InventoryBuilding, int, int>>();
             for (HexDirection dir = HexDirection.NE; dir <= HexDirection.NW; dir++)
             {
-                bool[] visited = new bool[grid.cellCountX * grid.cellCountZ];
-                visited[building.Cell.coordinates.X + building.Cell.coordinates.Z * grid.cellCountX] = true;
                 HexCell neighbor = building.Cell.GetNeighbor(dir);
                 if (neighbor.Structure is Road)
                 {
-                    foundBuildings = visitRoad(neighbor, visited, foundBuildings, 0, 100);
+                    foundBuildings = visitRoad(neighbor, ref visited, foundBuildings, 0, 100);
                 }
             }
 
             Dictionary<InventoryBuilding, int> connectedStorages = new Dictionary<InventoryBuilding, int>();
-            Console.WriteLine(building);
-            foreach (Tuple<InventoryBuilding, int> tpl in foundBuildings)
+            foreach (Tuple<InventoryBuilding, int, int> tpl in foundBuildings)
             {
-                Console.WriteLine(tpl.Item2);
-                connectedStorages.Add(tpl.Item1, tpl.Item2);
+                connectedStorages.Add(tpl.Item1, tpl.Item3);
             }
             building.ConnectedInventories = connectedStorages;
         }
 
-        private static List<Tuple<InventoryBuilding, int>> visitRoad(HexCell cell, bool[] visited, List<Tuple<InventoryBuilding, int>> foundBuildings, int depth, int minimumRoadLevel)
+        private static List<Tuple<InventoryBuilding, int, int>> visitRoad(HexCell cell, ref bool[] visited, List<Tuple<InventoryBuilding, int, int>> foundBuildings, int depth, int minimumRoadLevel)
         {
             visited[cell.coordinates.X + cell.coordinates.Z * grid.cellCountX] = true;
             for (HexDirection dir = HexDirection.NE; dir <= HexDirection.NW; dir++)
@@ -181,7 +180,7 @@ namespace Shared.Game
                 }
                 if (neighbor.Structure is Road)
                 {
-                    foundBuildings = visitRoad(neighbor, visited, foundBuildings, depth + 1, Mathf.Min(((Road)neighbor.Structure).Level, minimumRoadLevel));
+                    foundBuildings = visitRoad(neighbor, ref visited, foundBuildings, depth + 1, Mathf.Min(((Road)neighbor.Structure).Level, minimumRoadLevel));
                 }
                 if (neighbor.Structure is InventoryBuilding)
                 {
@@ -189,27 +188,22 @@ namespace Shared.Game
                     int foundIndex = foundBuildings.FindIndex(elem => elem.Item1 == building);
                     if (foundIndex == -1)
                     {
-                        foundBuildings.Add(new Tuple<InventoryBuilding, int>(building, ItemAmountForConnection(depth, minimumRoadLevel)));
+                        foundBuildings.Add(new Tuple<InventoryBuilding, int, int>(building, depth, minimumRoadLevel));
                     }
                     else
                     {
-                        if (ItemAmountForConnection(depth, minimumRoadLevel) > foundBuildings[foundIndex].Item2)
+                        if (minimumRoadLevel > foundBuildings[foundIndex].Item3)
                         {
-                            foundBuildings[foundIndex] = new Tuple<InventoryBuilding, int>(foundBuildings[foundIndex].Item1, ItemAmountForConnection(depth, minimumRoadLevel));
+                            foundBuildings[foundIndex] = new Tuple<InventoryBuilding, int, int>(foundBuildings[foundIndex].Item1, depth, minimumRoadLevel);
+                        }
+                        else if (minimumRoadLevel == foundBuildings[foundIndex].Item3 && depth < foundBuildings[foundIndex].Item2)
+                        {
+                            foundBuildings[foundIndex] = new Tuple<InventoryBuilding, int, int>(foundBuildings[foundIndex].Item1, depth, minimumRoadLevel);
                         }
                     }
                 }
             }
-            visited[cell.coordinates.X + cell.coordinates.Z * grid.cellCountX] = false;
             return foundBuildings;
         }
-
-        private static int ItemAmountForConnection(int roadLength, int minimumRoadLevel)
-        {
-            int roadBaseAmount = (minimumRoadLevel + 1) * (minimumRoadLevel + 1);
-            int lossDueToLength = (roadLength / (3 * minimumRoadLevel));
-            int minAmount = 1;
-            return Mathf.Max(minAmount, roadBaseAmount - lossDueToLength); 
-        } 
     }
 }
