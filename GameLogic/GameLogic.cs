@@ -147,25 +147,23 @@ namespace Shared.Game
 
         private static void ComputeConnectedStorages(InventoryBuilding building)
         {
-            bool[] visited = new bool[grid.cellCountX * grid.cellCountZ];
-            visited[building.Cell.coordinates.X + building.Cell.coordinates.Z * grid.cellCountX] = true;
+            float[] visited = new float[grid.cellCountX * grid.cellCountZ];
+            visited[building.Cell.coordinates.X + building.Cell.coordinates.Z * grid.cellCountX] = float.MaxValue;
             
-            List<Tuple<InventoryBuilding, int, int>> foundBuildings = new List<Tuple<InventoryBuilding, int, int>>();
+            List<Tuple<InventoryBuilding, int>> foundBuildings = new List<Tuple<InventoryBuilding, int>>();
             for (HexDirection dir = HexDirection.NE; dir <= HexDirection.NW; dir++)
             {
-                float[] visited = new float[grid.cellCountX * grid.cellCountZ];
-                visited[building.Cell.coordinates.X + building.Cell.coordinates.Z * grid.cellCountX] = float.MaxValue;
                 HexCell neighbor = building.Cell.GetNeighbor(dir);
                 if (neighbor.Structure is Road && ((Road)neighbor.Structure).HasBuilding(dir.Opposite()))
                 {
-                    foundBuildings = visitRoad(neighbor, visited, foundBuildings, 0, ((Road) neighbor.Structure).Level);
+                    foundBuildings = visitRoad(neighbor, visited, foundBuildings, 1, ((Road) neighbor.Structure).Level);
                 }
             }
 
             Dictionary<InventoryBuilding, int> connectedStorages = new Dictionary<InventoryBuilding, int>();
-            foreach (Tuple<InventoryBuilding, int, int> tpl in foundBuildings)
+            foreach (Tuple<InventoryBuilding, int> tpl in foundBuildings)
             {
-                connectedStorages.Add(tpl.Item1, tpl.Item3);
+                connectedStorages.Add(tpl.Item1, tpl.Item2);
             }
             building.ConnectedInventories = connectedStorages;
         }
@@ -187,7 +185,7 @@ namespace Shared.Game
                 }
                 if (neighbor.Structure is Road && ((Road)neighbor.Structure).HasRoad(dir.Opposite()))
                 {
-                    foundBuildings = visitRoad(neighbor, ref visited, foundBuildings, depth + 1, Mathf.Min(((Road)neighbor.Structure).Level, minimumRoadLevel));
+                    foundBuildings = visitRoad(neighbor, visited, foundBuildings, depth + 1, Mathf.Min(((Road)neighbor.Structure).Level, minimumRoadLevel));
                 }
                 if (neighbor.Structure is InventoryBuilding && ((Road)neighbor.Structure).HasBuilding(dir.Opposite()))
                 {
@@ -199,11 +197,7 @@ namespace Shared.Game
                     }
                     else
                     {
-                        if (minimumRoadLevel > foundBuildings[foundIndex].Item3)
-                        {
-                            foundBuildings[foundIndex] = new Tuple<InventoryBuilding, int, int>(foundBuildings[foundIndex].Item1, depth, minimumRoadLevel);
-                        }
-                        else if (minimumRoadLevel == foundBuildings[foundIndex].Item3 && depth < foundBuildings[foundIndex].Item2)
+                        if (currentRoadValue > foundBuildings[foundIndex].Item2)
                         {
                             foundBuildings[foundIndex] = new Tuple<InventoryBuilding, int>(foundBuildings[foundIndex].Item1, (int)currentRoadValue);
                         }
