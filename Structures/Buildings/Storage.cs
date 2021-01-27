@@ -37,12 +37,6 @@ namespace Shared.Structures
         public override void DoTick()
         {
             base.DoTick();
-            int count = 0;
-            if (this.Inventory.AvailableSpace(RessourceType.WOOD) > 0)
-            {
-                count = Harvest();
-            }
-            this.Inventory.AddRessource(RessourceType.WOOD, count);
 
             SendRessources();
         }
