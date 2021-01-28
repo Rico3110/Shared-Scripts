@@ -187,7 +187,7 @@ namespace Shared.Game
                 {
                     foundBuildings = visitRoad(neighbor, visited, foundBuildings, depth + 1, Mathf.Min(((Road)neighbor.Structure).Level, minimumRoadLevel));
                 }
-                if (neighbor.Structure is InventoryBuilding && ((Road)neighbor.Structure).HasBuilding(dir.Opposite()))
+                if (neighbor.Structure is InventoryBuilding && ((Road)cell.Structure).HasBuilding(dir.Opposite()))
                 {
                     InventoryBuilding building = (InventoryBuilding)neighbor.Structure;
                     int foundIndex = foundBuildings.FindIndex(elem => elem.Item1 == building);
