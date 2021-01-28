@@ -944,6 +944,7 @@ namespace Shared.Communication
             {typeof(CoalOre), 9},
             {typeof(Wheat), 10},
             {typeof(Storage), 11 },
+            {typeof(Headquarter), 12 },
         };
         
         private static Dictionary<byte, Type> byteToType = new Dictionary<byte, Type>()
@@ -960,7 +961,7 @@ namespace Shared.Communication
             {9, typeof(CoalOre)},
             {10, typeof(Wheat)},
             {11, typeof(Storage)},
-
+            {12, typeof(Headquarter)},
         };
 
         internal static byte ToByte(this Structure structure)
