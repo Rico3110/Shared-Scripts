@@ -17,7 +17,13 @@ namespace Shared.Structures
             this.TroopCount = 0;
         }
 
-        public ProtectedBuilding(HexCell Cell, byte Tribe, byte Level, byte Health, int TroopCount) : base(Cell, Tribe, Level, Health)
+        public ProtectedBuilding(
+            HexCell Cell, 
+            int Tribe, 
+            byte Level, 
+            byte Health, 
+            int TroopCount
+        ) : base(Cell, Tribe, Level, Health)
         {
             this.TroopCount = TroopCount;
         }

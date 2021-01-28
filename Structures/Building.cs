@@ -27,7 +27,7 @@ namespace Shared.Structures
             this.Health = 100;
         }
 
-        public Building(HexCell Cell, byte Tribe, byte Level, byte Health) : base(Cell)
+        public Building(HexCell Cell, int Tribe, byte Level, byte Health) : base(Cell)
         {
             this.Tribe = Tribe;
             this.Level = Level;
