@@ -9,7 +9,17 @@ namespace Shared.Game
 {
     public class Tribe
     {
-        public int id;
-        public Headquarter Hq;
+        public int Id;
+        public Headquarter HQ;
+
+        public Tribe
+        (
+            int id,
+            Headquarter hq
+        )
+        {
+            this.Id = id;
+            this.HQ = hq;
+        }
     }
 }

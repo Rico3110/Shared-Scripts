@@ -17,10 +17,12 @@ namespace Shared.Game
 
         public Player
         (
-            string Name 
+            string name,
+            Tribe tribe
         )
         {
-            this.Name = Name;
+            this.Name = name;
+            this.Tribe = tribe;
         }
 
     }

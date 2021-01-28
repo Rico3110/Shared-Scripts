@@ -4,6 +4,7 @@ using System.Text;
 using Shared.HexGrid;
 using Shared.DataTypes;
 using Shared.Structures;
+using Shared.Game;
 
 namespace Shared.Communication
 {
@@ -29,6 +30,7 @@ namespace Shared.Communication
         requestPlaceBuilding = 4,
         requestUpgradeBuilding = 5,
         positionUpdate = 6,
+        requestBuildHQ = 7,
         testBuilding = 420
     }
 
@@ -199,6 +201,8 @@ namespace Shared.Communication
         }
         #endregion
 
+        #region Write HexStuff
+
         /// <summary>Adds a HexCoordinates to the packet.</summary>
         /// <param name="_value">The HexCoordinate to add.</param>
         public void Write(HexCoordinates _value)
@@ -245,6 +249,11 @@ namespace Shared.Communication
             Write(_value.chunkCountZ);
             Write(_value.cells);
         }
+
+        #endregion
+
+        #region Write Structures
+
         /// <summary>Adds a Structure to the packet.</summary>
         /// <param name="_value">The Structure to add.</param>
         public void Write(Structure _value)
@@ -345,7 +354,23 @@ namespace Shared.Communication
         {
             Write(_value.ToByte());
         }
+
         #endregion
+
+        #region Write GameLogic
+
+        /// <summary>Adds a Tribe to the packet.</summary>
+        /// <param name="_value">The Tribe to add.</param>
+        public void Write(Tribe _value)
+        {
+            Write(_value.Id);
+            Write(_value.HQ.Cell.coordinates);
+        }
+
+        #endregion
+
+        #endregion
+
 
         #region Read Data
 
@@ -584,6 +609,7 @@ namespace Shared.Communication
 
         #endregion
 
+        #region  Read HexStuff
         /// <summary>Reads a HexCoordinates from the packet.</summary>
         /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
         public HexCoordinates ReadHexCoordinates(bool _moveReadPos = true)
@@ -690,6 +716,11 @@ namespace Shared.Communication
                 throw new Exception("Could not read value of type 'HexGrid'!");
             }
         }
+
+        #endregion
+
+        #region Read Structures
+
         /// <summary>Reads a Structure from the packet.</summary>
         /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
         public Structure ReadStructure(bool _moveReadPos = true)
@@ -752,7 +783,7 @@ namespace Shared.Communication
 
                     Building _value = (Building)Activator.CreateInstance(type);
 
-                    _value.Tribe = ReadByte(_moveReadPos);
+                    _value.Tribe = ReadInt(_moveReadPos);
                     _value.Level = ReadByte(_moveReadPos);
                     _value.Health = ReadByte(_moveReadPos);
 
@@ -777,7 +808,7 @@ namespace Shared.Communication
                 ReadByte(_moveReadPos);
 
                 ProtectedBuilding _value = (ProtectedBuilding)Activator.CreateInstance(type);
-                _value.Tribe = ReadByte(_moveReadPos);
+                _value.Tribe = ReadInt(_moveReadPos);
                 _value.Level = ReadByte(_moveReadPos);
                 _value.Health =  ReadByte(_moveReadPos);
                 _value.TroopCount = ReadInt(_moveReadPos);
@@ -797,7 +828,7 @@ namespace Shared.Communication
                 Type type = ReadByte(_moveReadPos).ToType();
 
                 InventoryBuilding _value = (InventoryBuilding)Activator.CreateInstance(type);
-                _value.Tribe = ReadByte(_moveReadPos);
+                _value.Tribe = ReadInt(_moveReadPos);
                 _value.Level = ReadByte(_moveReadPos);
                 _value.Health = ReadByte(_moveReadPos);
                 _value.TroopCount = ReadInt(_moveReadPos);
@@ -904,6 +935,9 @@ namespace Shared.Communication
                 throw new Exception("Could not read value of type 'List<Structure>'!");
             }
         }
+
+        #endregion
+
         #endregion
 
         private bool disposed = false;

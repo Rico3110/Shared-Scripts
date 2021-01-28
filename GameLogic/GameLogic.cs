@@ -20,7 +20,7 @@ namespace Shared.Game
 
         private static List<Ressource> ressources;
 
-        private static List<Tribe> Tribes;
+        private static List<Tribe> Tribes = new List<Tribe>();
 
         public static List<Player> Players = new List<Player>();
 
@@ -42,9 +42,9 @@ namespace Shared.Game
         
 #region PLAYERS
 
-        public static Player AddPlayer(string name)
+        public static Player AddPlayer(string name, Tribe tribe)
         {
-            Player newPlayer = new Player(name);
+            Player newPlayer = new Player(name, tribe);
             Players.Add(newPlayer);
             return newPlayer;
         }
@@ -63,10 +63,17 @@ namespace Shared.Game
         {
             foreach(Tribe tribe in Tribes)
             {
-                if (tribe.id == id)
+                if (tribe.Id == id)
                     return tribe;
             }
             return null;
+        }
+
+        public static Tribe AddTribe(int tribeID, Headquarter hq)
+        {
+            Tribe newTribe = new Tribe(tribeID, hq);
+            Tribes.Add(newTribe);
+            return newTribe;
         }
 
 #endregion
@@ -98,7 +105,7 @@ namespace Shared.Game
             }
 
             //check if the tribe of the building is equal to the tribe of the player
-            if (building.Tribe != player.Tribe.id)
+            if (building.Tribe != player.Tribe.Id)
             {
                 return false;
             }
@@ -198,6 +205,53 @@ namespace Shared.Game
                     ressources.RemoveAll(elem => elem == structure);
                 }
             }
+        }
+
+        public static bool VerifyBuildHQ(HexCoordinates coords, Headquarter hq, Player player)
+        {
+            HexCell cell = grid.GetCell(coords);
+
+            if (hq == null)
+            {
+                return false;
+            }
+
+            if (!PlayerInRange(coords, player))
+            {
+                return false;
+            }
+
+            //check if the building can be placed at the position
+            if (!hq.IsPlaceable(cell))
+            { 
+                return false;
+            }
+
+            if(player.Tribe != null)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public static Tribe ApplyBuildHQ(HexCoordinates coords, Headquarter hq)
+        {
+            HexCell cell = grid.GetCell(coords);
+            if (cell.Structure != null)
+            {
+                DestroyStructure(coords);
+            }
+            cell.Structure = hq;
+            hq.Cell = cell;
+
+            Tribe tribe = AddTribe(Tribes.Count, hq);
+            hq.Tribe = tribe.Id;
+
+            ComputeConnectedStorages();
+            
+            AddStructureToList(hq);
+            return tribe;
         }
 
 #endregion

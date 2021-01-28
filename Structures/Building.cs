@@ -11,7 +11,7 @@ namespace Shared.Structures
 {
     public abstract class Building : Structure
     {
-        public byte Tribe;       
+        public int Tribe;       
         public byte Level;
         public byte Health;
 
