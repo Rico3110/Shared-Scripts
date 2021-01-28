@@ -13,11 +13,12 @@ namespace Shared.Communication
     {
         welcome = 1,
         ping = 2,
-        sendHexGrid = 3,
+        initGameLogic = 3,
         sendStructure = 4,
         sendGameTick = 5,
         sendUpgradeBuilding = 6,
-        broadcastPlayerPosition = 7,
+        broadcastPlayer = 7,
+        broadcastTribe = 8,
         testBuilding = 420
     }
 
@@ -248,6 +249,10 @@ namespace Shared.Communication
             Write(_value.chunkCountX);
             Write(_value.chunkCountZ);
             Write(_value.cells);
+            foreach (HexCell cell in _value.cells)
+            {
+                Write(cell.Structure);
+            }
         }
 
         #endregion
@@ -703,11 +708,28 @@ namespace Shared.Communication
             {
                 int chunkCountX = ReadInt(_moveReadPos);
                 int chunkCountZ = ReadInt(_moveReadPos);
+
                 HexGrid.HexGrid _value = new HexGrid.HexGrid(chunkCountX, chunkCountZ);
 
                 HexCell[] cells = ReadHexCells(_moveReadPos);
-                
+
+                foreach (HexCell cell in cells)
+                {
+                    Structure structure = ReadStructure();
+                    cell.Structure = structure;
+                    if (structure != null)
+                        structure.Cell = cell;
+                }
+
                 _value.cells = cells;
+
+                for (int i = 0; i < _value.cells.Length; i++)
+                {
+                    int x = i % (_value.cellCountX);
+                    int z = i / (_value.cellCountX);
+                    _value.UpdateNeighbors(x, z, i);
+                    _value.AddCellToChunk(x, z, _value.cells[i]);
+                }
 
                 return _value;
             }

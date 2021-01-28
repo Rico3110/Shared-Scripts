@@ -20,7 +20,7 @@ namespace Shared.Game
 
         private static List<Ressource> ressources;
 
-        private static List<Tribe> Tribes = new List<Tribe>();
+        public static List<Tribe> Tribes = new List<Tribe>();
 
         public static List<Player> Players = new List<Player>();
 
@@ -104,12 +104,6 @@ namespace Shared.Game
                 return false;
             }
 
-            //check if the tribe of the building is equal to the tribe of the player
-            if (building.Tribe != player.Tribe.Id)
-            {
-                return false;
-            }
-
             //check if the player is adjacent to the position where the building is supposed to placed
             if (!PlayerInRange(coords, player)) 
             {
@@ -134,6 +128,7 @@ namespace Shared.Game
             }
             cell.Structure = building;
             building.Cell = cell;
+            building.Tribe = tribe.Id;
 
             if (building is InventoryBuilding || building is Road)
             {
