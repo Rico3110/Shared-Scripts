@@ -47,10 +47,5 @@ namespace Shared.Structures
                 this.Inventory.MoveInto(inventoryBuilding.Key.Inventory, inventoryBuilding.Value);
             }
         }
-
-        public override bool IsPlaceable(HexCell cell)
-        {
-            return base.IsPlaceable(cell);
-        }
     }
 }

@@ -8,21 +8,21 @@ using Shared.HexGrid;
 
 namespace Shared.Structures
 {
-    class Storage : InventoryBuilding
+    class Headquarter : InventoryBuilding
     {
         public override byte MaxLevel => 1;
+
         public override byte MaxHealth => 100;
 
-        public Storage() : base()
+        public Headquarter() : base()
         {
             this.Inventory.Storage.Add(RessourceType.WOOD, 0);
             this.Inventory.RessourceLimit = 20;
             this.Inventory.RessourceLimits.Add(RessourceType.WOOD, 20);
             this.Inventory.Incoming.Add(RessourceType.WOOD);
-            this.Inventory.Outgoing.Add(RessourceType.WOOD);
         }
 
-        public Storage(
+        public Headquarter(
             HexCell Cell,
             byte Tribe,
             byte Level,
@@ -40,11 +40,6 @@ namespace Shared.Structures
             base.DoTick();
 
             SendRessources();
-        }
-
-        public override bool IsPlaceable(HexCell cell)
-        {
-            return true;
         }
     }
 }
