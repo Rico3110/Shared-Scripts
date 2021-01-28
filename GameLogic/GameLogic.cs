@@ -59,6 +59,16 @@ namespace Shared.Game
             return null;
         }
 
+        public static Tribe GetTribe(int id)
+        {
+            foreach(Tribe tribe in Tribes)
+            {
+                if (tribe.id == id)
+                    return tribe;
+            }
+            return null;
+        }
+
 #endregion
 
 #region BUILDINGS
@@ -108,7 +118,7 @@ namespace Shared.Game
             return true;
         }
 
-        public static HexCell ApplyBuild(HexCoordinates coords, Building building)
+        public static HexCell ApplyBuild(HexCoordinates coords, Building building, Tribe tribe)
         {
             HexCell cell = grid.GetCell(coords);
             if (cell.Structure != null)
@@ -148,7 +158,7 @@ namespace Shared.Game
             return false;
         }
 
-        public static void ApplyUpgrade(HexCoordinates coords)
+        public static void ApplyUpgrade(HexCoordinates coords, Tribe tribe)
         {
             HexCell cell = grid.GetCell(coords);
             if (cell.Structure is Building)
