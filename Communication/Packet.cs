@@ -16,6 +16,7 @@ namespace Shared.Communication
         sendStructure = 4,
         sendGameTick = 5,
         sendUpgradeBuilding = 6,
+        broadcastPlayerPosition = 7,
         testBuilding = 420
     }
 
@@ -27,6 +28,7 @@ namespace Shared.Communication
         requestHexGrid = 3,
         requestPlaceBuilding = 4,
         requestUpgradeBuilding = 5,
+        positionUpdate = 6,
         testBuilding = 420
     }
 
