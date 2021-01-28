@@ -20,6 +20,10 @@ namespace Shared.Game
 
         private static List<Ressource> ressources;
 
+        private static List<Tribe> Tribes;
+
+        public static List<Player> Players = new List<Player>();
+
         public static void Init(HexGrid.HexGrid hexGrid)
         {
             initialized = true;
@@ -35,37 +39,116 @@ namespace Shared.Game
                 }
             }
         }
+        
+#region PLAYERS
 
-        public static bool verifyBuild(HexCoordinates coords, Structure structure) 
+        public static Player AddPlayer(string name)
         {
-            HexCell cell = grid.GetCell(coords);
-            if (structure != null && structure.IsPlaceable(cell))
-            { 
-                return true;
-            }
-            return false;
+            Player newPlayer = new Player(name);
+            Players.Add(newPlayer);
+            return newPlayer;
         }
 
-        public static HexCell applyBuild(HexCoordinates coords, Structure structure)
+        public static Player GetPlayer(string name)
+        {
+            foreach(Player player in Players)
+            {
+                if (player.Name == name)
+                    return player;
+            }
+            return null;
+        }
+
+#endregion
+
+#region BUILDINGS
+
+        public static bool PlayerInRange(HexCoordinates coords, Player player)
+        {
+            if (coords == player.Position)
+            {
+                return true;
+            }
+            for (HexDirection dir = HexDirection.NE; dir <= HexDirection.NW; dir++)
+            {
+                if (coords != player.Position.InDirection(dir))
+                    continue;
+                return true;
+            }
+            return false;            
+        }
+
+        public static bool VerifyBuild(HexCoordinates coords, Building building, Player player) 
+        {
+            HexCell cell = grid.GetCell(coords);
+
+            if (building == null)
+            {
+                return false;
+            }
+
+            //check if the tribe of the building is equal to the tribe of the player
+            if (building.Tribe != player.Tribe.id)
+            {
+                return false;
+            }
+
+            //check if the player is adjacent to the position where the building is supposed to placed
+            if (!PlayerInRange(coords, player)) 
+            {
+                return false;
+            }
+
+            //check if the building can be placed at the position
+            if (!building.IsPlaceable(cell))
+            { 
+                return false;
+            }
+
+            return true;
+        }
+
+        public static HexCell ApplyBuild(HexCoordinates coords, Building building)
         {
             HexCell cell = grid.GetCell(coords);
             if (cell.Structure != null)
             {
                 DestroyStructure(coords);
             }
-            cell.Structure = structure;
-            structure.Cell = cell;
+            cell.Structure = building;
+            building.Cell = cell;
 
-            if (structure is InventoryBuilding || structure is Road)
+            if (building is InventoryBuilding || building is Road)
             {
                 ComputeConnectedStorages();
             }
             
-            AddStructureToList(structure);
+            AddStructureToList(building);
             return cell;
         }
 
-        public static void applyUpgrade(HexCoordinates coords)
+        public static bool VerifyUpgrade(HexCoordinates coords, Player player)
+        {
+            HexCell cell = grid.GetCell(coords);
+
+            if (cell == null)
+            {
+                return false;
+            }
+
+            if (!PlayerInRange(coords, player))
+            {
+                return false;
+            }
+
+            if(cell.Structure is Building)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public static void ApplyUpgrade(HexCoordinates coords)
         {
             HexCell cell = grid.GetCell(coords);
             if (cell.Structure is Building)
@@ -107,6 +190,8 @@ namespace Shared.Game
             }
         }
 
+#endregion
+
         public static void DoTick()
         {   
             if (initialized)
@@ -134,6 +219,7 @@ namespace Shared.Game
             
         }
 
+#region Compute Connected Storages
         public static void ComputeConnectedStorages()
         {
             foreach (HexCell cell in grid.cells)
@@ -213,6 +299,8 @@ namespace Shared.Game
             float lossDueToLength = (roadLength / (3.0f * minimumRoadLevel));
             float minAmount = 1;
             return Mathf.Max(minAmount, roadBaseAmount - lossDueToLength); 
-        } 
+        }
+#endregion
+
     }
 }

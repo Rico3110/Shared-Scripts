@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Shared.HexGrid;
 using UnityEngine;
+using Shared.DataTypes;
 
 namespace Shared.Structures
 {
@@ -16,6 +17,9 @@ namespace Shared.Structures
 
         public abstract byte MaxLevel { get; }
         public abstract byte MaxHealth { get; }
+
+        // public abstract Dictionary<RessourceType, int>[] Recipes { get; }
+
         public Building() : base()
         {
             this.Tribe = 0;
@@ -42,6 +46,7 @@ namespace Shared.Structures
 
         public void Upgrade()
         {
+
             if(Level < MaxLevel)
                 Level++;
         }

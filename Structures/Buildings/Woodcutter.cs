@@ -14,6 +14,19 @@ namespace Shared.Structures
         public override byte MaxLevel => 3;
         public override byte MaxHealth => 100;
 
+        // public override Dictionary<RessourceType, int>[] Recipes
+        // {
+        //     get
+        //     {
+        //         Dictionary<RessourceType, int>[] result = {
+        //             new Dictionary<RessourceType, int>{ },
+        //             new Dictionary<RessourceType, int>{ { RessourceType.WOOD, 1} },
+        //             new Dictionary<RessourceType, int>{ { RessourceType.WOOD, 1} }
+        //         };
+        //         return result; 
+        //     }
+        // }
+
         public Woodcutter() : base()
         {
             this.Inventory.Storage.Add(RessourceType.WOOD, 0);
@@ -33,7 +46,6 @@ namespace Shared.Structures
         {
             
         }
-
 
         public override void DoTick()
         {

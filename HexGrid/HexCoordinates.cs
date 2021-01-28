@@ -122,6 +122,18 @@ namespace Shared.HexGrid
         {
             return X.ToString() + "\n" + Y.ToString() + "\n" + Z.ToString();
         }
+
+        public static bool operator== (HexCoordinates c1, HexCoordinates c2)
+        {
+            if (c1.X == c2.X && c1.Z == c2.Z)
+                return true;
+            return false;
+        }
+
+        public static bool operator!= (HexCoordinates c1, HexCoordinates c2)
+        {
+            return !(c1 == c2);
+        }
     }
 }
 

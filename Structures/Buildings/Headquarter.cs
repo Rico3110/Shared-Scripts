@@ -8,7 +8,7 @@ using Shared.HexGrid;
 
 namespace Shared.Structures
 {
-    class Headquarter : InventoryBuilding
+    public class Headquarter : InventoryBuilding
     {
         public override byte MaxLevel => 1;
 
