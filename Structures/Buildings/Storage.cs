@@ -38,13 +38,8 @@ namespace Shared.Structures
         public override void DoTick()
         {
             base.DoTick();
-
+           
             SendRessources();
-        }
-
-        public override bool IsPlaceable(HexCell cell)
-        {
-            return true;
         }
     }
 }
