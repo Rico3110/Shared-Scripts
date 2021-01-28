@@ -183,11 +183,11 @@ namespace Shared.Game
                 {
                     continue;
                 }
-                if (neighbor.Structure is Road && ((Road)neighbor.Structure).HasRoad(dir.Opposite()))
+                if (neighbor.Structure is Road && ((Road)cell.Structure).HasRoad(dir))
                 {
                     foundBuildings = visitRoad(neighbor, visited, foundBuildings, depth + 1, Mathf.Min(((Road)neighbor.Structure).Level, minimumRoadLevel));
                 }
-                if (neighbor.Structure is InventoryBuilding && ((Road)cell.Structure).HasBuilding(dir.Opposite()))
+                if (neighbor.Structure is InventoryBuilding && ((Road)cell.Structure).HasBuilding(dir))
                 {
                     InventoryBuilding building = (InventoryBuilding)neighbor.Structure;
                     int foundIndex = foundBuildings.FindIndex(elem => elem.Item1 == building);
