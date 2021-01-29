@@ -14,6 +14,19 @@ namespace Shared.Structures
         public override byte MaxLevel => 3;
         public override byte MaxHealth => 100;
 
+        public override Dictionary<RessourceType, int>[] Recipes
+        {
+            get
+            {
+                Dictionary<RessourceType, int>[] result = {
+                    new Dictionary<RessourceType, int>{ },
+                    new Dictionary<RessourceType, int>{ },
+                    new Dictionary<RessourceType, int>{ }
+                };
+                return result;
+            }
+        }
+
         public Smelter() : base()
         {
             this.Inventory.Storage.Add(RessourceType.IRON_ORE, 0);

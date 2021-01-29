@@ -16,6 +16,17 @@ namespace Shared.Structures
 
         private const int elevationThreshold = 40;
 
+        public override Dictionary<RessourceType, int>[] Recipes
+        {
+            get
+            {
+                Dictionary<RessourceType, int>[] result = {
+                    new Dictionary<RessourceType, int>{ }
+                };
+                return result;
+            }
+        }
+
         public Fisher() : base()
         {
             this.Inventory.Storage.Add(RessourceType.FISH, 0);

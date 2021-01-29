@@ -180,6 +180,26 @@ namespace Shared.Structures
                 }
             }
         }
+
+        public bool RecipeApplicable(Dictionary<RessourceType, int> recipe)
+        {
+            foreach(RessourceType ressourceType in recipe.Keys)
+            {
+                if (this.GetRessourceAmount(ressourceType) < recipe[ressourceType])
+                    return false;
+            }
+            return true;
+        }
+
+        public void ApplyRecipe(Dictionary<RessourceType, int> recipe)
+        {
+            if (!RecipeApplicable(recipe))
+                return;
+            foreach (RessourceType ressourceType in recipe.Keys)
+            {
+                this.RemoveRessource(ressourceType, recipe[ressourceType]);
+            }
+        }
     }
 }
 

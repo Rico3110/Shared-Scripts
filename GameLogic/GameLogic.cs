@@ -95,7 +95,7 @@ namespace Shared.Game
             return false;            
         }
 
-        public static bool VerifyBuild(HexCoordinates coords, Building building, Player player) 
+        public static bool VerifyBuild(HexCoordinates coords, Building building, Player player)
         {
             HexCell cell = grid.GetCell(coords);
 
@@ -105,16 +105,19 @@ namespace Shared.Game
             }
 
             //check if the player is adjacent to the position where the building is supposed to placed
-            if (!PlayerInRange(coords, player)) 
+            if (!PlayerInRange(coords, player))
             {
                 return false;
             }
 
             //check if the building can be placed at the position
             if (!building.IsPlaceable(cell))
-            { 
+            {
                 return false;
             }
+
+            if (!player.Tribe.HQ.Inventory.RecipeApplicable(building.Recipes[0]))
+                return false;
 
             return true;
         }
@@ -129,6 +132,8 @@ namespace Shared.Game
             cell.Structure = building;
             building.Cell = cell;
             building.Tribe = tribe.Id;
+
+            tribe.HQ.Inventory.ApplyRecipe(building.Recipes[0]);
 
             if (building is InventoryBuilding || building is Road)
             {
@@ -148,6 +153,9 @@ namespace Shared.Game
                 return false;
             }
 
+            if (player.Tribe == null)
+                return false;
+
             if (!PlayerInRange(coords, player))
             {
                 return false;
@@ -155,7 +163,9 @@ namespace Shared.Game
 
             if(cell.Structure is Building)
             {
-                return true;
+                Building building = (Building)cell.Structure;
+                //if(player.Tribe)
+                //return true;
             }
             return false;
         }

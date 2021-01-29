@@ -14,6 +14,17 @@ namespace Shared.Structures
 
         public override byte MaxHealth => 100;
 
+        public override Dictionary<RessourceType, int>[] Recipes
+        {
+            get
+            {
+                Dictionary<RessourceType, int>[] result = {
+                    new Dictionary<RessourceType, int>{ }
+                };
+                return result;
+            }
+        }
+
         public Headquarter() : base()
         {
             this.Inventory.Storage.Add(RessourceType.WOOD, 0);

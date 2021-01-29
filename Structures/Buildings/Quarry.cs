@@ -13,6 +13,17 @@ namespace Shared.Structures
         public override byte MaxLevel => 1;
         public override byte MaxHealth => 100;
 
+        public override Dictionary<RessourceType, int>[] Recipes
+        {
+            get
+            {
+                Dictionary<RessourceType, int>[] result = {
+                    new Dictionary<RessourceType, int>{ {RessourceType.WOOD, 5 } }
+                };
+                return result;
+            }
+        }
+
         public Quarry() : base()
         {
             this.Inventory.Storage.Add(RessourceType.STONE, 0);
