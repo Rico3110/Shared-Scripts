@@ -104,6 +104,11 @@ namespace Shared.Game
                 return false;
             }
 
+            if (player.Tribe == null)
+            {
+                return false;
+            }
+
             //check if the player is adjacent to the position where the building is supposed to placed
             if (!PlayerInRange(coords, player))
             {
@@ -154,7 +159,9 @@ namespace Shared.Game
             }
 
             if (player.Tribe == null)
+            {
                 return false;
+            }
 
             if (!PlayerInRange(coords, player))
             {
