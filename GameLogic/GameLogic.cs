@@ -97,23 +97,15 @@ namespace Shared.Game
 
         public static bool VerifyBuild(HexCoordinates coords, Building building, Player player)
         {
-            HexCell cell = grid.GetCell(coords);
-
             if (building == null)
-            {
                 return false;
-            }
-
             if (player.Tribe == null)
-            {
                 return false;
-            }
-
             //check if the player is adjacent to the position where the building is supposed to placed
             if (!PlayerInRange(coords, player))
-            {
                 return false;
-            }
+            
+            HexCell cell = grid.GetCell(coords);
 
             //check if the building can be placed at the position
             if (!building.IsPlaceable(cell))
@@ -171,8 +163,11 @@ namespace Shared.Game
             if(cell.Structure is Building)
             {
                 Building building = (Building)cell.Structure;
-                //if(player.Tribe)
-                //return true;
+                if (!building.IsUpgradable())
+                    return false;
+
+                if (player.Tribe.HQ.Inventory.RecipeApplicable(building.Recipes[building.Level]))
+                    return true;
             }
             return false;
         }
@@ -181,7 +176,14 @@ namespace Shared.Game
         {
             HexCell cell = grid.GetCell(coords);
             if (cell.Structure is Building)
+            {
+                Building building = (Building)cell.Structure;
+                if (!building.IsUpgradable())
+                    return;
+
+                tribe.HQ.Inventory.ApplyRecipe(building.Recipes[building.Level]);
                 ((Building)cell.Structure).Upgrade();
+            }
         }
 
         private static void AddStructureToList(Structure structure)

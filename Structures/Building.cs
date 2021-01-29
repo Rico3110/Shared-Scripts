@@ -60,5 +60,10 @@ namespace Shared.Structures
             
             return true;
         }
+
+        public bool IsUpgradable()
+        {
+            return (Level < MaxLevel);
+        }
     }
 }
