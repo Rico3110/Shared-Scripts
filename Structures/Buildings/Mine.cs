@@ -52,11 +52,9 @@ namespace Shared.Structures
         {
             base.DoTick();
             int count = 0;
-            // if (this.Inventory.AvailableSpace(RessourceType.IRON_ORE) > 0 || this.Inventory.AvailableSpace(RessourceType.COAL) > 0)
-            // {
-                count = Harvest();
-            // }
-            this.Inventory.AddRessource(RessourceType.IRON_ORE, count);
+            
+            Harvest();
+            
 
             SendRessources();
         }
@@ -71,16 +69,20 @@ namespace Shared.Structures
                     if(neighbor.Structure is Ressource)
                     {
                         Ressource ressource = (Ressource)neighbor.Structure;
-                        if (
-                            ressource.Harvestable()
-                            && 
-                            (
-                                (ressource.ressourceType == RessourceType.IRON_ORE && this.Inventory.AvailableSpace(RessourceType.IRON_ORE) > 0)
-                                || (ressource.ressourceType == RessourceType.COAL && this.Inventory.AvailableSpace(RessourceType.COAL) > 0)
-                            )
-                        )
+                        if (ressource.Harvestable())
                         {
-                            return ressource.Harvest();
+                            if (ressource.ressourceType == RessourceType.IRON_ORE && this.Inventory.AvailableSpace(RessourceType.IRON_ORE) > 0)
+                            {
+                                int count = ressource.Harvest();
+                                this.Inventory.AddRessource(RessourceType.IRON_ORE, count);
+                                return count;
+                            }
+                            else if (ressource.ressourceType == RessourceType.COAL && this.Inventory.AvailableSpace(RessourceType.COAL) > 0) 
+                            {
+                                int count = ressource.Harvest();
+                                this.Inventory.AddRessource(RessourceType.COAL, count);
+                                return count;
+                            }
                         }
                     }
                 }
