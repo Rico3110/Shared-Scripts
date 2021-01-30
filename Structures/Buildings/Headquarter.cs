@@ -27,10 +27,10 @@ namespace Shared.Structures
 
         public Headquarter() : base()
         {
-            this.Inventory.Storage.Add(RessourceType.WOOD, 0);
-            this.Inventory.RessourceLimit = 20;
-            this.Inventory.RessourceLimits.Add(RessourceType.WOOD, 20);
-            this.Inventory.Incoming.Add(RessourceType.WOOD);
+            this.Inventory.Storage = Inventory.GetDictionaryForAllRessources();
+            this.Inventory.RessourceLimit = 50;
+            // this.Inventory.Outgoing = Inventory.GetListOfAllRessources();
+            this.Inventory.Incoming = Inventory.GetListOfAllRessources();
         }
 
         public Headquarter(

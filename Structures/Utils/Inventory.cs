@@ -16,9 +16,9 @@ namespace Shared.Structures
 
         public Dictionary<RessourceType, int> RessourceLimits;
 
-        public List<RessourceType> Outgoing { get; protected set; }
+        public List<RessourceType> Outgoing;
 
-        public List<RessourceType> Incoming { get; protected set; }
+        public List<RessourceType> Incoming;
 
         public Inventory()
         {
@@ -76,19 +76,6 @@ namespace Shared.Structures
             }
             return false;
         }
-
-        //Send
-        //Receive
-
-            //Production
-            //(check if available) -> RemoveRessource & AddRessource & AvailableSpace
-            // 20 10 IRON_ORE 10 COAL 1 & 1 => 1
-            //
-            //Storage
-            //static (outInv, inInv, count)
-            //static (Woodcutter.Inventory, connectedStorage.Inventory, count)
-            // Woodcutter.Inventory.moveInto(connectedStorage.Inventory)
-            //
 
         public int AvailableSpace()
         {
@@ -199,6 +186,28 @@ namespace Shared.Structures
             {
                 this.RemoveRessource(ressourceType, recipe[ressourceType]);
             }
+        }
+
+        public static Dictionary<RessourceType, int> GetDictionaryForAllRessources()
+        {
+            Dictionary<RessourceType, int> dic = new Dictionary<RessourceType, int>();
+            foreach(RessourceType ressourceType in Enum.GetValues(typeof(RessourceType)))
+            {
+                dic.Add(ressourceType, 0);
+            }
+
+            return dic;
+        }
+
+        public static List<RessourceType> GetListOfAllRessources()
+        {
+            List<RessourceType> list = new List<RessourceType>();
+            foreach (RessourceType ressourceType in Enum.GetValues(typeof(RessourceType)))
+            {
+                list.Add(ressourceType);
+            }
+
+            return list;
         }
     }
 }
