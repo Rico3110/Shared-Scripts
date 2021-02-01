@@ -318,7 +318,7 @@ namespace Shared.Game
             for (HexDirection dir = HexDirection.NE; dir <= HexDirection.NW; dir++)
             {
                 HexCell neighbor = building.Cell.GetNeighbor(dir);
-                if (neighbor.Structure is Road && ((Road)neighbor.Structure).HasBuilding(dir.Opposite()))
+                if (neighbor != null && neighbor.Structure is Road && ((Road)neighbor.Structure).HasBuilding(dir.Opposite()))
                 {
                     foundBuildings = visitRoad(neighbor, visited, foundBuildings, 1, ((Road) neighbor.Structure).Level);
                 }
