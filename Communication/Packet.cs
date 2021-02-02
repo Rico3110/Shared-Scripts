@@ -319,6 +319,7 @@ namespace Shared.Communication
         private void Write(Inventory _value)
         {
             Write(_value.Storage);
+            Write(_value.RessourceLimit);
             Write(_value.RessourceLimits);
             Write(_value.Outgoing);
             Write(_value.Incoming);
@@ -872,6 +873,7 @@ namespace Shared.Communication
             {
                 Inventory _value = new Inventory();
                 _value.Storage = ReadDictionaryRessourceTypeInt();
+                _value.RessourceLimit = ReadInt();
                 _value.RessourceLimits = ReadDictionaryRessourceTypeInt();
                 _value.UpdateOutgoing(ReadRessourceTypes());
                 _value.UpdateIncoming(ReadRessourceTypes());
