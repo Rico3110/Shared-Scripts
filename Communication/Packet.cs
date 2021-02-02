@@ -32,6 +32,7 @@ namespace Shared.Communication
         requestUpgradeBuilding = 5,
         positionUpdate = 6,
         requestBuildHQ = 7,
+        requestJoinTribe = 8,
         testBuilding = 420
     }
 
