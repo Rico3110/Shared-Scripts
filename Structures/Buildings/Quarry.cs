@@ -29,6 +29,7 @@ namespace Shared.Structures
             this.Inventory.Storage.Add(RessourceType.STONE, 0);
             this.Inventory.RessourceLimit = 20;
             this.Inventory.RessourceLimits.Add(RessourceType.STONE, 13);
+            this.Inventory.Outgoing.Add(RessourceType.STONE);
         }
 
         public Quarry(

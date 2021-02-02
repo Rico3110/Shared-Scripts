@@ -26,11 +26,10 @@ namespace Shared.Structures
 
         public Storage() : base()
         {
-            this.Inventory.Storage.Add(RessourceType.WOOD, 0);
-            this.Inventory.RessourceLimit = 20;
-            this.Inventory.RessourceLimits.Add(RessourceType.WOOD, 20);
-            this.Inventory.Incoming.Add(RessourceType.WOOD);
-            this.Inventory.Outgoing.Add(RessourceType.WOOD);
+            this.Inventory.Storage = Inventory.GetDictionaryForAllRessources();
+            this.Inventory.RessourceLimit = 50;
+            this.Inventory.Incoming = Inventory.GetListOfAllRessources();
+            this.Inventory.Outgoing = Inventory.GetListOfAllRessources();
         }
 
         public Storage(
