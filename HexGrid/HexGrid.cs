@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Shared.DataTypes;
 using UnityEngine;
@@ -7,19 +8,43 @@ namespace Shared.HexGrid
 {
     public class HexGrid
     {
+        public float cornerLon, cornerLat;
+        public float deltaLon, deltaLat;
+
         public int chunkCountX, chunkCountZ;
         public int cellCountX, cellCountZ;
+
+        public float Width { get { return HexMetrics.innerRadius + 2f * HexMetrics.innerRadius * (float)cellCountX; } }
+        public float Height { get { return 0.5f * HexMetrics.outerRadius + 1.5f * HexMetrics.outerRadius * (float)cellCountZ; } }
 
         public HexCell[] cells;
 
         public HexGridChunk chunkPrefab;
 
         public HexGridChunk[] chunks;
-
+        
         public HexGrid(int chunkCountX, int chunkCountZ)
         {
             this.chunkCountX = chunkCountX;
             this.chunkCountZ = chunkCountZ;
+
+            cellCountX = chunkCountX * HexMetrics.chunkSizeX;
+            cellCountZ = chunkCountZ * HexMetrics.chunkSizeZ;
+
+            CreateChunks();
+            CreateCells();
+        }
+
+        public HexGrid(int chunkCountX, int chunkCountZ, float cornerLon, float cornerLat, float deltaLon, float deltaLat)
+        {
+            this.chunkCountX = chunkCountX;
+            this.chunkCountZ = chunkCountZ;
+
+            this.cornerLon = cornerLon;
+            this.cornerLat = cornerLat;
+
+            this.deltaLon = deltaLon;
+            this.deltaLat = deltaLat;
 
             cellCountX = chunkCountX * HexMetrics.chunkSizeX;
             cellCountZ = chunkCountZ * HexMetrics.chunkSizeZ;
@@ -121,6 +146,16 @@ namespace Shared.HexGrid
         {
             HexCoordinates coordinates = HexCoordinates.FromPosition(position);
             return GetCell(coordinates);
+        }
+
+        public HexCell GetCell(float lon, float lat)
+        {
+            float dx = (lon - cornerLon) / deltaLon;
+            float dz = (lat - cornerLat) / deltaLat;
+
+            Console.WriteLine(dz);
+
+            return GetCell(new Vector3(Width * dx, 0, Height * dz));
         }
 
         public uint[] SerializeData()
