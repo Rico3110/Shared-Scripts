@@ -139,6 +139,8 @@ namespace Shared.HexGrid
         {
             int z = coordinates.Z;
             int x = coordinates.X + z / 2;
+            if (x + z * cellCountX < 0 | x + z * cellCountX > cellCountX * cellCountZ - 1)
+                return null;
             return cells[x + z * cellCountX];
         }
 
