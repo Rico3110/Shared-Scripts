@@ -249,6 +249,12 @@ namespace Shared.Communication
         {
             Write(_value.chunkCountX);
             Write(_value.chunkCountZ);
+
+            Write(_value.cornerLon);
+            Write(_value.cornerLat);
+            Write(_value.deltaLon);
+            Write(_value.deltaLat);
+
             Write(_value.cells);
             foreach (HexCell cell in _value.cells)
             {
@@ -711,7 +717,12 @@ namespace Shared.Communication
                 int chunkCountX = ReadInt(_moveReadPos);
                 int chunkCountZ = ReadInt(_moveReadPos);
 
-                HexGrid.HexGrid _value = new HexGrid.HexGrid(chunkCountX, chunkCountZ);
+                float cornerLon = ReadFloat(_moveReadPos);
+                float cornerLat = ReadFloat(_moveReadPos);
+                float deltaLon = ReadFloat(_moveReadPos);
+                float deltaLat = ReadFloat(_moveReadPos);
+
+                HexGrid.HexGrid _value = new HexGrid.HexGrid(chunkCountX, chunkCountZ, cornerLon, cornerLat, deltaLon, deltaLat);
 
                 HexCell[] cells = ReadHexCells(_moveReadPos);
 
