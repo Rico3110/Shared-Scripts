@@ -27,10 +27,10 @@ namespace Shared.Structures
 
         public Headquarter() : base()
         {
-            this.Inventory.Storage = Inventory.GetDictionaryForAllRessources();
+            this.Inventory.Storage = BuildingInventory.GetDictionaryForAllRessources();
             this.Inventory.RessourceLimit = 50;
             // this.Inventory.Outgoing = Inventory.GetListOfAllRessources();
-            this.Inventory.Incoming = Inventory.GetListOfAllRessources();
+            this.Inventory.Incoming = BuildingInventory.GetListOfAllRessources();
         }
 
         public Headquarter(
@@ -39,7 +39,7 @@ namespace Shared.Structures
             byte Level,
             byte Health,
             int TroopCount,
-            Inventory Inventory
+            BuildingInventory Inventory
             ) : base(Cell, Tribe, Level, Health, TroopCount, Inventory)
         {
 

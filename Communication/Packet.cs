@@ -366,6 +366,13 @@ namespace Shared.Communication
         {
             Write(_value.Storage);
             Write(_value.RessourceLimit);
+        }
+        /// <summary>Adds an Inventory to the packet.</summary>
+        /// <param name="_value">The Inventory to add.</param>
+        private void Write(BuildingInventory _value)
+        {
+            Write(_value.Storage);
+            Write(_value.RessourceLimit);
             Write(_value.RessourceLimits);
             Write(_value.Outgoing);
             Write(_value.Incoming);
@@ -913,7 +920,7 @@ namespace Shared.Communication
                 _value.Level = ReadByte(_moveReadPos);
                 _value.Health = ReadByte(_moveReadPos);
                 _value.TroopCount = ReadInt(_moveReadPos);
-                _value.Inventory = ReadInventory(_moveReadPos);
+                _value.Inventory = ReadBuildingInventory(_moveReadPos);
 
                 return _value;
             }
@@ -935,7 +942,7 @@ namespace Shared.Communication
                 _value.Level = ReadByte(_moveReadPos);
                 _value.Health = ReadByte(_moveReadPos);
                 _value.TroopCount = ReadInt(_moveReadPos);
-                _value.Inventory = ReadInventory(_moveReadPos);
+                _value.Inventory = ReadBuildingInventory(_moveReadPos);
 
                 return _value;
             }
@@ -963,7 +970,7 @@ namespace Shared.Communication
                 _value.Level = ReadByte(_moveReadPos);
                 _value.Health = ReadByte(_moveReadPos);
                 _value.TroopCount = ReadInt(_moveReadPos);
-                _value.Inventory = ReadInventory(_moveReadPos);
+                _value.Inventory = ReadBuildingInventory(_moveReadPos);
                 _value.Progress = ReadInt(_moveReadPos);
                 return _value;
             }
@@ -985,7 +992,7 @@ namespace Shared.Communication
                 _value.Level = ReadByte(_moveReadPos);
                 _value.Health = ReadByte(_moveReadPos);
                 _value.TroopCount = ReadInt(_moveReadPos);
-                _value.Inventory = ReadInventory(_moveReadPos);
+                _value.Inventory = ReadBuildingInventory(_moveReadPos);
                 _value.Progress = ReadInt(_moveReadPos);
                 return _value;
             }
@@ -1007,7 +1014,7 @@ namespace Shared.Communication
                 _value.Level = ReadByte(_moveReadPos);
                 _value.Health = ReadByte(_moveReadPos);
                 _value.TroopCount = ReadInt(_moveReadPos);
-                _value.Inventory = ReadInventory(_moveReadPos);
+                _value.Inventory = ReadBuildingInventory(_moveReadPos);
                 _value.Progress = ReadInt(_moveReadPos);
                 return _value;
             }
@@ -1025,6 +1032,23 @@ namespace Shared.Communication
                 Inventory _value = new Inventory();
                 _value.Storage = ReadDictionaryRessourceTypeInt(_moveReadPos);
                 _value.RessourceLimit = ReadInt(_moveReadPos);
+
+                return _value;
+            }
+            catch
+            {
+                throw new Exception("Could not read value of type 'Inventory'!");
+            }
+        }
+        /// <summary>Reads a BuildingInventory from the packet.</summary>
+        /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
+        public BuildingInventory ReadBuildingInventory(bool _moveReadPos = true)
+        {
+            try 
+            {
+                BuildingInventory _value = new BuildingInventory();
+                _value.Storage = ReadDictionaryRessourceTypeInt(_moveReadPos);
+                _value.RessourceLimit = ReadInt(_moveReadPos);
                 _value.RessourceLimits = ReadDictionaryRessourceTypeInt(_moveReadPos);
                 _value.UpdateOutgoing(ReadRessourceTypes(_moveReadPos));
                 _value.UpdateIncoming(ReadRessourceTypes(_moveReadPos));
@@ -1033,7 +1057,7 @@ namespace Shared.Communication
             }
             catch
             {
-                throw new Exception("Could not read value of type 'Inventory'!");
+                throw new Exception("Could not read value of type 'BuildingInventory'!");
             }
         }
         /// <summary>Reads a Dictionary<RessourceType, int> from the packet.</summary>
@@ -1151,7 +1175,7 @@ namespace Shared.Communication
             new Tuple<Type, byte>(typeof(Scrub), 4),
             new Tuple<Type, byte>(typeof(Grass), 5),
             new Tuple<Type, byte>(typeof(Quarry), 6),
-            new Tuple<Type, byte>(typeof(Road), 7),
+            new Tuple<Type, byte>(typeof(LandRoad), 7),
             new Tuple<Type, byte>(typeof(IronOre), 8),
             new Tuple<Type, byte>(typeof(CoalOre), 9),
             new Tuple<Type, byte>(typeof(Wheat), 10),

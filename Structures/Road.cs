@@ -3,52 +3,45 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Shared.HexGrid;
 using Shared.DataTypes;
+using Shared.HexGrid;
 
 namespace Shared.Structures
 {
-    class Road : Building
+    public abstract class Road : Building
     {
-        public override byte MaxLevel => 3;
+        private const float ELEVATION_THRESHOLD = 12f;
 
-        public override byte MaxHealth => 100;
+        public List<Cart> Carts; 
 
-        public override Dictionary<RessourceType, int>[] Recipes
-        {
-            get
-            {
-                Dictionary<RessourceType, int>[] result = {
-                    new Dictionary<RessourceType, int>{ },
-                    new Dictionary<RessourceType, int>{ },
-                    new Dictionary<RessourceType, int>{ }
-                };
-                return result;
-            }
-        }
+        public Dictionary<InventoryBuilding, Tuple<HexDirection, int, int>> connectedStorages;
 
         public Road() : base()
         {
-            this.Tribe = 0;
-            this.Level = 1;
-            this.Health = 100;
+
         }
 
-        public Road(HexCell Cell, byte Tribe, byte Level, byte Health) : base(Cell, Tribe, Level, Health)
+        public Road(
+            HexCell Cell, 
+            byte Tribe, 
+            byte Level, 
+            byte Health
+        ) : base(
+            Cell, 
+            Tribe, 
+            Level, 
+            Health
+        )
         {
             this.Tribe = Tribe;
             this.Level = Level;
             this.Health = Health;
         }
 
-        public override bool IsPlaceable(HexCell cell)
-        {
-            return base.IsPlaceable(cell);
-        }
 
         public bool HasAnyConnection()
         {
-            for(HexDirection d = HexDirection.NE; d < HexDirection.NW; d++)
+            for (HexDirection d = HexDirection.NE; d < HexDirection.NW; d++)
             {
                 if (HasBuilding(d))
                     return true;
@@ -63,7 +56,7 @@ namespace Shared.Structures
             HexCell neighbor = Cell.GetNeighbor(direction);
             if (neighbor == null)
                 return false;
-            if (neighbor.Structure != null && neighbor.Structure is Road && Math.Abs(Cell.GetElevationDifference(direction)) < 12)
+            if (neighbor.Structure != null && neighbor.Structure is Road && Math.Abs(Cell.GetElevationDifference(direction)) < ELEVATION_THRESHOLD)
                 return true;
             return false;
         }
@@ -75,7 +68,7 @@ namespace Shared.Structures
             HexCell neighbor = Cell.GetNeighbor(direction);
             if (neighbor == null)
                 return false;
-            if (neighbor.Structure != null && neighbor.Structure is Building && Math.Abs(Cell.GetElevationDifference(direction)) < 12)
+            if (neighbor.Structure != null && neighbor.Structure is Building && Math.Abs(Cell.GetElevationDifference(direction)) < ELEVATION_THRESHOLD)
                 return true;
             return false;
         }
@@ -100,3 +93,4 @@ namespace Shared.Structures
         }
     }
 }
+

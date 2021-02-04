@@ -24,7 +24,7 @@ namespace Shared.Structures
             byte Level,
             byte Health,
             int TroopCount,
-            Inventory Inventory,
+            BuildingInventory Inventory,
             int Progress
             ) : base(Cell, Tribe, Level, Health, TroopCount, Inventory)
         {
@@ -35,6 +35,7 @@ namespace Shared.Structures
 
         public override void DoTick()
         {
+            base.DoTick();
             if (Progress > 0) 
             {
                 Progress++;

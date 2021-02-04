@@ -14,36 +14,20 @@ namespace Shared.Structures
 
         public int RessourceLimit;
 
-        public Dictionary<RessourceType, int> RessourceLimits;
-
-        public List<RessourceType> Outgoing;
-
-        public List<RessourceType> Incoming;
-
         public Inventory()
         {
             this.Storage = new Dictionary<RessourceType, int>();
             this.RessourceLimit = 100;
-            this.RessourceLimits = new Dictionary<RessourceType, int>();
-            this.Outgoing = new List<RessourceType>();
-            this.Incoming = new List<RessourceType>();
         }
 
         public Inventory(
             Dictionary<RessourceType, int> Storage, 
-            int RessourceLimit, 
-            Dictionary<RessourceType, int> RessourceLimits,  
-            List<RessourceType> Outgoing,
-            List<RessourceType> Incoming
+            int RessourceLimit
         )
         {
             this.Storage = Storage;
             this.RessourceLimit = RessourceLimit;
-            this.UpdateRessourceLimits(RessourceLimits);
-            this.UpdateOutgoing(Outgoing);
-            this.UpdateIncoming(Incoming);
         }
-
 
         public int GetRessourceAmount(RessourceType ressourceType)
         {
@@ -52,12 +36,12 @@ namespace Shared.Structures
             return 0;
         }
 
-        public int AddRessource(RessourceType ressourceType, int count)
+        public virtual int AddRessource(RessourceType ressourceType, int count)
         {
             int availableSpace = 0;
             if (Storage.ContainsKey(ressourceType))
             {
-                availableSpace = AvailableSpace(ressourceType);
+                availableSpace = AvailableSpace();
                 if (availableSpace > 0)
                 {
                     Storage[ressourceType] += Mathf.Min(availableSpace, count);
@@ -95,70 +79,9 @@ namespace Shared.Structures
                 totalCount += count;
             }
             return RessourceLimit - totalCount;
-        }
+        } 
 
-        public int AvailableSpace(RessourceType ressourceType)
-        {
-            int totalRessourceSpace = AvailableSpace();
-            int localRessourceSpace = totalRessourceSpace;
-            if (RessourceLimits.TryGetValue(ressourceType, out localRessourceSpace))
-            {
-                int count;
-                if (Storage.TryGetValue(ressourceType, out count))
-                    localRessourceSpace = localRessourceSpace - count;
-                return Mathf.Min(totalRessourceSpace, localRessourceSpace);
-            }
-            else
-            {
-                return totalRessourceSpace;
-            }
-        }
-
-        public bool HasAvailableSpace(Dictionary<RessourceType, int> recipe)
-        {
-            foreach(KeyValuePair<RessourceType, int> kvp in recipe)
-            {
-                if (AvailableSpace(kvp.Key) > 0)
-                    return true;
-            }
-            return false;
-        }
-
-        public void UpdateRessourceLimits(Dictionary<RessourceType, int> newRessourceLimits)
-        {
-            this.RessourceLimits.Clear();
-            foreach(KeyValuePair<RessourceType, int> limit in newRessourceLimits)
-            {
-                if (Storage.ContainsKey(limit.Key))
-                    this.RessourceLimits.Add(limit.Key, limit.Value);
-            }
-        }
-
-        public void UpdateOutgoing(List<RessourceType> newOutgoing)
-        {
-            this.Outgoing.Clear();
-            foreach(RessourceType ressourceType in newOutgoing)
-            {
-                if (Storage.ContainsKey(ressourceType))
-                {
-                    this.Outgoing.Add(ressourceType);
-                }
-            }
-        }
-
-        public void UpdateIncoming(List<RessourceType> newIncoming)
-        {
-            this.Incoming.Clear();
-            foreach(RessourceType ressourceType in newIncoming)
-            {
-                if (Storage.ContainsKey(ressourceType))
-                {
-                    this.Incoming.Add(ressourceType);
-                }
-            }
-        }
-
-        public void MoveInto(Inventory receiver, int count)
+        public virtual void MoveInto(BuildingInventory receiver, int count)
         {
             Inventory sender = this;
 
@@ -166,7 +89,7 @@ namespace Shared.Structures
             while (count > 0 && transmittedARessource)
             {
                 transmittedARessource = false;
-                foreach (RessourceType ressourceType in sender.Outgoing)
+                foreach (RessourceType ressourceType in sender.Storage.Keys)
                 {
                     if (count <= 0)
                     {

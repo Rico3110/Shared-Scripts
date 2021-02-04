@@ -11,13 +11,13 @@ namespace Shared.Structures
 {
     public abstract class InventoryBuilding : ProtectedBuilding
     {
-        public Inventory Inventory;
+        public BuildingInventory Inventory;
         
         public Dictionary<InventoryBuilding, int> ConnectedInventories;
 
         public InventoryBuilding() : base()
         {
-            this.Inventory = new Inventory();
+            this.Inventory = new BuildingInventory();
             this.ConnectedInventories = new Dictionary<InventoryBuilding, int>();
         }
 
@@ -27,7 +27,7 @@ namespace Shared.Structures
             byte Level, 
             byte Health, 
             int TroopCount, 
-            Inventory Inventory 
+            BuildingInventory Inventory 
         ) : base(Cell, Tribe, Level, Health, TroopCount)
         {
             this.Inventory = Inventory;
@@ -40,10 +40,20 @@ namespace Shared.Structures
             SendRessources();
         }
       
-
         protected void SendRessources()
         {
-            foreach(KeyValuePair<InventoryBuilding, int> inventoryBuilding in ConnectedInventories)
+            for (HexDirection dir = HexDirection.NE; dir <= HexDirection.NW; dir++)
+            {
+                HexCell neighbor = this.Cell.GetNeighbor(dir);
+                if (neighbor != null && neighbor.Structure is Road && ((Road)neighbor.Structure).HasBuilding(dir.Opposite()))
+                {
+                    foreach (InventoryBuilding building in ((Road)neighbor.Structure).connectedStorages.Keys)
+                    {
+                        this.Inventory.MoveInto(building.Inventory, 1);
+                    }
+                }
+            }
+            foreach (KeyValuePair<InventoryBuilding, int> inventoryBuilding in ConnectedInventories)
             {
                 this.Inventory.MoveInto(inventoryBuilding.Key.Inventory, inventoryBuilding.Value);
             }

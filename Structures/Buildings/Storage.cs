@@ -26,10 +26,10 @@ namespace Shared.Structures
 
         public Storage() : base()
         {
-            this.Inventory.Storage = Inventory.GetDictionaryForAllRessources();
+            this.Inventory.Storage = BuildingInventory.GetDictionaryForAllRessources();
             this.Inventory.RessourceLimit = 50;
-            this.Inventory.Incoming = Inventory.GetListOfAllRessources();
-            this.Inventory.Outgoing = Inventory.GetListOfAllRessources();
+            this.Inventory.Incoming = BuildingInventory.GetListOfAllRessources();
+            this.Inventory.Outgoing = BuildingInventory.GetListOfAllRessources();
         }
 
         public Storage(
@@ -38,7 +38,7 @@ namespace Shared.Structures
             byte Level,
             byte Health,
             int TroopCount,
-            Inventory Inventory
+            BuildingInventory Inventory
             ) : base(Cell, Tribe, Level, Health, TroopCount, Inventory)
         {
 

@@ -41,7 +41,7 @@ namespace Shared.Structures
             byte Level,
             byte Health,
             int TroopCount,
-            Inventory Inventory,
+            BuildingInventory Inventory,
             int Progress
             ) : base(Cell, Tribe, Level, Health, TroopCount, Inventory, Progress)
         {
