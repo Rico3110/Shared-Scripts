@@ -13,8 +13,8 @@ namespace Shared.Structures
         public byte Progress;
 
         public abstract int MaxProgress { get; }
-        public abstract int gain { get; }
         public abstract RessourceType ressourceType { get; }
+        public abstract byte harvestReduction { get; }
 
         public Ressource() : base()
         {
@@ -28,17 +28,17 @@ namespace Shared.Structures
 
         public virtual bool Harvestable()
         {
-            if(Progress == MaxProgress)
+            if(Progress - harvestReduction >= 0)
             {
                 return true;
             }
             return false;
         }
 
-        public int Harvest()
+        public void Harvest()
         {
-            Progress = 0;
-            return gain;
+            Progress -= harvestReduction;
+            return;
         }
 
         public override void DoTick()

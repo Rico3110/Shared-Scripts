@@ -11,10 +11,8 @@ namespace Shared.Structures
     class CoalOre : Ressource
     {
         public override int MaxProgress => 4;
-
-        public override int gain => 2;
-
         public override RessourceType ressourceType => RessourceType.COAL;
+        public override byte harvestReduction => 4;
 
         public CoalOre() : base()
         {

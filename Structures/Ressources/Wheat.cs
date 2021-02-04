@@ -10,9 +10,9 @@ namespace Shared.Structures
 {
     class Wheat : Ressource
     {
-        public override int MaxProgress => 3;
+        public override int MaxProgress => 10;
 
-        public override int gain => 2;
+        public override byte harvestReduction => 5;
 
         public override RessourceType ressourceType => RessourceType.WHEAT;
 

@@ -11,10 +11,8 @@ namespace Shared.Structures
     class IronOre : Ressource
     {
         public override int MaxProgress => 4;
-
-        public override int gain => 1;
-
         public override RessourceType ressourceType => RessourceType.IRON_ORE;
+        public override byte harvestReduction => 5;
 
         public IronOre() : base()
         {

@@ -9,11 +9,13 @@ using UnityEngine;
 
 namespace Shared.Structures
 {
-    class Fisher : InventoryBuilding
+    class Fisher : ProductionBuilding
     {
         public override byte MaxLevel => 1;
         public override byte MaxHealth => 100;
-
+        public override RessourceType ProductionType => RessourceType.WOOD;
+        public override byte Gain => 4;
+        public override int MaxProgress => 10;
         private const int elevationThreshold = 40;
 
         public override Dictionary<RessourceType, int>[] Recipes
@@ -36,71 +38,15 @@ namespace Shared.Structures
 
         public Fisher(
             HexCell Cell,
-            int Tribe,
+            byte Tribe,
             byte Level,
             byte Health,
             int TroopCount,
-            Inventory Inventory
-            ) : base(Cell, Tribe, Level, Health, TroopCount, Inventory)
+            Inventory Inventory,
+            int Progress
+            ) : base(Cell, Tribe, Level, Health, TroopCount, Inventory, Progress)
         {
 
-        }
-
-        public override void DoTick()
-        {
-            base.DoTick();
-            int count = 0;
-            if (this.Inventory.AvailableSpace() > 0)
-            {
-                count = Harvest();
-            }
-            this.Inventory.AddRessource(RessourceType.FISH, count);
-
-            SendRessources();
-        }
-
-        private int Harvest()
-        {
-            for (HexDirection d = HexDirection.NE; d <= HexDirection.NW; d++)
-            {
-                HexCell neighbor = Cell.GetNeighbor(d);
-                if (neighbor != null)
-                {
-                    if (neighbor.Structure is Ressource)
-                    {
-                        Ressource ressource = (Ressource)neighbor.Structure;
-                        if (ressource.ressourceType == RessourceType.FISH && ressource.Harvestable())
-                            return ressource.Harvest();
-                    }
-                }
-            }
-            return 0;
-        }
-
-        public override bool IsPlaceable(HexCell cell)
-        {
-            if (!base.IsPlaceable(cell))
-            {
-                return false;
-            }
-            ushort currentElevation = cell.Data.Elevation;
-            bool hasSuitableWater = false;
-            for (HexDirection d = HexDirection.NE; d <= HexDirection.NW; d++)
-            {
-                HexCell neighbor = cell.GetNeighbor(d);
-                if (neighbor != null)
-                {
-                    if (neighbor.Structure is Ressource && ((Ressource) neighbor.Structure).ressourceType == RessourceType.FISH)
-                    {
-                        if (Mathf.Abs(neighbor.Data.Elevation - currentElevation) <= Fisher.elevationThreshold)
-                        {
-                            hasSuitableWater = true;
-                            break;
-                        }
-                    }
-                }
-            }
-            return hasSuitableWater;
         }
     }
 }

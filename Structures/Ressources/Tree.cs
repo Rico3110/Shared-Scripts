@@ -11,8 +11,8 @@ namespace Shared.Structures
     public class Tree : Ressource
     {
         public override int MaxProgress => 10;
-        public override int gain => 2;
         public override RessourceType ressourceType => RessourceType.WOOD;
+        public override byte harvestReduction => 5;
 
         public Tree() : base()
         {

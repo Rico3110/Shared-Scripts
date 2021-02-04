@@ -67,6 +67,16 @@ namespace Shared.Structures
             return Mathf.Min(availableSpace, count);
         }
 
+        public int AddRessource(Dictionary<RessourceType, int> recipe)
+        {
+            int amount = 0;
+            foreach(KeyValuePair<RessourceType, int> ressource in recipe)
+            {
+                amount += AddRessource(ressource.Key, ressource.Value);
+            }
+            return amount;
+        }
+
         public bool RemoveRessource(RessourceType ressourceType, int amount)
         {
             if (GetRessourceAmount(ressourceType) >= amount)
@@ -102,6 +112,16 @@ namespace Shared.Structures
             {
                 return totalRessourceSpace;
             }
+        }
+
+        public bool HasAvailableSpace(Dictionary<RessourceType, int> recipe)
+        {
+            foreach(KeyValuePair<RessourceType, int> kvp in recipe)
+            {
+                if (AvailableSpace(kvp.Key) > 0)
+                    return true;
+            }
+            return false;
         }
 
         public void UpdateRessourceLimits(Dictionary<RessourceType, int> newRessourceLimits)

@@ -319,6 +319,46 @@ namespace Shared.Communication
         private void Write(InventoryBuilding _value)
         {
             Write(_value.Inventory);
+            if (_value is ProgressBuilding)
+            {
+                Write((ProgressBuilding)_value);
+                                }
+            else if (_value is StorageBuilding)
+            {
+                Write((StorageBuilding)_value);
+            }
+        }
+        /// <summary>Adds a StorageBuilding to the packet.</summary>
+        /// <param name="_value">The StorageBuilding to add.</param>
+        private void Write(StorageBuilding _value)
+        {
+
+        }
+        /// <summary>Adds an ProgressBuilding to the packet.</summary>
+        /// <param name="_value">The ProgressBuilding to add.</param>
+        private void Write(ProgressBuilding _value)
+        {
+            Write(_value.Progress);
+            if (_value is ProductionBuilding)
+            {
+                Write((ProductionBuilding) _value);
+            }
+            else if (_value is RefineryBuilding)
+            {
+                Write((RefineryBuilding) _value);
+            }
+        }
+        /// <summary>Adds an ProductionBuilding to the packet.</summary>
+        /// <param name="_value">The ProductionBuilding  to add.</param>
+        private void Write(ProductionBuilding _value)
+        {
+
+        }
+        /// <summary>Adds an RefineryBuilding to the packet.</summary>
+        /// <param name="_value">The RefineryBuilding to add.</param>
+        private void Write(RefineryBuilding _value)
+        {
+
         }
         /// <summary>Adds an Inventory to the packet.</summary>
         /// <param name="_value">The Inventory to add.</param>
@@ -645,7 +685,7 @@ namespace Shared.Communication
         {
             try
             {
-                HexCellBiome _value = (HexCellBiome)ReadByte();
+                HexCellBiome _value = (HexCellBiome)ReadByte(_moveReadPos);
                 return _value;
             }
             catch
@@ -860,7 +900,13 @@ namespace Shared.Communication
         {
             try
             {
-                Type type = ReadByte(_moveReadPos).ToType();
+                Type type = ReadByte(false).ToType();
+                if (typeof(ProgressBuilding).IsAssignableFrom(type))
+                    return ReadProgressBuilding(_moveReadPos);
+                if (typeof(StorageBuilding).IsAssignableFrom(type))
+                    return ReadStorageBuilding(_moveReadPos);
+
+                ReadByte(_moveReadPos);
 
                 InventoryBuilding _value = (InventoryBuilding)Activator.CreateInstance(type);
                 _value.Tribe = ReadInt(_moveReadPos);
@@ -873,7 +919,101 @@ namespace Shared.Communication
             }
             catch
             {
-                throw new Exception("Could not read value of type 'ProtectedBuilding'!");
+                throw new Exception("Could not read value of type 'InventoryBuilding'!");
+            }
+        }
+        /// <summary>Reads an StorageBuilding from the packet.</summary>
+        /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
+        public InventoryBuilding ReadStorageBuilding(bool _moveReadPos = true)
+        {
+            try
+            {
+                Type type = ReadByte(_moveReadPos).ToType();                
+
+                StorageBuilding _value = (StorageBuilding)Activator.CreateInstance(type);
+                _value.Tribe = ReadInt(_moveReadPos);
+                _value.Level = ReadByte(_moveReadPos);
+                _value.Health = ReadByte(_moveReadPos);
+                _value.TroopCount = ReadInt(_moveReadPos);
+                _value.Inventory = ReadInventory(_moveReadPos);
+
+                return _value;
+            }
+            catch
+            {
+                throw new Exception("Could not read value of type 'StorageBuilding'!");
+            }
+        }
+        /// <summary>Reads an ProgressBuilding from the packet.</summary>
+        /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
+        public ProgressBuilding ReadProgressBuilding(bool _moveReadPos = true)
+        {
+            try
+            {
+                Type type = ReadByte(false).ToType();
+                if (typeof(ProductionBuilding).IsAssignableFrom(type))
+                    return ReadProductionBuilding(_moveReadPos);
+                if (typeof(RefineryBuilding).IsAssignableFrom(type))
+                    return ReadRefineryBuilding(_moveReadPos);
+
+                ReadByte(_moveReadPos);
+
+                ProgressBuilding _value = (ProgressBuilding)Activator.CreateInstance(type);
+                _value.Tribe = ReadInt(_moveReadPos);
+                _value.Level = ReadByte(_moveReadPos);
+                _value.Health = ReadByte(_moveReadPos);
+                _value.TroopCount = ReadInt(_moveReadPos);
+                _value.Inventory = ReadInventory(_moveReadPos);
+                _value.Progress = ReadInt(_moveReadPos);
+                return _value;
+            }
+            catch
+            {
+                throw new Exception("Could not read value of type 'ProgressBuilding'!");
+            }
+        }
+        /// <summary>Reads an ProductionBuilding from the packet.</summary>
+        /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
+        public ProductionBuilding ReadProductionBuilding(bool _moveReadPos = true)
+        {
+            try
+            {
+                Type type = ReadByte(_moveReadPos).ToType();
+
+                ProductionBuilding _value = (ProductionBuilding)Activator.CreateInstance(type);
+                _value.Tribe = ReadInt(_moveReadPos);
+                _value.Level = ReadByte(_moveReadPos);
+                _value.Health = ReadByte(_moveReadPos);
+                _value.TroopCount = ReadInt(_moveReadPos);
+                _value.Inventory = ReadInventory(_moveReadPos);
+                _value.Progress = ReadInt(_moveReadPos);
+                return _value;
+            }
+            catch
+            {
+                throw new Exception("Could not read value of type 'ProductionBuilding'!");
+            }
+        }
+        /// <summary>Reads an RefineryBuilding from the packet.</summary>
+        /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
+        public RefineryBuilding ReadRefineryBuilding(bool _moveReadPos = true)
+        {
+            try
+            {
+                Type type = ReadByte(_moveReadPos).ToType();
+
+                RefineryBuilding _value = (RefineryBuilding)Activator.CreateInstance(type);
+                _value.Tribe = ReadInt(_moveReadPos);
+                _value.Level = ReadByte(_moveReadPos);
+                _value.Health = ReadByte(_moveReadPos);
+                _value.TroopCount = ReadInt(_moveReadPos);
+                _value.Inventory = ReadInventory(_moveReadPos);
+                _value.Progress = ReadInt(_moveReadPos);
+                return _value;
+            }
+            catch
+            {
+                throw new Exception("Could not read value of type 'RefineryBuilding'!");
             }
         }
         /// <summary>Reads an Inventory from the packet.</summary>
@@ -883,11 +1023,11 @@ namespace Shared.Communication
             try 
             {
                 Inventory _value = new Inventory();
-                _value.Storage = ReadDictionaryRessourceTypeInt();
-                _value.RessourceLimit = ReadInt();
-                _value.RessourceLimits = ReadDictionaryRessourceTypeInt();
-                _value.UpdateOutgoing(ReadRessourceTypes());
-                _value.UpdateIncoming(ReadRessourceTypes());
+                _value.Storage = ReadDictionaryRessourceTypeInt(_moveReadPos);
+                _value.RessourceLimit = ReadInt(_moveReadPos);
+                _value.RessourceLimits = ReadDictionaryRessourceTypeInt(_moveReadPos);
+                _value.UpdateOutgoing(ReadRessourceTypes(_moveReadPos));
+                _value.UpdateIncoming(ReadRessourceTypes(_moveReadPos));
                 
                 return _value;
             }
@@ -1002,56 +1142,39 @@ namespace Shared.Communication
 
     internal static class StructureTypeExtension
     {
-        private static Dictionary<Type, byte> typeToByte = new Dictionary<Type, byte>()
+        private static List<Tuple<Type, byte>> mapping = new List<Tuple<Type, byte>>
         {
-            {typeof(Woodcutter), 0},
-            {typeof(Tree), 1},
-            {typeof(Rock), 2},
-            {typeof(Fish), 3},
-            {typeof(Scrub), 4},
-            {typeof(Grass), 5},
-            {typeof(Quarry), 6},
-            {typeof(Road), 7},
-            {typeof(IronOre), 8},
-            {typeof(CoalOre), 9},
-            {typeof(Wheat), 10},
-            {typeof(Storage), 11 },
-            {typeof(Headquarter), 12 },
-            {typeof(Mine), 13 },
-            {typeof(Smelter), 14 }
-        };
-        
-        private static Dictionary<byte, Type> byteToType = new Dictionary<byte, Type>()
-        {
-            {0, typeof(Woodcutter)},
-            {1, typeof(Tree) },
-            {2, typeof(Rock) },
-            {3, typeof(Fish) },
-            {4, typeof(Scrub) },
-            {5, typeof(Grass) },
-            {6, typeof(Quarry) },
-            {7, typeof(Road) },
-            {8, typeof(IronOre)},
-            {9, typeof(CoalOre)},
-            {10, typeof(Wheat)},
-            {11, typeof(Storage)},
-            {12, typeof(Headquarter)},
-            {13, typeof(Mine)},
-            {14, typeof(Smelter)}
+            new Tuple<Type, byte>(typeof(Woodcutter), 0),
+            new Tuple<Type, byte>(typeof(Tree), 1),
+            new Tuple<Type, byte>(typeof(Rock), 2),
+            new Tuple<Type, byte>(typeof(Fish), 3),
+            new Tuple<Type, byte>(typeof(Scrub), 4),
+            new Tuple<Type, byte>(typeof(Grass), 5),
+            new Tuple<Type, byte>(typeof(Quarry), 6),
+            new Tuple<Type, byte>(typeof(Road), 7),
+            new Tuple<Type, byte>(typeof(IronOre), 8),
+            new Tuple<Type, byte>(typeof(CoalOre), 9),
+            new Tuple<Type, byte>(typeof(Wheat), 10),
+            new Tuple<Type, byte>(typeof(Storage), 11 ),
+            new Tuple<Type, byte>(typeof(Headquarter), 12 ),
+            new Tuple<Type, byte>(typeof(CoalMine), 13 ),
+            new Tuple<Type, byte>(typeof(Smelter), 14),
+            new Tuple<Type, byte>(typeof(IronMine), 15),
+            new Tuple<Type, byte>(typeof(Fisher), 16)
         };
 
         internal static byte ToByte(this Structure structure)
         {
             if (structure == null)
                 return 255;
-            return typeToByte[structure.GetType()];
+            return mapping.Find(elem => elem.Item1 == structure.GetType()).Item2;
         }
 
         internal static byte ToByte(this Type type)
         {
             if (type == null)
                 return 255;
-            return typeToByte[type];
+            return mapping.Find(elem => elem.Item1 == type).Item2;
         }
 
         internal static Type ToType(this byte b)
@@ -1060,7 +1183,7 @@ namespace Shared.Communication
             {
                 return null;
             }
-            return byteToType[b];
+            return mapping.Find(elem => elem.Item2 == b).Item1;
         }
     }
 }

@@ -11,8 +11,8 @@ namespace Shared.Structures
     public class Fish : Ressource
     {
         public override int MaxProgress => 10;
-        public override int gain => 5;
         public override RessourceType ressourceType => RessourceType.FISH;
+        public override byte harvestReduction => 5;
 
         public Fish() : base()
         {

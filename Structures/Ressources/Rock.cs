@@ -11,8 +11,8 @@ namespace Shared.Structures
     public class Rock : Ressource
     {
         public override int MaxProgress => 10;
-        public override int gain => 2;
         public override RessourceType ressourceType => RessourceType.STONE;
+        public override byte harvestReduction => 5;
 
         public Rock() : base()
         {
