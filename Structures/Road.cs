@@ -18,7 +18,7 @@ namespace Shared.Structures
 
         public Road() : base()
         {
-
+            connectedStorages = new Dictionary<InventoryBuilding, Tuple<HexDirection, int, int>>();
         }
 
         public Road(
@@ -33,9 +33,7 @@ namespace Shared.Structures
             Health
         )
         {
-            this.Tribe = Tribe;
-            this.Level = Level;
-            this.Health = Health;
+            connectedStorages = new Dictionary<InventoryBuilding, Tuple<HexDirection, int, int>>();
         }
 
 

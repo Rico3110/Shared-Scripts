@@ -49,7 +49,10 @@ namespace Shared.Structures
                 {
                     foreach (InventoryBuilding building in ((Road)neighbor.Structure).connectedStorages.Keys)
                     {
-                        this.Inventory.MoveInto(building.Inventory, 1);
+                        if(building != this)
+                        {
+                            this.Inventory.MoveInto(building.Inventory, 1);
+                        }
                     }
                 }
             }
