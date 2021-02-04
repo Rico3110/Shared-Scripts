@@ -155,8 +155,6 @@ namespace Shared.HexGrid
             float dx = (lon - cornerLon) / deltaLon;
             float dz = (lat - cornerLat) / deltaLat;
 
-            Console.WriteLine(dz);
-
             return GetCell(new Vector3(Width * dx, 0, Height * dz));
         }
 
