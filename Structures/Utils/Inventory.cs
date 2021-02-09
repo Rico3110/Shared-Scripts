@@ -31,7 +31,6 @@ namespace Shared.Structures
 
         public int GetRessourceAmount(RessourceType ressourceType)
         {
-            Console.WriteLine("b");
             if (Storage.ContainsKey(ressourceType))
                 return Storage[ressourceType];
             
@@ -91,7 +90,8 @@ namespace Shared.Structures
             while (count > 0 && transmittedARessource)
             {
                 transmittedARessource = false;
-                foreach (RessourceType ressourceType in sender.Storage.Keys)
+                List<RessourceType> iterList = new List<RessourceType>(sender.Storage.Keys);
+                foreach (RessourceType ressourceType in iterList)
                 {
                     if (count <= 0)
                     {
@@ -99,9 +99,7 @@ namespace Shared.Structures
                     }
                     if (receiver.Incoming.Contains(ressourceType))
                     {
-                        Console.WriteLine(ressourceType.ToString());
                         int senderAmount = sender.GetRessourceAmount(ressourceType);
-                        Console.WriteLine("After getRessourceAmount");
                         int received = receiver.AddRessource(ressourceType, Mathf.Min(senderAmount, 1));
                         count -= received;
                         if (received > 0)
