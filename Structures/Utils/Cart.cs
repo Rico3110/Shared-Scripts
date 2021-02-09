@@ -21,8 +21,10 @@ namespace Shared.Structures
         public Cart(InventoryBuilding origin)
         {
             this.Inventory = new Inventory();
+            this.Inventory.Storage = Inventory.GetDictionaryForAllRessources();
             this.Inventory.RessourceLimit = 2;
             this.Origin = origin;
+            this.Destination = origin;
         }
 
         public Cart(Inventory Inventory, InventoryBuilding Origin, InventoryBuilding Destination)

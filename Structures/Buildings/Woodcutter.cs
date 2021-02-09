@@ -18,7 +18,7 @@ namespace Shared.Structures
 
         public override byte Gain => 4;
 
-        public override int MaxProgress => 10;
+        public override int MaxProgress => 2;
 
         public override Dictionary<RessourceType, int>[] Recipes
         {

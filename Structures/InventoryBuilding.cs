@@ -62,14 +62,17 @@ namespace Shared.Structures
                 return false;
             }
 
-            destination.Key.FillCart(cart, this);
-            HexCell neighbor = this.Cell.GetNeighbor(destination.Value.Item1);
-            if (neighbor != null && neighbor.Structure is Road)
+            if(destination.Key.FillCart(cart, this))
             {
-                this.Carts.Remove(cart);
-                cart.Destination = destination.Key;
-                ((Road)neighbor.Structure).Carts.Add(cart);
-                return true;
+                Console.WriteLine(destination.Value.Item1.ToString());
+                HexCell neighbor = this.Cell.GetNeighbor(destination.Value.Item1);
+                if (neighbor != null && neighbor.Structure is Road)
+                {
+                    this.Carts.Remove(cart);
+                    cart.Destination = destination.Key;
+                    ((Road)neighbor.Structure).Carts.Add(cart);
+                    return true;
+                }
             }
             return false;
         }
@@ -125,12 +128,12 @@ namespace Shared.Structures
                 if (this.Carts[i].Origin == this)
                 {
                     //SendCart
-                    if (TrySendCart(this.Carts[i]));
+                    if (TrySendCart(this.Carts[i]))
                         break;
                 }
                 else
                 {
-                    if (ReceiveCart(this.Carts[i]));
+                    if (ReceiveCart(this.Carts[i]))
                         break;
                 }
             }
