@@ -9,7 +9,7 @@ using Shared.HexGrid;
 
 namespace Shared.Structures
 {
-    public abstract class InventoryBuilding : ProtectedBuilding
+    public abstract class InventoryBuilding : ProtectedBuilding, ICartHandler
     {
         public BuildingInventory Inventory;
         
@@ -17,7 +17,7 @@ namespace Shared.Structures
 
         public Dictionary<InventoryBuilding, Dictionary<RessourceType, bool>> allowedRessources; 
 
-        List<Cart> Carts;
+        public List<Cart> Carts { get; set; }
 
         protected virtual byte MaxCartCount { get; } = 1; 
 
@@ -26,7 +26,7 @@ namespace Shared.Structures
             this.Inventory = new BuildingInventory();
             this.ConnectedInventories = new Dictionary<InventoryBuilding, Tuple<HexDirection, int, int>>();
             this.Carts = new List<Cart>();
-            this.Carts.Add(new Cart());
+            this.Carts.Add(new Cart(this));
         }
 
         public InventoryBuilding(
@@ -46,8 +46,7 @@ namespace Shared.Structures
         public override void DoTick()
         {
             base.DoTick();
-            ReceiveCart();
-            SendRessources();
+            HandleCarts();
         }
       
         protected void SendRessources()
@@ -163,6 +162,13 @@ namespace Shared.Structures
                 }
             }
             return !cart.Inventory.IsEmpty();
+        }
+
+        public void HandleCarts()
+        {
+            ReceiveCart();
+            TrySendCart();
+            // throw new NotImplementedException();
         }
     }
 }

@@ -8,17 +8,18 @@ using Shared.HexGrid;
 
 namespace Shared.Structures
 {
-    public abstract class Road : Building
+    public abstract class Road : Building, ICartHandler 
     {
         private const float ELEVATION_THRESHOLD = 12f;
 
-        public List<Cart> Carts; 
-
         public Dictionary<int, Dictionary<InventoryBuilding, Tuple<HexDirection, int, int>>> connectedStorages;
+
+        public List<Cart> Carts { get; set; }
 
         public Road() : base()
         {
             connectedStorages = new Dictionary<int, Dictionary<InventoryBuilding, Tuple<HexDirection, int, int>>>();
+            Carts = new List<Cart>();
         }
 
         public Road(
@@ -34,6 +35,7 @@ namespace Shared.Structures
         )
         {
             connectedStorages = new Dictionary<int, Dictionary<InventoryBuilding, Tuple<HexDirection, int, int>>>();
+            Carts = new List<Cart>();
         }
 
 
@@ -93,7 +95,7 @@ namespace Shared.Structures
         public override void DoTick()
         {
             base.DoTick();
-            MoveCarts();
+            HandleCarts();
         }
 
         private void MoveCarts()
@@ -104,6 +106,11 @@ namespace Shared.Structures
                 ((Road)neighbor.Structure).Carts.Add(cart);
             }
             this.Carts.Clear();
+        }
+
+        public void HandleCarts()
+        {
+            MoveCarts();
         }
     }
 }

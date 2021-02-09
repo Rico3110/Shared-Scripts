@@ -256,11 +256,42 @@ namespace Shared.Communication
             Write(_value.deltaLat);
 
             Write(_value.cells);
+            List<Building> buildings = new List<Building>();
             foreach (HexCell cell in _value.cells)
             {
                 Write(cell.Structure);
+                if (cell.Structure is ICartHandler)
+                    buildings.Add((Building)cell.Structure);
+            }
+
+            //Write Carts
+            Write(buildings.Count);
+            foreach (Building building in buildings)
+            {
+                Write(building.Cell.coordinates);
+                Write(((ICartHandler)building).Carts);
             }
         }
+        /// <summary>Adds a List<Cart> to the packet.</summary>
+        /// <param name="_value">The List<Cart> to add.</param>
+        public void Write(List<Cart> _value)
+        {
+            Write(_value.Count);
+            foreach (Cart cart in _value)
+            {
+                Write(cart);
+            }
+        }
+        /// <summary>Adds a Cart to the packet.</summary>
+        /// <param name="_value">The Cart to add.</param>
+        public void Write(Cart _value)
+        {
+            Write(_value.isAvailable);
+            Write(_value.Inventory);
+            Write(_value.Origin.Cell.coordinates);
+            Write(_value.Destination.Cell.coordinates);
+        }
+
 
         #endregion
 
@@ -791,11 +822,62 @@ namespace Shared.Communication
                     _value.AddCellToChunk(x, z, _value.cells[i]);
                 }
 
+                //Read Carts
+                int size = ReadInt(_moveReadPos);
+                for (int i = 0; i < size; i++)
+                {
+                    HexCoordinates coords = ReadHexCoordinates(_moveReadPos);
+                    List<Cart> carts = ReadListOfCart(_value, _moveReadPos);
+                    ((ICartHandler)_value.GetCell(coords).Structure).Carts = carts;
+                }
+
                 return _value;
             }
             catch
             {
                 throw new Exception("Could not read value of type 'HexGrid'!");
+            }
+        }
+        /// <summary>Reads a Cart from the packet.</summary>
+        /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
+        public Cart ReadCart(HexGrid.HexGrid grid, bool _moveReadPos = true)
+        {
+            try
+            {
+                bool isAvailable = ReadBool(_moveReadPos);
+                Inventory Inventory = ReadInventory(_moveReadPos);
+                HexCoordinates origin = ReadHexCoordinates(_moveReadPos);
+                HexCoordinates destination = ReadHexCoordinates(_moveReadPos);
+                
+                return new Cart(
+                    isAvailable, 
+                    Inventory, 
+                    (InventoryBuilding)grid.GetCell(origin).Structure, 
+                    (InventoryBuilding)grid.GetCell(destination).Structure
+                );
+            }
+            catch
+            {
+                throw new Exception("Could not read value of type 'Cart'!");
+            }
+        }
+        /// <summary>Reads a List<Cart> from the packet.</summary>
+        /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
+        public List<Cart> ReadListOfCart(HexGrid.HexGrid grid, bool _moveReadPos = true)
+        {
+            try
+            {
+                int size = ReadInt(_moveReadPos);
+                List<Cart> _value = new List<Cart>();
+                for (int i = 0; i < size; i++)
+                {
+                    _value.Add(ReadCart(grid, _moveReadPos));
+                }
+                return _value;
+            }
+            catch
+            {
+                throw new Exception("Could not read value of type 'List<Cart>'!");
             }
         }
 
