@@ -18,8 +18,6 @@ namespace Shared.Game
 
         private static List<Building> buildings;
 
-        private static List<List<Road>> roadClusters;
-
         private static List<Ressource> ressources;
 
         public static List<Tribe> Tribes = new List<Tribe>();
@@ -32,8 +30,6 @@ namespace Shared.Game
             grid = hexGrid;
 
             buildings = new List<Building>();
-
-            roadClusters = new List<List<Road>>();
 
             ressources = new List<Ressource>();
 

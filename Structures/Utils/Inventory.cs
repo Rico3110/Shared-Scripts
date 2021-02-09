@@ -152,6 +152,24 @@ namespace Shared.Structures
 
             return list;
         }
+
+        public void Clear()
+        {
+            foreach(RessourceType ressourceType in Storage.Keys)
+            {
+                Storage[ressourceType] = 0;
+            }
+        }
+
+        public bool IsEmpty()
+        {
+            foreach(int amount in this.Storage.Values)
+            {
+                if (amount > 0)
+                    return false;
+            }
+            return true;
+        }
     }
 }
 

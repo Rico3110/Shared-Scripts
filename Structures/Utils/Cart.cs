@@ -13,5 +13,9 @@ namespace Shared.Structures
         public InventoryBuilding Origin;
         public InventoryBuilding Destination;
 
+        public void Clear()
+        {
+            this.Inventory.Clear();
+        }
     }
 }

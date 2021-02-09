@@ -89,6 +89,22 @@ namespace Shared.Structures
         {
             return !(IsSmoothCorner(direction) || HasStraightLine(direction.Previous()) || HasBuilding(direction));
         }
+
+        public override void DoTick()
+        {
+            base.DoTick();
+            MoveCarts();
+        }
+
+        private void MoveCarts()
+        {
+            foreach (Cart cart in this.Carts)
+            {
+                HexCell neighbor = this.Cell.GetNeighbor(this.connectedStorages[cart.Destination.Tribe][cart.Destination].Item1);
+                ((Road)neighbor.Structure).Carts.Add(cart);
+            }
+            this.Carts.Clear();
+        }
     }
 }
 
