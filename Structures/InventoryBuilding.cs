@@ -64,7 +64,6 @@ namespace Shared.Structures
 
             if(destination.Key.FillCart(cart, this))
             {
-                Console.WriteLine(destination.Value.Item1.ToString());
                 HexCell neighbor = this.Cell.GetNeighbor(destination.Value.Item1);
                 if (neighbor != null && neighbor.Structure is Road)
                 {
