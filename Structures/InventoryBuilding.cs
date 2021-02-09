@@ -109,6 +109,7 @@ namespace Shared.Structures
             {
                 this.Carts.Remove(cart);
                 cart.isAvailable = false;
+                cart.Destination = destination.Key;
                 ((Road)neighbor.Structure).Carts.Add(cart);
             }
         }
