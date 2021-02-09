@@ -8,9 +8,10 @@ namespace Shared.Structures
 {
     public class Cart
     {
+        public bool isAvailable;
         public Inventory Inventory;
-
+        public InventoryBuilding Origin;
         public InventoryBuilding Destination;
-        // public InventoryBuilding Origin;
+
     }
 }

@@ -13,12 +13,20 @@ namespace Shared.Structures
     {
         public BuildingInventory Inventory;
         
-        public Dictionary<InventoryBuilding, int> ConnectedInventories;
+        public Dictionary<InventoryBuilding, Tuple<HexDirection, int, int>> ConnectedInventories;
+
+        public Dictionary<InventoryBuilding, Dictionary<RessourceType, bool>> allowedRessources; 
+
+        List<Cart> Carts;
+
+        protected virtual byte MaxCartCount { get; } = 1; 
 
         public InventoryBuilding() : base()
         {
             this.Inventory = new BuildingInventory();
-            this.ConnectedInventories = new Dictionary<InventoryBuilding, int>();
+            this.ConnectedInventories = new Dictionary<InventoryBuilding, Tuple<HexDirection, int, int>>();
+            this.Carts = new List<Cart>();
+            this.Carts.Add(new Cart());
         }
 
         public InventoryBuilding(
@@ -31,7 +39,8 @@ namespace Shared.Structures
         ) : base(Cell, Tribe, Level, Health, TroopCount)
         {
             this.Inventory = Inventory;
-            this.ConnectedInventories = new Dictionary<InventoryBuilding, int>();
+            this.ConnectedInventories = new Dictionary<InventoryBuilding, Tuple<HexDirection, int, int>>();
+            this.Carts = new List<Cart>();
         }
 
         public override void DoTick()
@@ -42,12 +51,18 @@ namespace Shared.Structures
       
         protected void SendRessources()
         {
+            foreach(InventoryBuilding inventoryBuilding in ConnectedInventories.Keys)
+            {
+                this.Inventory.MoveInto(inventoryBuilding.Inventory, 1);
+            }
+             
+            /*
             for (HexDirection dir = HexDirection.NE; dir <= HexDirection.NW; dir++)
             {
                 HexCell neighbor = this.Cell.GetNeighbor(dir);
                 if (neighbor != null && neighbor.Structure is Road && ((Road)neighbor.Structure).HasBuilding(dir.Opposite()))
                 {
-                    foreach (InventoryBuilding building in ((Road)neighbor.Structure).connectedStorages.Keys)
+                    foreach (InventoryBuilding building in ((Road)neighbor.Structure).connectedStorages[Tribe].Keys)
                     {
                         if(building != this)
                         {
@@ -56,9 +71,29 @@ namespace Shared.Structures
                     }
                 }
             }
-            foreach (KeyValuePair<InventoryBuilding, int> inventoryBuilding in ConnectedInventories)
+            foreach (KeyValuePair<InventoryBuilding, Tuple<HexDirection, int, int>> inventoryBuilding in ConnectedInventories)
             {
-                this.Inventory.MoveInto(inventoryBuilding.Key.Inventory, inventoryBuilding.Value);
+                // this.Inventory.MoveInto(inventoryBuilding.Key.Inventory, inventoryBuilding.Value);
+            }
+            */
+        }
+
+        private Cart GetAvailableCart()
+        {
+            return this.Carts.Find(cart => cart.isAvailable);
+        }
+        
+        private void TrySendCart()
+        {
+            Cart cart = GetAvailableCart();
+
+            if (cart == null)
+                return;
+
+            //Tries to send with full cart
+            foreach(KeyValuePair<InventoryBuilding, Tuple<HexDirection, int, int>> kvp in ConnectedInventories)
+            {
+                
             }
         }
     }

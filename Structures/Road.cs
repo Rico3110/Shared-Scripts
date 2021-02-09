@@ -14,11 +14,11 @@ namespace Shared.Structures
 
         public List<Cart> Carts; 
 
-        public Dictionary<InventoryBuilding, Tuple<HexDirection, int, int>> connectedStorages;
+        public Dictionary<int, Dictionary<InventoryBuilding, Tuple<HexDirection, int, int>>> connectedStorages;
 
         public Road() : base()
         {
-            connectedStorages = new Dictionary<InventoryBuilding, Tuple<HexDirection, int, int>>();
+            connectedStorages = new Dictionary<int, Dictionary<InventoryBuilding, Tuple<HexDirection, int, int>>>();
         }
 
         public Road(
@@ -33,7 +33,7 @@ namespace Shared.Structures
             Health
         )
         {
-            connectedStorages = new Dictionary<InventoryBuilding, Tuple<HexDirection, int, int>>();
+            connectedStorages = new Dictionary<int, Dictionary<InventoryBuilding, Tuple<HexDirection, int, int>>>();
         }
 
 
