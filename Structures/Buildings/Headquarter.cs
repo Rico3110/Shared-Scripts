@@ -49,8 +49,6 @@ namespace Shared.Structures
         public override void DoTick()
         {
             base.DoTick();
-
-            SendRessources();
         }
     }
 }

@@ -66,7 +66,6 @@ namespace Shared.Structures
                 Inventory.RemoveRessource(RessourceType.IRON_ORE, 1);
                 Inventory.AddRessource(RessourceType.IRON, 1);
             }
-            SendRessources();
         }
 
         public override bool IsPlaceable(HexCell cell)

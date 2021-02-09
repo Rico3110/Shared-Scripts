@@ -286,7 +286,6 @@ namespace Shared.Communication
         /// <param name="_value">The Cart to add.</param>
         public void Write(Cart _value)
         {
-            Write(_value.isAvailable);
             Write(_value.Inventory);
             Write(_value.Origin.Cell.coordinates);
             Write(_value.Destination.Cell.coordinates);
@@ -844,13 +843,11 @@ namespace Shared.Communication
         {
             try
             {
-                bool isAvailable = ReadBool(_moveReadPos);
                 Inventory Inventory = ReadInventory(_moveReadPos);
                 HexCoordinates origin = ReadHexCoordinates(_moveReadPos);
                 HexCoordinates destination = ReadHexCoordinates(_moveReadPos);
                 
-                return new Cart(
-                    isAvailable, 
+                return new Cart( 
                     Inventory, 
                     (InventoryBuilding)grid.GetCell(origin).Structure, 
                     (InventoryBuilding)grid.GetCell(destination).Structure

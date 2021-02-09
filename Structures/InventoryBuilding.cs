@@ -49,48 +49,9 @@ namespace Shared.Structures
             HandleCarts();
         }
       
-        protected void SendRessources()
-        {
-            TrySendCart();
-            foreach(InventoryBuilding inventoryBuilding in ConnectedInventories.Keys)
-            {
-                // this.Inventory.MoveInto(inventoryBuilding.Inventory, 1);
-            }
-             
-            /*
-            for (HexDirection dir = HexDirection.NE; dir <= HexDirection.NW; dir++)
-            {
-                HexCell neighbor = this.Cell.GetNeighbor(dir);
-                if (neighbor != null && neighbor.Structure is Road && ((Road)neighbor.Structure).HasBuilding(dir.Opposite()))
-                {
-                    foreach (InventoryBuilding building in ((Road)neighbor.Structure).connectedStorages[Tribe].Keys)
-                    {
-                        if(building != this)
-                        {
-                            this.Inventory.MoveInto(building.Inventory, 1);
-                        }
-                    }
-                }
-            }
-            foreach (KeyValuePair<InventoryBuilding, Tuple<HexDirection, int, int>> inventoryBuilding in ConnectedInventories)
-            {
-                // this.Inventory.MoveInto(inventoryBuilding.Key.Inventory, inventoryBuilding.Value);
-            }
-            */
-        }
-
-        private Cart GetAvailableCart()
-        {
-            return this.Carts.Find(cart => cart.isAvailable);
-        }
         
-        private void TrySendCart()
+        private bool TrySendCart(Cart cart)
         {
-            Cart cart = GetAvailableCart();
-
-            if (cart == null)
-                return;
-
             KeyValuePair<InventoryBuilding, Tuple<HexDirection, int, int>> destination;
             try
             {
@@ -98,48 +59,40 @@ namespace Shared.Structures
             }
             catch(Exception e)
             {
-                return;
+                return false;
             }
-            // if (destination == null)
-            //     return;
 
             destination.Key.FillCart(cart, this);
             HexCell neighbor = this.Cell.GetNeighbor(destination.Value.Item1);
             if (neighbor != null && neighbor.Structure is Road)
             {
                 this.Carts.Remove(cart);
-                cart.isAvailable = false;
                 cart.Destination = destination.Key;
                 ((Road)neighbor.Structure).Carts.Add(cart);
+                return true;
             }
+            return false;
         }
+      
 
-        private void ReceiveCart()
+        public bool ReceiveCart(Cart cart)
         {
-            foreach (Cart cart in this.Carts)
+            cart.Inventory.MoveInto(this.Inventory, int.MaxValue);
+            if (cart.Inventory.IsEmpty())
             {
-                if(this == cart.Origin)
+                cart.Destination = cart.Origin;
+                if (this.ConnectedInventories.ContainsKey(cart.Destination))
                 {
-                    if (cart.isAvailable)
-                        continue;
-                    cart.isAvailable = true;
-                }
-                else
-                {
-                    //unload cart
-                    cart.Inventory.MoveInto(this.Inventory, int.MaxValue);
-                    cart.Destination = cart.Origin;
-                    if (this.ConnectedInventories.ContainsKey(cart.Destination))
+                    HexCell neighbor = this.Cell.GetNeighbor(this.ConnectedInventories[cart.Destination].Item1);
+                    if (neighbor != null && neighbor.Structure is Road)
                     {
-                        HexCell neighbor = this.Cell.GetNeighbor(this.ConnectedInventories[cart.Destination].Item1);
-                        if (neighbor != null && neighbor.Structure is Road)
-                        {
-                            this.Carts.Remove(cart);
-                            ((Road)neighbor.Structure).Carts.Add(cart);
-                        }
+                        this.Carts.Remove(cart);
+                        ((Road)neighbor.Structure).Carts.Add(cart);
                     }
                 }
+                return true;
             }
+            return false;
         }
 
         public virtual bool FillCart(Cart cart, InventoryBuilding origin)
@@ -167,8 +120,20 @@ namespace Shared.Structures
 
         public void HandleCarts()
         {
-            ReceiveCart();
-            TrySendCart();
+            for(int i = 0; i < this.Carts.Count; i++)
+            {
+                if (this.Carts[i].Origin == this)
+                {
+                    //SendCart
+                    if (TrySendCart(this.Carts[i]));
+                        break;
+                }
+                else
+                {
+                    if (ReceiveCart(this.Carts[i]));
+                        break;
+                }
+            }
             // throw new NotImplementedException();
         }
     }

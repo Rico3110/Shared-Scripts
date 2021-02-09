@@ -103,7 +103,7 @@ namespace Shared.Structures
             foreach (Cart cart in this.Carts)
             {
                 HexCell neighbor = this.Cell.GetNeighbor(this.connectedStorages[cart.Destination.Tribe][cart.Destination].Item1);
-                ((Road)neighbor.Structure).Carts.Add(cart);
+                ((ICartHandler)neighbor.Structure).Carts.Add(cart);
             }
             this.Carts.Clear();
         }
