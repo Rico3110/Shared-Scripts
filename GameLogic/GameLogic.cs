@@ -206,6 +206,16 @@ namespace Shared.Game
                 {
                     buildings.Add((Building)structure);
                 }
+                if (structure is ICartHandler)
+                {
+                    foreach (Cart cart in ((ICartHandler) structure).Carts)
+                    {
+                        if (!carts.Contains(cart))
+                        {
+                            carts.Add(cart);
+                        }
+                    }
+                }
             }
             else if (typeof(Ressource).IsAssignableFrom(structure.GetType()))
             {
