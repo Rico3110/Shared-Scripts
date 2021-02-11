@@ -74,7 +74,7 @@ namespace Shared.Game
             return null;
         }
 
-        public static Tribe AddTribe(int tribeID, Headquarter hq)
+        public static Tribe AddTribe(byte tribeID, Headquarter hq)
         {
             Tribe newTribe = new Tribe(tribeID, hq);
             Tribes.Add(newTribe);
@@ -275,7 +275,7 @@ namespace Shared.Game
             cell.Structure = hq;
             hq.Cell = cell;
 
-            Tribe tribe = AddTribe(Tribes.Count, hq);
+            Tribe tribe = AddTribe((byte)Tribes.Count, hq);
             hq.Tribe = tribe.Id;
             
             AddStructureToList(hq);

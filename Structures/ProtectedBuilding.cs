@@ -19,7 +19,7 @@ namespace Shared.Structures
 
         public ProtectedBuilding(
             HexCell Cell, 
-            int Tribe, 
+            byte Tribe, 
             byte Level, 
             byte Health, 
             int TroopCount

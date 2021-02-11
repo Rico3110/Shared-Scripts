@@ -35,7 +35,7 @@ namespace Shared.Structures
 
         public Headquarter(
             HexCell Cell,
-            int Tribe,
+            byte Tribe,
             byte Level,
             byte Health,
             int TroopCount,

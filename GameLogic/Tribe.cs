@@ -9,12 +9,12 @@ namespace Shared.Game
 {
     public class Tribe
     {
-        public int Id;
+        public byte Id;
         public Headquarter HQ;
 
         public Tribe
         (
-            int id,
+            byte id,
             Headquarter hq
         )
         {
