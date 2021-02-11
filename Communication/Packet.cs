@@ -918,10 +918,13 @@ namespace Shared.Communication
             {
                 Type type = ReadByte(_moveReadPos).ToType();
 
-                Ressource _value = (Ressource)Activator.CreateInstance(type);                
+                               
                 byte progress = ReadByte(_moveReadPos);
 
-                _value.Progress = progress;
+                Ressource _value = (Ressource)Activator.CreateInstance(type, new object[]{
+                    null,
+                    progress
+                });
                 return _value;
             }
             catch
@@ -942,12 +945,16 @@ namespace Shared.Communication
                 {
                     ReadByte(_moveReadPos);
 
-                    Building _value = (Building)Activator.CreateInstance(type);
+                    byte Tribe = ReadByte(_moveReadPos);
+                    byte Level = ReadByte(_moveReadPos);
+                    byte Health = ReadByte(_moveReadPos);
 
-                    _value.Tribe = ReadByte(_moveReadPos);
-                    _value.Level = ReadByte(_moveReadPos);
-                    _value.Health = ReadByte(_moveReadPos);
-
+                    Building _value = (Building)Activator.CreateInstance(type, new object[]{
+                        null,
+                        Tribe,
+                        Level,
+                        Health
+                    });
                     return _value;
                 }
             }
@@ -968,11 +975,17 @@ namespace Shared.Communication
 
                 ReadByte(_moveReadPos);
 
-                ProtectedBuilding _value = (ProtectedBuilding)Activator.CreateInstance(type);
-                _value.Tribe = ReadByte(_moveReadPos);
-                _value.Level = ReadByte(_moveReadPos);
-                _value.Health =  ReadByte(_moveReadPos);
-                _value.TroopCount = ReadInt(_moveReadPos);
+                byte Tribe = ReadByte(_moveReadPos);
+                byte Level = ReadByte(_moveReadPos);
+                byte Health =  ReadByte(_moveReadPos);
+                int TroopCount = ReadInt(_moveReadPos);
+                ProtectedBuilding _value = (ProtectedBuilding)Activator.CreateInstance(type, new object[]{
+                    null,
+                    Tribe,
+                    Level,
+                    Health,
+                    TroopCount
+                });
                 return _value;                
             }
             catch
@@ -994,12 +1007,19 @@ namespace Shared.Communication
 
                 ReadByte(_moveReadPos);
 
-                InventoryBuilding _value = (InventoryBuilding)Activator.CreateInstance(type);
-                _value.Tribe = ReadByte(_moveReadPos);
-                _value.Level = ReadByte(_moveReadPos);
-                _value.Health = ReadByte(_moveReadPos);
-                _value.TroopCount = ReadInt(_moveReadPos);
-                _value.Inventory = ReadBuildingInventory(_moveReadPos);
+                byte Tribe = ReadByte(_moveReadPos);
+                byte Level = ReadByte(_moveReadPos);
+                byte Health = ReadByte(_moveReadPos);
+                int TroopCount = ReadInt(_moveReadPos);
+                BuildingInventory Inventory = ReadBuildingInventory(_moveReadPos);
+                InventoryBuilding _value = (InventoryBuilding)Activator.CreateInstance(type, new object[]{
+                    null,
+                    Tribe,
+                    Level,
+                    Health,
+                    TroopCount,
+                    Inventory
+                });
 
                 return _value;
             }
@@ -1016,12 +1036,20 @@ namespace Shared.Communication
             {
                 Type type = ReadByte(_moveReadPos).ToType();                
 
-                StorageBuilding _value = (StorageBuilding)Activator.CreateInstance(type);
-                _value.Tribe = ReadByte(_moveReadPos);
-                _value.Level = ReadByte(_moveReadPos);
-                _value.Health = ReadByte(_moveReadPos);
-                _value.TroopCount = ReadInt(_moveReadPos);
-                _value.Inventory = ReadBuildingInventory(_moveReadPos);
+                byte Tribe = ReadByte(_moveReadPos);
+                byte Level = ReadByte(_moveReadPos);
+                byte Health = ReadByte(_moveReadPos);
+                int TroopCount = ReadInt(_moveReadPos);
+                BuildingInventory Inventory = ReadBuildingInventory(_moveReadPos);
+
+                InventoryBuilding _value = (InventoryBuilding)Activator.CreateInstance(type, new object[]{
+                    null,
+                    Tribe,
+                    Level,
+                    Health,
+                    TroopCount,
+                    Inventory
+                });
 
                 return _value;
             }
@@ -1044,13 +1072,22 @@ namespace Shared.Communication
 
                 ReadByte(_moveReadPos);
 
-                ProgressBuilding _value = (ProgressBuilding)Activator.CreateInstance(type);
-                _value.Tribe = ReadByte(_moveReadPos);
-                _value.Level = ReadByte(_moveReadPos);
-                _value.Health = ReadByte(_moveReadPos);
-                _value.TroopCount = ReadInt(_moveReadPos);
-                _value.Inventory = ReadBuildingInventory(_moveReadPos);
-                _value.Progress = ReadInt(_moveReadPos);
+                byte Tribe = ReadByte(_moveReadPos);
+                byte Level = ReadByte(_moveReadPos);
+                byte Health = ReadByte(_moveReadPos);
+                int TroopCount = ReadInt(_moveReadPos);
+                BuildingInventory Inventory = ReadBuildingInventory(_moveReadPos);
+                int Progress = ReadInt(_moveReadPos);
+
+                ProgressBuilding _value = (ProgressBuilding)Activator.CreateInstance(type, new object[]{
+                    null,
+                    Tribe,
+                    Level,
+                    Health,
+                    TroopCount,
+                    Inventory,
+                    Progress 
+                });
                 return _value;
             }
             catch
@@ -1097,13 +1134,22 @@ namespace Shared.Communication
             {
                 Type type = ReadByte(_moveReadPos).ToType();
 
-                RefineryBuilding _value = (RefineryBuilding)Activator.CreateInstance(type);
-                _value.Tribe = ReadByte(_moveReadPos);
-                _value.Level = ReadByte(_moveReadPos);
-                _value.Health = ReadByte(_moveReadPos);
-                _value.TroopCount = ReadInt(_moveReadPos);
-                _value.Inventory = ReadBuildingInventory(_moveReadPos);
-                _value.Progress = ReadInt(_moveReadPos);
+                byte Tribe = ReadByte(_moveReadPos);
+                byte Level = ReadByte(_moveReadPos);
+                byte Health = ReadByte(_moveReadPos);
+                int TroopCount = ReadInt(_moveReadPos);
+                BuildingInventory Inventory = ReadBuildingInventory(_moveReadPos);
+                int Progress = ReadInt(_moveReadPos);
+
+                RefineryBuilding _value = (RefineryBuilding)Activator.CreateInstance(type, new object[]{
+                    null,
+                    Tribe,
+                    Level,
+                    Health,
+                    TroopCount,
+                    Inventory,
+                    Progress
+                });
                 return _value;
             }
             catch
