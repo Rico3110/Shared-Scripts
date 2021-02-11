@@ -43,6 +43,7 @@ namespace Shared.Game
                     AddStructureToList(cell.Structure);
                 }
             }
+            ComputeConnectedStorages1();
         }
         
 #region PLAYERS
