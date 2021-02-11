@@ -100,17 +100,27 @@ namespace Shared.Structures
 
         private void MoveCarts()
         {
-            foreach (Cart cart in this.Carts)
+            if (Carts.Count > 0)
             {
-                HexCell neighbor = this.Cell.GetNeighbor(this.connectedStorages[cart.Destination.Tribe][cart.Destination].Item1);
-                ((ICartHandler)neighbor.Structure).Carts.Add(cart);
+                Cart cart = Carts.First();
+                if (cart.HasMoved == false)
+                {
+                    HexCell neighbor = this.Cell.GetNeighbor(this.connectedStorages[cart.Destination.Tribe][cart.Destination].Item1);
+                    ((ICartHandler)neighbor.Structure).AddCart(cart);
+                    this.Carts.Remove(cart);
+                }
             }
-            this.Carts.Clear();
         }
 
         public void HandleCarts()
         {
             MoveCarts();
+        }
+
+        public void AddCart(Cart cart)
+        {
+            this.Carts.Add(cart);
+            cart.HasMoved = true;
         }
     }
 }

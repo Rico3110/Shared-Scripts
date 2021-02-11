@@ -19,7 +19,7 @@ namespace Shared.Structures
 
         public List<Cart> Carts { get; set; }
 
-        protected virtual byte MaxCartCount { get; } = 1; 
+        public virtual byte MaxCartCount { get; } = 1; 
 
         public InventoryBuilding() : base()
         {
@@ -52,6 +52,8 @@ namespace Shared.Structures
         
         private bool TrySendCart(Cart cart)
         {
+            if (cart.HasMoved)
+                return false;
             KeyValuePair<InventoryBuilding, Tuple<HexDirection, int, int>> destination;
             try
             {
@@ -69,7 +71,7 @@ namespace Shared.Structures
                 {
                     this.Carts.Remove(cart);
                     cart.Destination = destination.Key;
-                    ((Road)neighbor.Structure).Carts.Add(cart);
+                    ((Road)neighbor.Structure).AddCart(cart);
                     return true;
                 }
             }
@@ -77,7 +79,7 @@ namespace Shared.Structures
         }
       
 
-        public bool ReceiveCart(Cart cart)
+        public bool UnloadCart(Cart cart)
         {
             cart.Inventory.MoveInto(this.Inventory, int.MaxValue);
             if (cart.Inventory.IsEmpty())
@@ -89,7 +91,7 @@ namespace Shared.Structures
                     if (neighbor != null && neighbor.Structure is Road)
                     {
                         this.Carts.Remove(cart);
-                        ((Road)neighbor.Structure).Carts.Add(cart);
+                        ((Road)neighbor.Structure).AddCart(cart);
                     }
                 }
                 return true;
@@ -106,13 +108,16 @@ namespace Shared.Structures
                 ressourceAdded = false;
                 foreach(RessourceType ressourceType in destination.Incoming)
                 {
-                    if (cart.Inventory.AvailableSpace() > 0)
+                    if (origin.Inventory.Outgoing.Contains(ressourceType))
                     {
-                        if (origin.Inventory.GetRessourceAmount(ressourceType) > 0)
+                        if (cart.Inventory.AvailableSpace() > 0)
                         {
-                            cart.Inventory.AddRessource(ressourceType, 1);
-                            origin.Inventory.RemoveRessource(ressourceType, 1);
-                            ressourceAdded = true;
+                            if (origin.Inventory.GetRessourceAmount(ressourceType) > 0)
+                            {
+                                cart.Inventory.AddRessource(ressourceType, 1);
+                                origin.Inventory.RemoveRessource(ressourceType, 1);
+                                ressourceAdded = true;
+                            }
                         }
                     }
                 }
@@ -132,11 +137,17 @@ namespace Shared.Structures
                 }
                 else
                 {
-                    if (ReceiveCart(this.Carts[i]))
+                    if (UnloadCart(this.Carts[i]))
                         break;
                 }
             }
             // throw new NotImplementedException();
+        }
+
+        public void AddCart(Cart cart)
+        {
+            this.Carts.Add(cart);
+            cart.HasMoved = true;
         }
     }
 }

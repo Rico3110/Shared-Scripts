@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Shared.Game;
 
 namespace Shared.Structures
 {
@@ -11,6 +12,8 @@ namespace Shared.Structures
         public Inventory Inventory;
         public InventoryBuilding Origin;
         public InventoryBuilding Destination;
+
+        public bool HasMoved;
 
         public Cart()
         {
@@ -32,6 +35,11 @@ namespace Shared.Structures
             this.Inventory = Inventory;
             this.Origin = Origin;
             this.Destination = Destination;
+        }
+
+        public void DoTick()
+        {
+            HasMoved = false;
         }
 
         public void Clear()

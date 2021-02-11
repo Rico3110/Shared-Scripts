@@ -12,5 +12,6 @@ namespace Shared.Structures
 
         void HandleCarts();
 
+        void AddCart(Cart cart);
     }
 }

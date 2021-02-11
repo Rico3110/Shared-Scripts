@@ -1066,13 +1066,21 @@ namespace Shared.Communication
             {
                 Type type = ReadByte(_moveReadPos).ToType();
 
-                ProductionBuilding _value = (ProductionBuilding)Activator.CreateInstance(type);
-                _value.Tribe = ReadInt(_moveReadPos);
-                _value.Level = ReadByte(_moveReadPos);
-                _value.Health = ReadByte(_moveReadPos);
-                _value.TroopCount = ReadInt(_moveReadPos);
-                _value.Inventory = ReadBuildingInventory(_moveReadPos);
-                _value.Progress = ReadInt(_moveReadPos);
+                int Tribe = ReadInt(_moveReadPos);
+                byte Level = ReadByte(_moveReadPos);
+                byte Health = ReadByte(_moveReadPos);
+                int TroopCount = ReadInt(_moveReadPos);
+                BuildingInventory Inventory = ReadBuildingInventory(_moveReadPos);
+                int Progress = ReadInt(_moveReadPos);
+
+                ProductionBuilding _value = (ProductionBuilding)Activator.CreateInstance(type, new object[]{
+                    Tribe,
+                    Level,
+                    Health,
+                    TroopCount,
+                    Inventory,
+                    Progress
+                });
                 return _value;
             }
             catch

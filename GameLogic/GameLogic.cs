@@ -20,6 +20,8 @@ namespace Shared.Game
 
         private static List<Ressource> ressources;
 
+        private static List<Cart> carts;
+
         public static List<Tribe> Tribes = new List<Tribe>();
 
         public static List<Player> Players = new List<Player>();
@@ -32,6 +34,8 @@ namespace Shared.Game
             buildings = new List<Building>();
 
             ressources = new List<Ressource>();
+
+            carts = new List<Cart>();
 
             foreach (HexCell cell in grid.cells)
             {
@@ -139,6 +143,17 @@ namespace Shared.Game
             }
             
             AddStructureToList(building);
+
+            if(building is InventoryBuilding)
+            {
+                InventoryBuilding invBuilding = (InventoryBuilding) building;
+                carts.AddRange(invBuilding.Carts);
+                for (int i = 0; i < invBuilding.MaxCartCount; i++)
+                {
+                    carts.Add(new Cart(invBuilding));
+                }
+            }
+
             return cell;
         }
 
@@ -291,6 +306,10 @@ namespace Shared.Game
                         }
                     }
                     */
+                }
+                foreach (Cart cart in carts)
+                {
+                    cart.DoTick();
                 }
             }
             
