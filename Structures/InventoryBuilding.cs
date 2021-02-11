@@ -26,7 +26,10 @@ namespace Shared.Structures
             this.Inventory = new BuildingInventory();
             this.ConnectedInventories = new Dictionary<InventoryBuilding, Tuple<HexDirection, int, int>>();
             this.Carts = new List<Cart>();
-            this.Carts.Add(new Cart(this));
+            for (int i = 0; i < this.MaxCartCount; i++)
+            {
+                this.Carts.Add(new Cart(this));
+            }
         }
 
         public InventoryBuilding(

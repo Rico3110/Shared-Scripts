@@ -148,10 +148,6 @@ namespace Shared.Game
             {
                 InventoryBuilding invBuilding = (InventoryBuilding) building;
                 carts.AddRange(invBuilding.Carts);
-                for (int i = 0; i < invBuilding.MaxCartCount; i++)
-                {
-                    carts.Add(new Cart(invBuilding));
-                }
             }
 
             return cell;
