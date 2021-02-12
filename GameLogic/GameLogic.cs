@@ -138,12 +138,13 @@ namespace Shared.Game
 
             tribe.HQ.Inventory.ApplyRecipe(building.Recipes[0]);
 
-            if (building is InventoryBuilding || building is Road)
+            
+            AddStructureToList(building);
+
+            if (building is ICartHandler)
             {
                 ComputeConnectedStorages1();
             }
-            
-            AddStructureToList(building);
 
             if(building is InventoryBuilding)
             {
@@ -236,6 +237,10 @@ namespace Shared.Game
                 if (typeof(Building).IsAssignableFrom(structure.GetType()))
                 {
                     buildings.RemoveAll(elem => elem == structure);
+                    if(structure is ICartHandler)
+                    {
+                        ComputeConnectedStorages1();
+                    }
                 }
                 else if (typeof(Ressource).IsAssignableFrom(structure.GetType()))
                 {
@@ -286,6 +291,8 @@ namespace Shared.Game
             hq.Tribe = tribe.Id;
             
             AddStructureToList(hq);
+
+            ComputeConnectedStorages1();
 
             carts.AddRange(hq.Carts);
             return tribe;
