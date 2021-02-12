@@ -10,7 +10,7 @@ namespace Shared.Structures
 {
     public class Headquarter : InventoryBuilding
     {
-        public override byte MaxLevel => 1;
+        public override byte MaxLevel => 3;
 
         public override byte MaxHealth => 100;
 
@@ -19,6 +19,8 @@ namespace Shared.Structures
             get
             {
                 Dictionary<RessourceType, int>[] result = {
+                    new Dictionary<RessourceType, int>{ },
+                    new Dictionary<RessourceType, int>{ },
                     new Dictionary<RessourceType, int>{ }
                 };
                 return result;
