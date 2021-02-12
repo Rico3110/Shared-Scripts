@@ -286,6 +286,8 @@ namespace Shared.Game
             hq.Tribe = tribe.Id;
             
             AddStructureToList(hq);
+
+            carts.AddRange(hq.Carts);
             return tribe;
         }
 

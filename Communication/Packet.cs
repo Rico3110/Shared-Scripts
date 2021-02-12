@@ -20,6 +20,7 @@ namespace Shared.Communication
         broadcastPlayer = 7,
         broadcastTribe = 8,
         applyBuild = 9,
+        applyBuildHQ = 10,
         testBuilding = 420
     }
 
