@@ -15,10 +15,11 @@ namespace Shared.Communication
         ping = 2,
         initGameLogic = 3,
         sendStructure = 4,
-        sendGameTick = 5,
-        sendUpgradeBuilding = 6,
+        gameTick = 5,
+        upgradeBuilding = 6,
         broadcastPlayer = 7,
         broadcastTribe = 8,
+        applyBuild = 9,
         testBuilding = 420
     }
 
@@ -881,7 +882,30 @@ namespace Shared.Communication
         #endregion
 
         #region Read Structures
+        /// <summary>Reads a Structure from the packet directly onto the HexGrid.</summary>
+        /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
+        public Structure ReadStructure(HexGrid.HexGrid grid, bool _moveReadPos = true)
+        {
+            try
+            {
+                Structure _value = ReadStructure(_moveReadPos);
+                if(_value != null)
+                {
+                    HexCoordinates coordinates = ReadHexCoordinates(_moveReadPos);
 
+                    HexCell cell = grid.GetCell(coordinates);
+                    _value.Cell = cell;
+                    cell.Structure = _value;
+                    if(_value is ICartHandler)
+                        ((ICartHandler)_value).Carts = ReadListOfCart(grid, _moveReadPos);
+                }
+                return _value;
+            }
+            catch
+            {
+                throw new Exception("Could not read value of type 'Structure' onto HexGrid!");
+            }
+        }
         /// <summary>Reads a Structure from the packet.</summary>
         /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
         public Structure ReadStructure(bool _moveReadPos = true)
