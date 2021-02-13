@@ -146,12 +146,6 @@ namespace Shared.Game
                 ComputeConnectedStorages1();
             }
 
-            if(building is InventoryBuilding)
-            {
-                InventoryBuilding invBuilding = (InventoryBuilding) building;
-                carts.AddRange(invBuilding.Carts);
-            }
-
             return cell;
         }
 
@@ -294,7 +288,6 @@ namespace Shared.Game
 
             ComputeConnectedStorages1();
 
-            carts.AddRange(hq.Carts);
             return tribe;
         }
 
