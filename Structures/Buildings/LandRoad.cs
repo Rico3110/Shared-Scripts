@@ -55,8 +55,6 @@ namespace Shared.Structures
         public override void DoTick()
         {
             base.DoTick();
-            Console.WriteLine("con s: " + connectedStorages.Count.ToString());
-
         }
     }
 }
