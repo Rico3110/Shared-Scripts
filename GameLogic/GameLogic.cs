@@ -368,7 +368,7 @@ namespace Shared.Game
                 if (neighbor != null && neighbor.Structure is Road && ((Road)neighbor.Structure).HasRoad(dir.Opposite()))
                     ComputeConnectedStorages((Road)neighbor.Structure, origin, dir.Opposite(), Mathf.Min(minRoadLevel, current.Level), depth + 1);
 
-                if (neighbor != null && neighbor.Structure is InventoryBuilding && current.HasBuilding(dir))
+                if (neighbor != null && neighbor.Structure is InventoryBuilding && current.HasBuilding(dir) && neighbor.Structure != origin)
                 {
                     InventoryBuilding inventoryBuilding = (InventoryBuilding) neighbor.Structure;
                     if (inventoryBuilding.ConnectedInventories.ContainsKey(origin))
