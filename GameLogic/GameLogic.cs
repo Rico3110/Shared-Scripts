@@ -344,18 +344,23 @@ namespace Shared.Game
 
         public static void ComputeConnectedStorages(Road current, InventoryBuilding origin, HexDirection direction, int minRoadLevel, int depth)
         {
+            //Check if the tribe is already in the current dictionary and add it if it isn't
             if (!current.connectedStorages.ContainsKey(origin.Tribe))
                 current.connectedStorages.Add(origin.Tribe, new Dictionary<InventoryBuilding, Tuple<HexDirection, int, int>>());
+            
+            //Check if the origin Building already has an entry in the dictionary
             if (current.connectedStorages[origin.Tribe].ContainsKey(origin))
             {
+                //An entry of the origin Building already exists. Check if the current Route has a better flowrate.
                 if (FlowRate(current.connectedStorages[origin.Tribe][origin].Item2, current.connectedStorages[origin.Tribe][origin].Item3) >= FlowRate(minRoadLevel, depth))
                 {
                     return;
                 }
                 else 
                 {
-                    current.connectedStorages[origin.Tribe].Remove(origin);
-                    current.connectedStorages[origin.Tribe].Add(origin, new Tuple<HexDirection, int, int>(direction, Mathf.Min(minRoadLevel, current.Level), depth));
+                    // current.connectedStorages[origin.Tribe].Remove(origin);
+                    // current.connectedStorages[origin.Tribe].Add(origin, new Tuple<HexDirection, int, int>(direction, Mathf.Min(minRoadLevel, current.Level), depth));
+                    current.connectedStorages[origin.Tribe][origin] = new Tuple<HexDirection, int, int>(direction, Mathf.Min(minRoadLevel, current.Level), depth);
                 }
             }
             else 
@@ -365,7 +370,7 @@ namespace Shared.Game
             for (HexDirection dir = HexDirection.NE; dir <= HexDirection.NW; dir++)
             {
                 HexCell neighbor = current.Cell.GetNeighbor(dir);
-                if (neighbor != null && neighbor.Structure is Road && ((Road)neighbor.Structure).HasRoad(dir.Opposite()))
+                if (neighbor != null && neighbor.Structure is Road && ((Road)neighbor.Structure).HasRoad(dir.Opposite())) 
                     ComputeConnectedStorages((Road)neighbor.Structure, origin, dir.Opposite(), Mathf.Min(minRoadLevel, current.Level), depth + 1);
 
                 if (neighbor != null && neighbor.Structure is InventoryBuilding && current.HasBuilding(dir) && neighbor.Structure != origin)

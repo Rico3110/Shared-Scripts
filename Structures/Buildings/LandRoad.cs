@@ -51,5 +51,12 @@ namespace Shared.Structures
         {
             return base.IsPlaceable(cell);
         }
+
+        public override void DoTick()
+        {
+            base.DoTick();
+            Console.WriteLine("con s: " + connectedStorages.Count.ToString());
+
+        }
     }
 }
