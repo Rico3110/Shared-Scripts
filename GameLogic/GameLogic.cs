@@ -392,7 +392,7 @@ namespace Shared.Game
                 }
 
                 //Add the entry to a connected Building
-                if (neighbor != null && neighbor.Structure is InventoryBuilding && current.HasBuilding(dir) && neighbor.Structure != origin)
+                if (neighbor != null && neighbor.Structure is InventoryBuilding && current.HasBuilding(dir) && neighbor.Structure != origin && ((InventoryBuilding) neighbor.Structure).Tribe == origin.Tribe)
                 {
                     InventoryBuilding inventoryBuilding = (InventoryBuilding) neighbor.Structure;
                     if (inventoryBuilding.ConnectedInventories.ContainsKey(origin))

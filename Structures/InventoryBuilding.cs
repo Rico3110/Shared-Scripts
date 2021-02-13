@@ -113,6 +113,7 @@ namespace Shared.Structures
                     return kvp;
                 }
             }
+            //Then check if a building can be found that has space for any fitting ressourceType
             foreach (KeyValuePair<InventoryBuilding, Tuple<HexDirection, int, int>> kvp in this.ConnectedInventories)
             {
                 foreach (RessourceType ressourceType in this.Inventory.Outgoing)
