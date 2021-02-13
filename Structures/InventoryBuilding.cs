@@ -117,7 +117,7 @@ namespace Shared.Structures
             {
                 foreach (RessourceType ressourceType in this.Inventory.Outgoing)
                 {
-                    if (kvp.Key.Inventory.Outgoing.Contains(ressourceType))
+                    if (kvp.Key.Inventory.Incoming.Contains(ressourceType))
                     {
                         if (kvp.Key.Inventory.AvailableSpace(ressourceType) > 0)
                             return kvp;
