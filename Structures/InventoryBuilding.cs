@@ -60,7 +60,8 @@ namespace Shared.Structures
             KeyValuePair<InventoryBuilding, Tuple<HexDirection, int, int>> destination;
             try
             {
-                destination = this.ConnectedInventories.First();
+                destination = this.FindDestination();
+                //destination = this.ConnectedInventories.First();
             }
             catch(Exception e)
             {
@@ -98,6 +99,43 @@ namespace Shared.Structures
                     }
                 }
                 return true;
+            }
+            return false;
+        }
+
+        private KeyValuePair<InventoryBuilding, Tuple<HexDirection, int, int>> FindDestination()
+        {
+            //First check if there is a building which has an empty ressource which can be send.
+            foreach (KeyValuePair<InventoryBuilding, Tuple<HexDirection, int, int>> kvp in this.ConnectedInventories)
+            {
+                if (kvp.Key.HasEmptyRessource(this))
+                {
+                    return kvp;
+                }
+            }
+            foreach (KeyValuePair<InventoryBuilding, Tuple<HexDirection, int, int>> kvp in this.ConnectedInventories)
+            {
+                foreach (RessourceType ressourceType in this.Inventory.Outgoing)
+                {
+                    if (kvp.Key.Inventory.Outgoing.Contains(ressourceType))
+                    {
+                        if (kvp.Key.Inventory.AvailableSpace(ressourceType) > 0)
+                            return kvp;
+                    }
+                }
+            }
+            throw new Exception("No fitting destination found");
+        }
+
+        public virtual bool HasEmptyRessource(InventoryBuilding origin)
+        {
+            foreach (RessourceType ressourceType in origin.Inventory.Outgoing)
+            {
+                if (this.Inventory.Incoming.Contains(ressourceType))
+                {
+                    if (this.Inventory.GetRessourceAmount(ressourceType) == 0)
+                        return true;
+                }
             }
             return false;
         }
