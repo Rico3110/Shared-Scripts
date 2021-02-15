@@ -171,6 +171,23 @@ namespace Shared.Structures
             }
             return true;
         }
+
+        public RessourceType GetMainRessource()
+        {
+            RessourceType mainRessource = RessourceType.WOOD;
+            int mainRessourceAmount = 0;
+
+            foreach (RessourceType ressourceType in this.Storage.Keys)
+            {
+                if(Storage[ressourceType] > mainRessourceAmount)
+                {
+                    mainRessourceAmount = Storage[ressourceType];
+                    mainRessource = ressourceType;
+                }
+            }
+
+            return mainRessource;
+        }
     }
 }
 
