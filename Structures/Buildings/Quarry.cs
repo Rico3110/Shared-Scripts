@@ -10,7 +10,7 @@ namespace Shared.Structures
 {
     class Quarry : ProductionBuilding
     {
-        public override byte MaxLevel => 1;
+        public override byte MaxLevel => 3;
         public override byte MaxHealth => 100;
         public override RessourceType ProductionType => RessourceType.STONE;
         public override byte Gain => 4;
@@ -21,7 +21,9 @@ namespace Shared.Structures
             get
             {
                 Dictionary<RessourceType, int>[] result = {
-                    new Dictionary<RessourceType, int>{ {RessourceType.WOOD, 5 } }
+                    new Dictionary<RessourceType, int>{ {RessourceType.WOOD, 5 } },
+                    new Dictionary<RessourceType, int>{ {RessourceType.STONE, 5 } },
+                    new Dictionary<RessourceType, int>{ {RessourceType.IRON, 2 } }
                 };
                 return result;
             }

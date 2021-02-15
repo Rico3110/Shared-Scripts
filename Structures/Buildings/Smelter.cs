@@ -11,7 +11,7 @@ namespace Shared.Structures
 {
     class Smelter : RefineryBuilding
     {
-        public override byte MaxLevel => 3;
+        public override byte MaxLevel => 1;
         public override byte MaxHealth => 100;
         public override int MaxProgress => 10;
         public override Dictionary<RessourceType, int> InputRecipe => new Dictionary<RessourceType, int> { { RessourceType.COAL, 1 }, { RessourceType.IRON_ORE, 1 } };
@@ -23,9 +23,7 @@ namespace Shared.Structures
             get
             {
                 Dictionary<RessourceType, int>[] result = {
-                    new Dictionary<RessourceType, int>{ },
-                    new Dictionary<RessourceType, int>{ },
-                    new Dictionary<RessourceType, int>{ }
+                    new Dictionary<RessourceType, int>{ { RessourceType.WOOD, 3 }, { RessourceType.STONE, 2 }  }
                 };
                 return result;
             }

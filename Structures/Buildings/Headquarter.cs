@@ -20,8 +20,8 @@ namespace Shared.Structures
             {
                 Dictionary<RessourceType, int>[] result = {
                     new Dictionary<RessourceType, int>{ },
-                    new Dictionary<RessourceType, int>{ },
-                    new Dictionary<RessourceType, int>{ }
+                    new Dictionary<RessourceType, int>{ { RessourceType.WOOD, 5 }, { RessourceType.STONE, 2 } },
+                    new Dictionary<RessourceType, int>{ { RessourceType.WOOD, 10 }, { RessourceType.STONE, 2 }, { RessourceType.IRON, 3 } }
                 };
                 return result;
             }
@@ -30,9 +30,11 @@ namespace Shared.Structures
         public Headquarter() : base()
         {
             this.Inventory.Storage = BuildingInventory.GetDictionaryForAllRessources();
-            this.Inventory.RessourceLimit = 50;
+            this.Inventory.RessourceLimit = 100;
             // this.Inventory.Outgoing = Inventory.GetListOfAllRessources();
             this.Inventory.Incoming = BuildingInventory.GetListOfAllRessources();
+
+            this.Inventory.UpdateRessourceLimits(new Dictionary<RessourceType, int> { { RessourceType.WOOD, 40 }, { RessourceType.STONE, 20 }, { RessourceType.IRON, 20 }, { RessourceType.IRON_ORE, 10 }, { RessourceType.COAL, 10 } });
         }
 
         public Headquarter(
