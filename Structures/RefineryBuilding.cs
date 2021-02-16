@@ -25,6 +25,10 @@ namespace Shared.Structures
             }
             this.Inventory.UpdateIncoming(InputRecipe.Keys.ToList());
             this.Inventory.UpdateOutgoing(OutputRecipe.Keys.ToList());
+            foreach (RessourceType ressourceType in this.Inventory.Storage.Keys)
+            {
+                this.Inventory.RessourceLimits[ressourceType] = this.RessourceLimit / this.Inventory.Storage.Keys.Count;
+            }
         }
 
         public RefineryBuilding(
@@ -46,7 +50,6 @@ namespace Shared.Structures
             foreach (RessourceType ressourceType in this.Inventory.Storage.Keys)
             {
                 this.Inventory.RessourceLimits[ressourceType] = this.RessourceLimit / this.Inventory.Storage.Keys.Count;
-
             }
 
         }
