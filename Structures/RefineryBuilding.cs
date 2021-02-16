@@ -15,7 +15,16 @@ namespace Shared.Structures
 
         public RefineryBuilding() : base()
         {
-            Progress = 0;
+            foreach(RessourceType ressourceType in InputRecipe.Keys)
+            {
+                this.Inventory.AddRessource(ressourceType);
+            }
+            foreach (RessourceType ressourceType in OutputRecipe.Keys)
+            {
+                this.Inventory.AddRessource(ressourceType);
+            }
+            this.Inventory.UpdateIncoming(InputRecipe.Keys.ToList());
+            this.Inventory.UpdateIncoming(OutputRecipe.Keys.ToList());
         }
 
         public RefineryBuilding(
@@ -28,6 +37,17 @@ namespace Shared.Structures
             int Progress
         ) : base(Cell, Tribe, Level, Health, TroopCount, Inventory, Progress)
         {
+
+        }
+
+        public override void Upgrade()
+        {
+            base.Upgrade();
+            foreach (RessourceType ressourceType in this.Inventory.Storage.Keys)
+            {
+                this.Inventory.RessourceLimits[ressourceType] = this.RessourceLimit / this.Inventory.Storage.Keys.Count;
+
+            }
 
         }
 
@@ -44,7 +64,6 @@ namespace Shared.Structures
                 Progress = 1;
                 Inventory.ApplyRecipe(InputRecipe);
             }
-
         }
     }
 }

@@ -18,6 +18,12 @@ namespace Shared.Structures
             200
         };
 
+        public override int[] RessourceLimits => new int[] {
+            4,
+            10,
+            20
+        };
+
         public override RessourceType ProductionType => RessourceType.COAL;
         
         public override byte Gain => 4;

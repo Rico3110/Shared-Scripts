@@ -15,6 +15,13 @@ namespace Shared.Structures
         public override byte[] MaxHealths => new byte[]{
             50
         };
+
+        public override int[] RessourceLimits => new int[] {
+            6,
+            12,
+            26
+        };
+
         public override int MaxProgress => 10;
         public override Dictionary<RessourceType, int> InputRecipe => new Dictionary<RessourceType, int> { { RessourceType.COAL, 1 }, { RessourceType.IRON_ORE, 1 } };
         public override Dictionary<RessourceType, int> OutputRecipe => new Dictionary<RessourceType, int> { { RessourceType.IRON, 1 } };
@@ -33,15 +40,7 @@ namespace Shared.Structures
 
         public Smelter() : base()
         {
-            this.Inventory.Storage.Add(RessourceType.IRON_ORE, 0);
-            this.Inventory.Storage.Add(RessourceType.COAL, 0);
-            this.Inventory.Storage.Add(RessourceType.IRON, 0);
-            this.Inventory.RessourceLimit = 26;
-            this.Inventory.RessourceLimits.Add(RessourceType.IRON_ORE, 8);
-            this.Inventory.RessourceLimits.Add(RessourceType.COAL, 8);
-            this.Inventory.Incoming.Add(RessourceType.IRON_ORE);
-            this.Inventory.Incoming.Add(RessourceType.COAL);
-            this.Inventory.Outgoing.Add(RessourceType.IRON);
+            
         }
 
         public Smelter(
@@ -55,17 +54,6 @@ namespace Shared.Structures
             ) : base(Cell, Tribe, Level, Health, TroopCount, Inventory, Progress)
         {
             
-        }
-
-        public override void DoTick()
-        {
-            base.DoTick();
-            if (Inventory.GetRessourceAmount(RessourceType.COAL) > 0 && Inventory.GetRessourceAmount(RessourceType.IRON_ORE) > 0)
-            {
-                Inventory.RemoveRessource(RessourceType.COAL, 1);
-                Inventory.RemoveRessource(RessourceType.IRON_ORE, 1);
-                Inventory.AddRessource(RessourceType.IRON, 1);
-            }
         }
 
         public override bool IsPlaceable(HexCell cell)

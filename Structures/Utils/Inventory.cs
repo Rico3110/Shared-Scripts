@@ -29,6 +29,13 @@ namespace Shared.Structures
             this.RessourceLimit = RessourceLimit;
         }
 
+        public void AddRessource(RessourceType ressourceType)
+        {
+            if (this.Storage.ContainsKey(ressourceType))
+                return;
+            this.Storage.Add(ressourceType, 0);
+        }
+
         public int GetRessourceAmount(RessourceType ressourceType)
         {
             if (Storage.ContainsKey(ressourceType))

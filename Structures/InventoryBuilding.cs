@@ -11,6 +11,9 @@ namespace Shared.Structures
 {
     public abstract class InventoryBuilding : ProtectedBuilding, ICartHandler
     {
+        public int RessourceLimit { get { return RessourceLimits[Level - 1]; } }
+        public abstract int[] RessourceLimits { get; }
+
         public BuildingInventory Inventory;
         
         public Dictionary<InventoryBuilding, Tuple<HexDirection, int, int>> ConnectedInventories;
@@ -24,6 +27,7 @@ namespace Shared.Structures
         public InventoryBuilding() : base()
         {
             this.Inventory = new BuildingInventory();
+            this.Inventory.RessourceLimit = this.RessourceLimit;
             this.ConnectedInventories = new Dictionary<InventoryBuilding, Tuple<HexDirection, int, int>>();
             this.Carts = new List<Cart>();
             for (int i = 0; i < this.MaxCartCount; i++)
@@ -51,8 +55,13 @@ namespace Shared.Structures
             base.DoTick();
             HandleCarts();
         }
-      
-        
+
+        public override void Upgrade()
+        {
+            base.Upgrade();
+            this.Inventory.RessourceLimit = RessourceLimits[Level - 1];
+        }
+
         private bool TrySendCart(Cart cart)
         {
             if (cart.HasMoved)

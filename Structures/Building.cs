@@ -16,7 +16,7 @@ namespace Shared.Structures
         public byte Health;
 
         public abstract byte MaxLevel { get; }
-        public byte MaxHealth { get { return MaxHealths[Level]; } }
+        public byte MaxHealth { get { return MaxHealths[Level - 1]; } }
         public abstract byte[] MaxHealths { get; }
 
         public abstract Dictionary<RessourceType, int>[] Recipes { get; }
@@ -25,7 +25,7 @@ namespace Shared.Structures
         {
             this.Tribe = 0;
             this.Level = 1;
-            this.Health = 100;
+            this.Health = MaxHealth;
         }
 
         public Building(HexCell Cell, byte Tribe, byte Level, byte Health) : base(Cell)
@@ -45,7 +45,7 @@ namespace Shared.Structures
             this.Health = (byte)Mathf.Min(this.MaxHealth, this.Health + count);
         }
 
-        public void Upgrade()
+        public virtual void Upgrade()
         {
 
             if(Level < MaxLevel)

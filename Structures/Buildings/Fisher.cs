@@ -15,6 +15,10 @@ namespace Shared.Structures
         public override byte[] MaxHealths => new byte[]{
             50
         };
+
+        public override int[] RessourceLimits => new int[] {
+            4
+        };
         public override RessourceType ProductionType => RessourceType.WOOD;
         public override byte Gain => 4;
         public override int MaxProgress => 10;

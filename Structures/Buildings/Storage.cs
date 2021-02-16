@@ -18,6 +18,12 @@ namespace Shared.Structures
             255
         };
 
+        public override int[] RessourceLimits => new int[] {
+            80,
+            140,
+            200
+        };
+
         public override Dictionary<RessourceType, int>[] Recipes
         {
             get
@@ -32,7 +38,6 @@ namespace Shared.Structures
         public Storage() : base()
         {
             this.Inventory.Storage = BuildingInventory.GetDictionaryForAllRessources();
-            this.Inventory.RessourceLimit = 50;
             this.Inventory.Incoming = BuildingInventory.GetListOfAllRessources();
             this.Inventory.Outgoing = BuildingInventory.GetListOfAllRessources();
         }

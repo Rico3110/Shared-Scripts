@@ -18,11 +18,17 @@ namespace Shared.Structures
             200
         };
 
+        public override int[] RessourceLimits => new int[] {
+            4,
+            10,
+            20
+        };
+        public override int MaxProgress => 3;
+
         public override RessourceType ProductionType => RessourceType.IRON_ORE;
         
         public override byte Gain => 4;
 
-        public override int MaxProgress => 3;
 
         public override Dictionary<RessourceType, int>[] Recipes
         {

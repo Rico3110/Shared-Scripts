@@ -16,9 +16,14 @@ namespace Shared.Structures
             100,
             200
         };
+        public override int[] RessourceLimits => new int[] {
+            4,
+            10,
+            20
+        };
+        public override int MaxProgress => 10;
         public override RessourceType ProductionType => RessourceType.STONE;
         public override byte Gain => 4;
-        public override int MaxProgress => 10;
 
         public override Dictionary<RessourceType, int>[] Recipes
         {
