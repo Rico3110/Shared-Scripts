@@ -17,7 +17,6 @@ namespace Shared.Structures
 
         public abstract byte MaxLevel { get; }
         public abstract byte MaxHealth { get; }
-
         public abstract Dictionary<RessourceType, int>[] Recipes { get; }
 
         public Building() : base()

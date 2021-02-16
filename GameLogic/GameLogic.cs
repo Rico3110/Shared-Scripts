@@ -171,6 +171,9 @@ namespace Shared.Game
             if(cell.Structure is Building)
             {
                 Building building = (Building)cell.Structure;
+                if (building.Tribe != player.Tribe.Id)
+                    return false;
+
                 if (!building.IsUpgradable())
                     return false;
 
