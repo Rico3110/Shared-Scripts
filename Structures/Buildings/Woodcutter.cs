@@ -12,13 +12,26 @@ namespace Shared.Structures
     public class Woodcutter : ProductionBuilding
     {
         public override byte MaxLevel => 3;
-        public override byte MaxHealth => 100;
 
+        public override byte[] MaxHealths => new byte[]{
+            50,
+            100,
+            200
+        };
+
+        public override int[] RessourceLimits => new int[] {
+            4,
+            10,
+            20
+        };
+
+        public override int MaxProgress => 2;
+        
         public override RessourceType ProductionType => RessourceType.WOOD;
 
         public override byte Gain => 4;
 
-        public override int MaxProgress => 2;
+
 
         public override Dictionary<RessourceType, int>[] Recipes
         {
@@ -36,8 +49,6 @@ namespace Shared.Structures
         public Woodcutter() : base()
         {
             this.Inventory.Storage.Add(RessourceType.WOOD, 0);
-            this.Inventory.RessourceLimit = 20;
-            this.Inventory.RessourceLimits.Add(RessourceType.WOOD, 13);
             this.Inventory.Outgoing.Add(RessourceType.WOOD);
         }
 

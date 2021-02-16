@@ -11,7 +11,18 @@ namespace Shared.Structures
     class CoalMine : ProductionBuilding
     {
         public override byte MaxLevel => 3;
-        public override byte MaxHealth => 100;
+
+        public override byte[] MaxHealths => new byte[]{
+            50,
+            100,
+            200
+        };
+
+        public override int[] RessourceLimits => new int[] {
+            4,
+            10,
+            20
+        };
 
         public override RessourceType ProductionType => RessourceType.COAL;
         

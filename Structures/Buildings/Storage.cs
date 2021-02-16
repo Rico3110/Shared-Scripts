@@ -11,7 +11,18 @@ namespace Shared.Structures
     class Storage : InventoryBuilding
     {
         public override byte MaxLevel => 1;
-        public override byte MaxHealth => 100;
+        
+        public override byte[] MaxHealths => new byte[]{
+            100,
+            200,
+            255
+        };
+
+        public override int[] RessourceLimits => new int[] {
+            80,
+            140,
+            200
+        };
 
         public override Dictionary<RessourceType, int>[] Recipes
         {
@@ -27,7 +38,6 @@ namespace Shared.Structures
         public Storage() : base()
         {
             this.Inventory.Storage = BuildingInventory.GetDictionaryForAllRessources();
-            this.Inventory.RessourceLimit = 50;
             this.Inventory.Incoming = BuildingInventory.GetListOfAllRessources();
             this.Inventory.Outgoing = BuildingInventory.GetListOfAllRessources();
         }

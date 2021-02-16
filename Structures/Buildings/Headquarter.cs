@@ -12,7 +12,17 @@ namespace Shared.Structures
     {
         public override byte MaxLevel => 3;
 
-        public override byte MaxHealth => 100;
+        public override byte[] MaxHealths => new byte[]{
+            100,
+            200,
+            255
+        };
+
+        public override int[] RessourceLimits => new int[] {
+            80,
+            100,
+            140
+        };
 
         public override Dictionary<RessourceType, int>[] Recipes
         {
@@ -30,10 +40,7 @@ namespace Shared.Structures
         public Headquarter() : base()
         {
             this.Inventory.Storage = BuildingInventory.GetDictionaryForAllRessources();
-            this.Inventory.RessourceLimit = 100;
-            // this.Inventory.Outgoing = Inventory.GetListOfAllRessources();
             this.Inventory.Incoming = BuildingInventory.GetListOfAllRessources();
-
             this.Inventory.UpdateRessourceLimits(new Dictionary<RessourceType, int> { { RessourceType.WOOD, 40 }, { RessourceType.STONE, 20 }, { RessourceType.IRON, 20 }, { RessourceType.IRON_ORE, 10 }, { RessourceType.COAL, 10 } });
         }
 
