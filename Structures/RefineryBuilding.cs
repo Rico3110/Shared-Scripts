@@ -24,7 +24,7 @@ namespace Shared.Structures
                 this.Inventory.AddRessource(ressourceType);
             }
             this.Inventory.UpdateIncoming(InputRecipe.Keys.ToList());
-            this.Inventory.UpdateIncoming(OutputRecipe.Keys.ToList());
+            this.Inventory.UpdateOutgoing(OutputRecipe.Keys.ToList());
         }
 
         public RefineryBuilding(
