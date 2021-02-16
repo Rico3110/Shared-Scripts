@@ -11,7 +11,12 @@ namespace Shared.Structures
     class Storage : InventoryBuilding
     {
         public override byte MaxLevel => 1;
-        public override byte MaxHealth => 100;
+        
+        public override byte[] MaxHealths => new byte[]{
+            100,
+            200,
+            255
+        };
 
         public override Dictionary<RessourceType, int>[] Recipes
         {

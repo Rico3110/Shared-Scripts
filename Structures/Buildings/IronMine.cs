@@ -11,7 +11,12 @@ namespace Shared.Structures
     class IronMine : ProductionBuilding
     {
         public override byte MaxLevel => 3;
-        public override byte MaxHealth => 100;
+
+        public override byte[] MaxHealths => new byte[]{
+            50,
+            100,
+            200
+        };
 
         public override RessourceType ProductionType => RessourceType.IRON_ORE;
         

@@ -12,7 +12,9 @@ namespace Shared.Structures
     class Smelter : RefineryBuilding
     {
         public override byte MaxLevel => 1;
-        public override byte MaxHealth => 100;
+        public override byte[] MaxHealths => new byte[]{
+            50
+        };
         public override int MaxProgress => 10;
         public override Dictionary<RessourceType, int> InputRecipe => new Dictionary<RessourceType, int> { { RessourceType.COAL, 1 }, { RessourceType.IRON_ORE, 1 } };
         public override Dictionary<RessourceType, int> OutputRecipe => new Dictionary<RessourceType, int> { { RessourceType.IRON, 1 } };

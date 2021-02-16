@@ -12,7 +12,9 @@ namespace Shared.Structures
     class Fisher : ProductionBuilding
     {
         public override byte MaxLevel => 1;
-        public override byte MaxHealth => 100;
+        public override byte[] MaxHealths => new byte[]{
+            50
+        };
         public override RessourceType ProductionType => RessourceType.WOOD;
         public override byte Gain => 4;
         public override int MaxProgress => 10;

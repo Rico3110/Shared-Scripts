@@ -12,13 +12,19 @@ namespace Shared.Structures
     public class Woodcutter : ProductionBuilding
     {
         public override byte MaxLevel => 3;
-        public override byte MaxHealth => 100;
+
+        public override byte[] MaxHealths => new byte[]{
+            50,
+            100,
+            200
+        };
 
         public override RessourceType ProductionType => RessourceType.WOOD;
 
         public override byte Gain => 4;
 
         public override int MaxProgress => 2;
+
 
         public override Dictionary<RessourceType, int>[] Recipes
         {
