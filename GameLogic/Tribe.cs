@@ -28,6 +28,7 @@ namespace Shared.Game
         {
             this.Id = id;
             this.HQ = hq;
+            this.CurrentBuildings = new Dictionary<Type, int>();
         }
 
         public Tribe
