@@ -119,6 +119,9 @@ namespace Shared.Game
                 return false;
             }
 
+            if (!player.Tribe.BuildingPlacable(building.GetType()))
+                return false;
+
             if (!player.Tribe.HQ.Inventory.RecipeApplicable(building.Recipes[0]))
                 return false;
 
@@ -140,6 +143,8 @@ namespace Shared.Game
 
             
             AddStructureToList(building);
+
+            tribe.AddBuilding(building.GetType());
 
             if (building is ICartHandler)
             {

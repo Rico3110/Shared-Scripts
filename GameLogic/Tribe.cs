@@ -12,6 +12,14 @@ namespace Shared.Game
         public byte Id;
         public Headquarter HQ;
 
+        public Dictionary<Type, int> CurrentBuildings;
+
+        public static Dictionary<Type, int>[] BuildingLimits = {
+            new Dictionary<Type, int>{ { typeof(Woodcutter), 2 }, { typeof(Road), 10 } },
+            new Dictionary<Type, int>{ { typeof(Woodcutter), 2 }, { typeof(Road), 15 }, { typeof(Storage), 1 }, { typeof(Quarry), 2 } },
+            new Dictionary<Type, int>{ { typeof(Woodcutter), 2 }, { typeof(Road), 20 }, { typeof(Storage), 2 }, { typeof(Quarry), 2 }, { typeof(IronMine), 1 }, { typeof(CoalMine), 1 }, { typeof(Smelter), 1 } }
+        };
+
         public Tribe
         (
             byte id,
@@ -20,6 +28,44 @@ namespace Shared.Game
         {
             this.Id = id;
             this.HQ = hq;
+        }
+
+        public Tribe
+        (
+            byte id,
+            Headquarter hq,
+            Dictionary<Type, int> currentBuildings
+        )
+        {
+            this.Id = id;
+            this.HQ = hq;
+            this.CurrentBuildings = currentBuildings;
+        }
+
+        public bool BuildingPlacable(Type buildingType)
+        {
+            Dictionary<Type, int> limits = BuildingLimits[HQ.Level - 1];
+
+            if (!limits.ContainsKey(buildingType))
+                return false;
+            if (!CurrentBuildings.ContainsKey(buildingType))
+                CurrentBuildings.Add(buildingType, 0);
+            if (limits[buildingType] > CurrentBuildings[buildingType])
+                return true;
+
+            return false;
+        }
+
+        public void AddBuilding(Type buildingType)
+        {
+            if (!CurrentBuildings.ContainsKey(buildingType))
+                CurrentBuildings.Add(buildingType, 0);
+            CurrentBuildings[buildingType] += 1;
+        }
+
+        public void RemoveBuilding(Type buildingType)
+        {
+            CurrentBuildings[buildingType] -= 1;
         }
     }
 }
