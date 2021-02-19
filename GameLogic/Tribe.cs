@@ -16,9 +16,11 @@ namespace Shared.Game
 
         public static Dictionary<Type, int>[] BuildingLimits = {
             new Dictionary<Type, int>{ { typeof(Woodcutter), 2 }, { typeof(LandRoad), 10 } },
-            new Dictionary<Type, int>{ { typeof(Woodcutter), 2 }, { typeof(Road), 15 }, { typeof(Storage), 1 }, { typeof(Quarry), 2 } },
-            new Dictionary<Type, int>{ { typeof(Woodcutter), 2 }, { typeof(Road), 20 }, { typeof(Storage), 2 }, { typeof(Quarry), 2 }, { typeof(IronMine), 1 }, { typeof(CoalMine), 1 }, { typeof(Smelter), 1 } }
+            new Dictionary<Type, int>{ { typeof(Woodcutter), 2 }, { typeof(LandRoad), 15 }, { typeof(Storage), 1 }, { typeof(Quarry), 2 } },
+            new Dictionary<Type, int>{ { typeof(Woodcutter), 2 }, { typeof(LandRoad), 20 }, { typeof(Storage), 2 }, { typeof(Quarry), 2 }, { typeof(IronMine), 1 }, { typeof(CoalMine), 1 }, { typeof(Smelter), 1 } }
         };
+
+        public Dictionary<Type, int> BuildingLimit { get { return BuildingLimits[this.HQ.Level - 1]; } }
 
         public Tribe
         (
@@ -28,7 +30,15 @@ namespace Shared.Game
         {
             this.Id = id;
             this.HQ = hq;
-            this.CurrentBuildings = new Dictionary<Type, int>();
+            this.CurrentBuildings = new Dictionary<Type, int> {
+                { typeof(Woodcutter), 0 },
+                { typeof(LandRoad), 0 },
+                { typeof(Storage), 0 },
+                { typeof(Quarry), 0 },
+                { typeof(IronMine), 0 },
+                { typeof(CoalMine), 0 },
+                { typeof(Smelter), 0 },
+            };
         }
 
         public Tribe
