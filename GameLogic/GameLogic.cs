@@ -50,6 +50,12 @@ namespace Shared.Game
                 if (building is Headquarter)
                     AddTribe(building.Tribe, (Headquarter) building);
             }
+
+            foreach(Building building in buildings)
+            {
+                Tribe tribe = GetTribe(building.Tribe);
+                tribe.AddBuilding(building.GetType());
+            }
         }
         
 #region PLAYERS
