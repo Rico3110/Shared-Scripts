@@ -44,6 +44,12 @@ namespace Shared.Game
                 }
             }
             ComputeConnectedStorages();
+
+            foreach(Building building in buildings)
+            {
+                if (building is Headquarter)
+                    AddTribe(building.Tribe, (Headquarter) building);
+            }
         }
         
 #region PLAYERS
