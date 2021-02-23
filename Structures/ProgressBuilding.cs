@@ -23,10 +23,10 @@ namespace Shared.Structures
             byte Tribe,
             byte Level,
             byte Health,
-            int TroopCount,
+            TroopInventory TroopInventory,
             BuildingInventory Inventory,
             int Progress
-            ) : base(Cell, Tribe, Level, Health, TroopCount, Inventory)
+            ) : base(Cell, Tribe, Level, Health, TroopInventory, Inventory)
         {
             this.Progress = Progress;
         }

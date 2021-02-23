@@ -41,9 +41,9 @@ namespace Shared.Structures
             byte Tribe,
             byte Level, 
             byte Health, 
-            int TroopCount, 
+            TroopInventory TroopInventory, 
             BuildingInventory Inventory 
-        ) : base(Cell, Tribe, Level, Health, TroopCount)
+        ) : base(Cell, Tribe, Level, Health, TroopInventory)
         {
             this.Inventory = Inventory;
             this.ConnectedInventories = new Dictionary<InventoryBuilding, Tuple<HexDirection, int, int>>();

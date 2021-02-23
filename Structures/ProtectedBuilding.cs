@@ -10,11 +10,11 @@ namespace Shared.Structures
 {
     public abstract class ProtectedBuilding : Building
     {
-        public int TroopCount;
+        public TroopInventory TroopInventory;
 
         public ProtectedBuilding() : base()
         {
-            this.TroopCount = 0;
+            this.TroopInventory = new TroopInventory();
         }
 
         public ProtectedBuilding(
@@ -22,10 +22,10 @@ namespace Shared.Structures
             byte Tribe, 
             byte Level, 
             byte Health, 
-            int TroopCount
+            TroopInventory TroopInventory
         ) : base(Cell, Tribe, Level, Health)
         {
-            this.TroopCount = TroopCount;
+            this.TroopInventory = TroopInventory;
         }
 
         public override void DoTick()

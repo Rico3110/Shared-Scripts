@@ -339,7 +339,7 @@ namespace Shared.Communication
         /// <param name="_value">The ProtectedBuilding to add.</param>
         private void Write(ProtectedBuilding _value)
         {
-            Write(_value.TroopCount);
+            Write(_value.TroopInventory);
 
             if(_value is InventoryBuilding)
             {
@@ -409,12 +409,31 @@ namespace Shared.Communication
             Write(_value.Outgoing);
             Write(_value.Incoming);
         }
+        /// <summary>Adds a TrropInventory to the packet.</summary>
+        /// <param name="_value">The TroopInventory to add.</param>
+        private void Write(TroopInventory _value)
+        {
+            Write(_value.Troops);
+            Write(_value.TroopLimit);
+            Write(_value.Strategy);
+        }
         /// <summary>Adds a Dictionary to the packet.</summary>
         /// <param name="_value">The Dictionary to add.</param>
         public void Write(Dictionary<RessourceType, int> _value)
         {
             Write(_value.Count);
             foreach(KeyValuePair<RessourceType, int> pair in _value)
+            {
+                Write((byte)pair.Key);
+                Write(pair.Value);
+            }
+        }
+        /// <summary>Adds a Dictionary to the packet.</summary>
+        /// <param name="_value">The Dictionary to add.</param>
+        public void Write(Dictionary<TroopType, int> _value)
+        {
+            Write(_value.Count);
+            foreach (KeyValuePair<TroopType, int> pair in _value)
             {
                 Write((byte)pair.Key);
                 Write(pair.Value);
@@ -428,6 +447,17 @@ namespace Shared.Communication
             foreach (RessourceType ressourceType in _value)
             {
                 Write((byte)ressourceType);
+            }
+        }
+        /// <summary>Adds a List<RessourceType> to the packet.</summary>
+        /// <param name="_value">The List<RessourceType> to add.</param>
+        public void Write(List<Tuple<TroopType, bool>> _value)
+        {
+            Write(_value.Count);
+            foreach (Tuple<TroopType, bool> tuple in _value)
+            {
+                Write((byte)tuple.Item1);
+                Write(tuple.Item2);
             }
         }
         /// <summary>Adds a List<Structure> to the packet.</summary>
@@ -1003,13 +1033,13 @@ namespace Shared.Communication
                 byte Tribe = ReadByte(_moveReadPos);
                 byte Level = ReadByte(_moveReadPos);
                 byte Health =  ReadByte(_moveReadPos);
-                int TroopCount = ReadInt(_moveReadPos);
+                TroopInventory TroopInventory = ReadTroopInventory(_moveReadPos);
                 ProtectedBuilding _value = (ProtectedBuilding)Activator.CreateInstance(type, new object[]{
                     null,
                     Tribe,
                     Level,
                     Health,
-                    TroopCount
+                    TroopInventory
                 });
                 return _value;                
             }
@@ -1035,14 +1065,14 @@ namespace Shared.Communication
                 byte Tribe = ReadByte(_moveReadPos);
                 byte Level = ReadByte(_moveReadPos);
                 byte Health = ReadByte(_moveReadPos);
-                int TroopCount = ReadInt(_moveReadPos);
+                TroopInventory TroopInventory = ReadTroopInventory(_moveReadPos);
                 BuildingInventory Inventory = ReadBuildingInventory(_moveReadPos);
                 InventoryBuilding _value = (InventoryBuilding)Activator.CreateInstance(type, new object[]{
                     null,
                     Tribe,
                     Level,
                     Health,
-                    TroopCount,
+                    TroopInventory,
                     Inventory
                 });
 
@@ -1064,7 +1094,7 @@ namespace Shared.Communication
                 byte Tribe = ReadByte(_moveReadPos);
                 byte Level = ReadByte(_moveReadPos);
                 byte Health = ReadByte(_moveReadPos);
-                int TroopCount = ReadInt(_moveReadPos);
+                TroopInventory TroopInventory = ReadTroopInventory(_moveReadPos);
                 BuildingInventory Inventory = ReadBuildingInventory(_moveReadPos);
 
                 InventoryBuilding _value = (InventoryBuilding)Activator.CreateInstance(type, new object[]{
@@ -1072,7 +1102,7 @@ namespace Shared.Communication
                     Tribe,
                     Level,
                     Health,
-                    TroopCount,
+                    TroopInventory,
                     Inventory
                 });
 
@@ -1100,7 +1130,7 @@ namespace Shared.Communication
                 byte Tribe = ReadByte(_moveReadPos);
                 byte Level = ReadByte(_moveReadPos);
                 byte Health = ReadByte(_moveReadPos);
-                int TroopCount = ReadInt(_moveReadPos);
+                TroopInventory TroopInventory = ReadTroopInventory(_moveReadPos);
                 BuildingInventory Inventory = ReadBuildingInventory(_moveReadPos);
                 int Progress = ReadInt(_moveReadPos);
 
@@ -1109,7 +1139,7 @@ namespace Shared.Communication
                     Tribe,
                     Level,
                     Health,
-                    TroopCount,
+                    TroopInventory,
                     Inventory,
                     Progress 
                 });
@@ -1131,7 +1161,7 @@ namespace Shared.Communication
                 byte Tribe = ReadByte(_moveReadPos);
                 byte Level = ReadByte(_moveReadPos);
                 byte Health = ReadByte(_moveReadPos);
-                int TroopCount = ReadInt(_moveReadPos);
+                TroopInventory TroopInventory = ReadTroopInventory(_moveReadPos);
                 BuildingInventory Inventory = ReadBuildingInventory(_moveReadPos);
                 int Progress = ReadInt(_moveReadPos);
 
@@ -1140,7 +1170,7 @@ namespace Shared.Communication
                     Tribe,
                     Level,
                     Health,
-                    TroopCount,
+                    TroopInventory,
                     Inventory,
                     Progress
                 });
@@ -1162,7 +1192,7 @@ namespace Shared.Communication
                 byte Tribe = ReadByte(_moveReadPos);
                 byte Level = ReadByte(_moveReadPos);
                 byte Health = ReadByte(_moveReadPos);
-                int TroopCount = ReadInt(_moveReadPos);
+                TroopInventory TroopInventory = ReadTroopInventory(_moveReadPos);
                 BuildingInventory Inventory = ReadBuildingInventory(_moveReadPos);
                 int Progress = ReadInt(_moveReadPos);
 
@@ -1171,7 +1201,7 @@ namespace Shared.Communication
                     Tribe,
                     Level,
                     Health,
-                    TroopCount,
+                    TroopInventory,
                     Inventory,
                     Progress
                 });
@@ -1219,6 +1249,25 @@ namespace Shared.Communication
                 throw new Exception("Could not read value of type 'BuildingInventory'!");
             }
         }
+        /// <summary>Reads an TroopInventory from the packet.</summary>
+        /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
+        public TroopInventory ReadTroopInventory(bool _moveReadPos = true)
+        {
+            try
+            {
+                Dictionary<TroopType, int> troops = ReadDictionaryTroopTypeInt(_moveReadPos);
+                int troopLimit = ReadInt(_moveReadPos);
+                List<Tuple<TroopType, bool>> strategy = ReadListTroopTypeBool(_moveReadPos);
+
+                TroopInventory _value = new TroopInventory(troops, troopLimit, strategy);
+
+                return _value;
+            }
+            catch
+            {
+                throw new Exception("Could not read value of type 'Inventory'!");
+            }
+        }
         /// <summary>Reads a Dictionary<RessourceType, int> from the packet.</summary>
         /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
         public Dictionary<RessourceType, int> ReadDictionaryRessourceTypeInt(bool _moveReadPos = true)
@@ -1241,6 +1290,28 @@ namespace Shared.Communication
                 throw new Exception("Could not read value of type 'Dictionary<RessourceType, int>'!");
             }
         }
+        /// <summary>Reads a Dictionary<TroopType, int> from the packet.</summary>
+        /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
+        public Dictionary<TroopType, int> ReadDictionaryTroopTypeInt(bool _moveReadPos = true)
+        {
+            try
+            {
+                Dictionary<TroopType, int> _value = new Dictionary<TroopType, int>();
+                int count = ReadInt(_moveReadPos);
+                while (count > 0)
+                {
+                    TroopType troopType = (TroopType)ReadByte(_moveReadPos);
+                    int amount = ReadInt(_moveReadPos);
+                    _value.Add(troopType, amount);
+                    count--;
+                }
+                return _value;
+            }
+            catch
+            {
+                throw new Exception("Could not read value of type 'Dictionary<TroopType, int>'!");
+            }
+        }
         /// <summary>Reads a List<RessourceType> from the packet.</summary>
         /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
         public List<RessourceType> ReadRessourceTypes(bool _moveReadPos = true)
@@ -1260,6 +1331,28 @@ namespace Shared.Communication
             catch
             {
                 throw new Exception("Could not read value of type 'List<RessourceType'!");
+            }
+        }
+        /// <summary>Reads a List<Tuple<TroopType, bool>> from the packet.</summary>
+        /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
+        public List<Tuple<TroopType, bool>> ReadListTroopTypeBool(bool _moveReadPos = true)
+        {
+            try
+            {
+                List<Tuple<TroopType, bool>> _value = new List<Tuple<TroopType, bool>>();
+                int count = ReadInt(_moveReadPos);
+                while (count > 0)
+                {
+                    TroopType troopType = (TroopType)ReadByte(_moveReadPos);
+                    bool cycling = ReadBool(_moveReadPos);
+                    _value.Add(new Tuple<TroopType, bool>(troopType, cycling));
+                    count--;
+                }
+                return _value;
+            }
+            catch
+            {
+                throw new Exception("Could not read value of type 'List<Tuple<TroopType, bool>>'!");
             }
         }
         /// <summary>Reads a List<Structure> from the packet.</summary>

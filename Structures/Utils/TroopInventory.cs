@@ -8,13 +8,13 @@ using UnityEngine;
 
 namespace Shared.Structures
 {
-    class TroopInventory
+    public class TroopInventory
     {
         public Dictionary<TroopType, int> Troops;
 
         public List<Tuple<TroopType, bool>> Strategy;
 
-        private int TroopLimit;
+        public int TroopLimit;
 
         public TroopInventory()
         {
@@ -28,10 +28,11 @@ namespace Shared.Structures
         }
 
         //TODO
-        public TroopInventory(int troopLimit, List<Tuple<TroopType, bool>> strategy)
+        public TroopInventory(Dictionary<TroopType, int> troops, int troopLimit, List<Tuple<TroopType, bool>> strategy)
         {
             this.TroopLimit = troopLimit;
             this.Strategy = strategy;
+            this.Troops = troops;
         }
 
         public void UpdateStrategy(List<Tuple<TroopType, bool>> strategy)
@@ -57,14 +58,6 @@ namespace Shared.Structures
                 return;
             this.Troops[type] -= Mathf.Min(amount, this.Troops[type]);
         }
-
-        // public bool IsEmpty()
-        // {
-        //     if (this.Archers == 0 && this.Knights == 0 && this.Spearmen == 0)
-        //         return true;
-
-        //     return false;
-        // }
 
         public int GetAvailableSpace()
         {
@@ -148,7 +141,7 @@ namespace Shared.Structures
             public Troop(TroopType type)
             {
                 this.type = type;
-                this.health = 5;
+                this.health = 12;
             }
 
             public void Fight(Troop troop)
@@ -156,19 +149,19 @@ namespace Shared.Structures
                 if (this.type == troop.type)
                 {
                     Console.WriteLine(this.type.ToString() + " Draw " + troop.type.ToString());
-                    this.health = 0;
-                    troop.health = 0;
+                    this.health -= 1;
+                    troop.health -= 1;
                 }
                 else if (this.type == (TroopType)(((int)troop.type + 1) % 3))
                 {
                     Console.WriteLine(this.type.ToString() + " Wins " + troop.type.ToString());
                     this.health -= 1;
-                    troop.health = 0;
+                    troop.health -= 6;
                 }
                 else 
                 {
                     Console.WriteLine(this.type.ToString() + " Loose " + troop.type.ToString());
-                    this.health = 0;
+                    this.health -= 6;
                     troop.health -= 1;
                 }
             }
