@@ -21,6 +21,8 @@ namespace Shared.Communication
         broadcastTribe = 8,
         applyBuild = 9,
         applyBuildHQ = 10,
+        broadcastMoveTroops = 11,
+        broadcastFight = 12,
         testBuilding = 420
     }
 
@@ -35,6 +37,8 @@ namespace Shared.Communication
         positionUpdate = 6,
         requestBuildHQ = 7,
         requestJoinTribe = 8,
+        requestMoveTroops = 9,
+        requestFight = 10,
         testBuilding = 420
     }
 
@@ -411,7 +415,7 @@ namespace Shared.Communication
         }
         /// <summary>Adds a TrropInventory to the packet.</summary>
         /// <param name="_value">The TroopInventory to add.</param>
-        private void Write(TroopInventory _value)
+        public void Write(TroopInventory _value)
         {
             Write(_value.Troops);
             Write(_value.TroopLimit);

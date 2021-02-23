@@ -59,12 +59,29 @@ namespace Shared.Structures
             this.Troops[type] -= Mathf.Min(amount, this.Troops[type]);
         }
 
+        public bool MoveTroops(TroopInventory destination, TroopType troopType, int amount)
+        {
+            if (this.Troops[troopType] - amount > 0 && destination.GetTroopCount() + amount < destination.TroopLimit)
+            {
+                //Move troops
+                this.Troops[troopType] -= amount;
+                destination.Troops[troopType] += amount;
+                return true;
+            }
+            return false;
+        }
+
         public int GetAvailableSpace()
         {
             return TroopLimit - this.Troops.Values.Aggregate((agg, elem) => agg += elem);
         }
 
-        public int Fight(TroopInventory defender)
+        public int GetTroopCount()
+        {
+            return this.Troops.Values.Aggregate((agg, elem) => agg += elem);
+        }
+
+        public bool Fight(TroopInventory defender)
         {
             TroopInventory attacker = this;
 
@@ -85,7 +102,21 @@ namespace Shared.Structures
                     defenderTroop = defender.GetNextTroop(defenderTroop.type);
                 }
             }
-            return attacker.Troops.Values.Aggregate((agg, elem) => agg += elem) - defender.Troops.Values.Aggregate((agg, elem) => agg += elem);
+            return defender.GetTroopCount() > 0 ? false : true;
+        }
+
+        public bool Fight(Building building)
+        {
+            Troop troop = GetInitialTroop();
+            while (troop != null)
+            {
+                building.Health -= 1;
+                this.RemoveUnit(troop.type, 1);
+                GetNextTroop(troop.type);
+                if (building.Health <= 0)
+                    return true;
+            }
+            return false;
         }
 
         protected Troop GetInitialTroop()

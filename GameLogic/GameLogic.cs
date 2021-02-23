@@ -311,6 +311,34 @@ namespace Shared.Game
             return tribe;
         }
 
+        public static bool MoveTroops(Player player, HexCoordinates coordinates, TroopType troopType, int amount) 
+        {
+            ProtectedBuilding building = (ProtectedBuilding)grid.GetCell(coordinates).Structure;
+            if(amount > 0)
+            {
+                return building.TroopInventory.MoveTroops(player.TroopInventory, troopType, Mathf.Abs(amount));
+            }
+            else 
+            {
+                return player.TroopInventory.MoveTroops(building.TroopInventory, troopType, Mathf.Abs(amount));
+            }   
+        }
+
+        public static void Fight(Player attacker, HexCoordinates defenderCoordinates)
+        {
+            TroopInventory attackerInventory = attacker.TroopInventory;
+            Building defender = (Building)grid.GetCell(defenderCoordinates).Structure;
+            if(defender is ProtectedBuilding)
+            {
+                if (attackerInventory.Fight(((ProtectedBuilding)defender).TroopInventory))
+                    attackerInventory.Fight(defender);
+            }
+            else 
+            {
+                attackerInventory.Fight(defender);
+            }
+        }
+
 #endregion
 
         public static void DoTick()
