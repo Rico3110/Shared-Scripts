@@ -772,7 +772,7 @@ namespace Shared.Communication
         {
             try
             {
-                ushort Elevation = ReadUShort(_moveReadPos);
+                int Elevation = ReadInt(_moveReadPos);
                 HexCellBiome Biome = ReadHexCellBiome(_moveReadPos);
                 byte WaterDepth = ReadByte(_moveReadPos);
                 HexCellData _value = new HexCellData(Elevation, Biome, WaterDepth);

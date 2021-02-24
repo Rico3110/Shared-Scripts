@@ -18,11 +18,11 @@ namespace Shared.HexGrid
 
         public Structure Structure { get; set; }
 
-        public uint Elevation
+        public int Elevation
         {
             get
             {
-                return Data.Elevation - (uint)Data.WaterDepth;
+                return Data.Elevation - Data.WaterDepth;
             }
         }
        

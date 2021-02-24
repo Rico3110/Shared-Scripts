@@ -157,16 +157,6 @@ namespace Shared.HexGrid
 
             return GetCell(new Vector3(Width * dx, 0, Height * dz));
         }
-
-        public uint[] SerializeData()
-        {
-            uint[] data = new uint[cellCountX * cellCountZ];
-            for(int i = 0; i < cellCountX * cellCountZ; i++)
-            {
-                data[i] = cells[i].Data.toUint();
-            }
-            return data;
-        }
     }
 }
 
