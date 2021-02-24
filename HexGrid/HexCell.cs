@@ -22,7 +22,7 @@ namespace Shared.HexGrid
         {
             get
             {
-                return Data.Elevation - Data.WaterDepth;
+                return Data.Elevation - (int)Data.WaterDepth;
             }
         }
        
