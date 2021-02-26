@@ -1440,7 +1440,8 @@ namespace Shared.Communication
             new Tuple<Type, byte>(typeof(CoalMine), 13 ),
             new Tuple<Type, byte>(typeof(Smelter), 14),
             new Tuple<Type, byte>(typeof(IronMine), 15),
-            new Tuple<Type, byte>(typeof(Fisher), 16)
+            new Tuple<Type, byte>(typeof(Fisher), 16),
+            new Tuple<Type, byte>(typeof(Bridge), 17)
         };
 
         internal static byte ToByte(this Structure structure)

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Shared.DataTypes;
 using Shared.HexGrid;
+using UnityEngine;
 
 namespace Shared.Structures
 {
@@ -38,6 +39,26 @@ namespace Shared.Structures
             Carts = new List<Cart>();
         }
 
+        protected virtual int GetElevation()
+        {
+            return this.Cell.Data.Elevation;
+        }
+
+        public virtual int GetElevationDifference(HexDirection direction)
+        {
+            HexCell cell = this.Cell.GetNeighbor(direction);
+            if (cell == null)
+                return int.MaxValue;
+
+            if (cell.Structure is Road)
+                return Mathf.Abs(this.GetElevation() - ((Road)cell.Structure).GetElevation());
+            
+            if (cell.Structure is Building)
+                return Mathf.Abs(this.GetElevation() - cell.Elevation);
+            
+            return int.MaxValue;
+        }
+
 
         public bool HasAnyConnection()
         {
@@ -56,7 +77,7 @@ namespace Shared.Structures
             HexCell neighbor = Cell.GetNeighbor(direction);
             if (neighbor == null)
                 return false;
-            if (neighbor.Structure != null && neighbor.Structure is Road && Math.Abs(Cell.GetElevationDifference(direction)) < ELEVATION_THRESHOLD)
+            if (neighbor.Structure != null && neighbor.Structure is Road && this.GetElevationDifference(direction) < ELEVATION_THRESHOLD)
                 return true;
             return false;
         }
@@ -68,7 +89,7 @@ namespace Shared.Structures
             HexCell neighbor = Cell.GetNeighbor(direction);
             if (neighbor == null)
                 return false;
-            if (neighbor.Structure != null && neighbor.Structure is Building && Math.Abs(Cell.GetElevationDifference(direction)) < ELEVATION_THRESHOLD)
+            if (neighbor.Structure != null && neighbor.Structure is Building && this.GetElevationDifference(direction) < ELEVATION_THRESHOLD)
                 return true;
             return false;
         }
