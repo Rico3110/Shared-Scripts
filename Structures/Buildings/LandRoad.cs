@@ -53,7 +53,7 @@ namespace Shared.Structures
 
         public override bool IsPlaceable(HexCell cell)
         {
-            if (this.Cell.Data.Biome == HexCellBiome.WATER)
+            if (cell.Data.Biome == HexCellBiome.WATER)
                 return false;
             return base.IsPlaceable(cell);
         }
