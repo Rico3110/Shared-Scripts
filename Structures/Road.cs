@@ -39,7 +39,7 @@ namespace Shared.Structures
             Carts = new List<Cart>();
         }
 
-        protected virtual int GetElevation()
+        public virtual int GetElevation()
         {
             return this.Cell.Data.Elevation;
         }

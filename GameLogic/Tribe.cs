@@ -38,6 +38,7 @@ namespace Shared.Game
                 { typeof(IronMine), 0 },
                 { typeof(CoalMine), 0 },
                 { typeof(Smelter), 0 },
+                { typeof(Bridge), 0 }
             };
         }
 

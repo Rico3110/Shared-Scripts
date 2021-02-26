@@ -18,7 +18,7 @@ namespace Shared.Structures
             100,
         };
 
-        private int BridgeHeight = 5;
+        private int BridgeHeight = 10;
 
         public override Dictionary<RessourceType, int>[] Recipes
         {
@@ -67,9 +67,9 @@ namespace Shared.Structures
             base.DoTick();
         }
 
-        protected override int GetElevation()
+        public override int GetElevation()
         {
-            return this.Cell.Data.Elevation + this.Cell.Data.WaterDepth + this.BridgeHeight;
+            return this.Cell.Data.Elevation + this.BridgeHeight;
         }
     }
 }
