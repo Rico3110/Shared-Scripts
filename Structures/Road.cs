@@ -11,7 +11,7 @@ namespace Shared.Structures
 {
     public abstract class Road : Building, ICartHandler 
     {
-        private const float ELEVATION_THRESHOLD = 12f;
+        private const float ELEVATION_THRESHOLD = 2f;
 
         public Dictionary<int, Dictionary<InventoryBuilding, Tuple<HexDirection, int, int>>> connectedStorages;
 

@@ -18,7 +18,7 @@ namespace Shared.Structures
             100,
         };
 
-        private int BridgeHeight = 10;
+        private int BridgeHeight = 2;
 
         public override Dictionary<RessourceType, int>[] Recipes
         {
