@@ -1201,11 +1201,12 @@ namespace Shared.Communication
         {
             try
             {
-                Type type = ReadByte(_moveReadPos).ToType();
+                Type type = ReadByte(false).ToType();
 
                 if (typeof(Market).IsAssignableFrom(type))
                     return ReadMarket(_moveReadPos);
 
+                ReadByte(_moveReadPos);
                 byte Tribe = ReadByte(_moveReadPos);
                 byte Level = ReadByte(_moveReadPos);
                 byte Health = ReadByte(_moveReadPos);
