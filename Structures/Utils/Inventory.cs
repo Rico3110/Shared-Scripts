@@ -79,6 +79,11 @@ namespace Shared.Structures
             return false;
         }
 
+        public void RemoveRessource(RessourceType ressourceType)
+        {
+            this.Storage.Remove(ressourceType);
+        }
+
         public int AvailableSpace()
         {
             int totalCount = 0;

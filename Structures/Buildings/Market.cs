@@ -23,7 +23,7 @@ namespace Shared.Structures
         };
 
         public override int MaxProgress => 10;
-        public override Dictionary<RessourceType, int> InputRecipe => new Dictionary<RessourceType, int> { { RessourceType.COAL, 1 }, { RessourceType.STONE, 1 } };
+        public override Dictionary<RessourceType, int> InputRecipe => new Dictionary<RessourceType, int> { { RessourceType.STONE, 1 } }
         public override Dictionary<RessourceType, int> OutputRecipe => new Dictionary<RessourceType, int> { { RessourceType.IRON, 1 } };
 
 
@@ -32,18 +32,20 @@ namespace Shared.Structures
             get
             {
                 Dictionary<RessourceType, int>[] result = {
-                    new Dictionary<RessourceType, int>{ { RessourceType.WOOD, 3 }, { RessourceType.STONE, 2 }  }
+                    new Dictionary<RessourceType, int>{ { RessourceType.WOOD, 3 }  },
+                    new Dictionary<RessourceType, int>{ { RessourceType.WOOD, 5 }, { RessourceType.STONE, 4 }  },
+                    new Dictionary<RessourceType, int>{ { RessourceType.WOOD, 2 }, { RessourceType.STONE, 6 }, { RessourceType.IRON, 2 } }
                 };
                 return result;
             }
         }
 
-        public Smelter() : base()
+        public Market() : base()
         {
-            
+            this.ChangeInOutputRecipes(RessourceType.WOOD, RessourceType.IRON);
         }
 
-        public Smelter(
+        public Market(
             HexCell Cell,
             byte Tribe,
             byte Level,
@@ -59,6 +61,24 @@ namespace Shared.Structures
         public override bool IsPlaceable(HexCell cell)
         {            
             return base.IsPlaceable(cell) ;
+        }
+
+        public void ChangeInOutputRecipes(RessourceType inputRessource, RessourceType outputRessource)
+        {
+            foreach (RessourceType type in this.InputRecipe.Keys)
+            {
+                this.Inventory.RemoveRessource(type);
+            }
+            foreach (RessourceType type in this.OutputRecipe.Keys)
+            {
+                this.Inventory.RemoveRessource(type);
+            }
+            this.Inventory.AddRessource(inputRessource);
+            this.Inventory.AddRessource(outputRessource);
+            this.InputRecipe.Clear();
+            this.InputRecipe.Add(inputRessource, 10);
+            this.OutputRecipe.Clear();
+            this.OutputRecipe.Add(outputRessource, 1);
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Shared.Game
         public Dictionary<Type, int> CurrentBuildings;
 
         public static Dictionary<Type, int>[] BuildingLimits = {
-            new Dictionary<Type, int>{ { typeof(Woodcutter), 2 }, { typeof(LandRoad), 10 }, { typeof(Bridge), 10 } },
+            new Dictionary<Type, int>{ { typeof(Woodcutter), 2 }, { typeof(LandRoad), 10 }, { typeof(Bridge), 10 }, { typeof(Market), 1 } },
             new Dictionary<Type, int>{ { typeof(Woodcutter), 2 }, { typeof(LandRoad), 15 }, { typeof(Bridge), 10 }, { typeof(Storage), 1 }, { typeof(Quarry), 2 } },
             new Dictionary<Type, int>{ { typeof(Woodcutter), 2 }, { typeof(LandRoad), 20 }, { typeof(Bridge), 10 }, { typeof(Storage), 2 }, { typeof(Quarry), 2 }, { typeof(CoalMine), 1 }, { typeof(Smelter), 1 } }
         };
