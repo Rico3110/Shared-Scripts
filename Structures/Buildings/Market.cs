@@ -23,8 +23,8 @@ namespace Shared.Structures
         };
 
         public override int MaxProgress => 10;
-        public override Dictionary<RessourceType, int> InputRecipe => new Dictionary<RessourceType, int> { { RessourceType.STONE, 1 } }
-        public override Dictionary<RessourceType, int> OutputRecipe => new Dictionary<RessourceType, int> { { RessourceType.IRON, 1 } };
+        public override Dictionary<RessourceType, int> InputRecipe => new Dictionary<RessourceType, int>();
+        public override Dictionary<RessourceType, int> OutputRecipe => new Dictionary<RessourceType, int>();
 
 
         public override Dictionary<RessourceType, int>[] Recipes
