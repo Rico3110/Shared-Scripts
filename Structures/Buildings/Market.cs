@@ -72,6 +72,14 @@ namespace Shared.Structures
             return base.IsPlaceable(cell) ;
         }
 
+        public override void Upgrade()
+        {
+            base.Upgrade();
+            this.Inventory.RessourceLimits.Clear();
+            this.Inventory.RessourceLimits.Add(TradeInput, this.RessourceLimit - 1);
+            this.Inventory.RessourceLimits.Add(TradeOutput, 1);
+        }
+
         public void ChangeInOutputRecipes(RessourceType inputRessource, RessourceType outputRessource)
         {
             foreach (RessourceType type in this.InputRecipe.Keys)
