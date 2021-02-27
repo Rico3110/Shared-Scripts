@@ -25,8 +25,12 @@ namespace Shared.Structures
         };
 
         public override int MaxProgress => 10;
-        public override Dictionary<RessourceType, int> InputRecipe => new Dictionary<RessourceType, int>();
-        public override Dictionary<RessourceType, int> OutputRecipe => new Dictionary<RessourceType, int>();
+
+        private RessourceType TradeInput;
+
+        private RessourceType TradeOutput;
+        public override Dictionary<RessourceType, int> InputRecipe => new Dictionary<RessourceType, int> { { TradeInput, 12 - this.Level * 2 } };
+        public override Dictionary<RessourceType, int> OutputRecipe => new Dictionary<RessourceType, int> { { TradeOutput, 1 } };
 
 
         public override Dictionary<RessourceType, int>[] Recipes
@@ -77,10 +81,9 @@ namespace Shared.Structures
             }
             this.Inventory.AddRessource(inputRessource);
             this.Inventory.AddRessource(outputRessource);
-            this.InputRecipe.Clear();
-            this.InputRecipe.Add(inputRessource, 10);
-            this.OutputRecipe.Clear();
-            this.OutputRecipe.Add(outputRessource, 1);
+
+            this.TradeInput = inputRessource;
+            this.TradeOutput = outputRessource;
             this.Inventory.UpdateIncoming(new List<RessourceType> { inputRessource });
             this.Inventory.UpdateOutgoing(new List<RessourceType> { outputRessource });
         }
