@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Shared.Structures
 {
-    class Market : RefineryBuilding
+    public class Market : RefineryBuilding
     {
         public override byte MaxLevel => 3;
         public override byte[] MaxHealths => new byte[]{
@@ -19,17 +19,17 @@ namespace Shared.Structures
         };
 
         public override int[] RessourceLimits => new int[] {
-            20,
-            25,
-            30
+            11,
+            9,
+            7
         };
 
         public override int MaxProgress => 10;
 
-        private RessourceType TradeInput;
+        public RessourceType TradeInput;
 
-        private RessourceType TradeOutput;
-        public override Dictionary<RessourceType, int> InputRecipe => new Dictionary<RessourceType, int> { { TradeInput, 12 - this.Level * 2 } };
+        public RessourceType TradeOutput;
+        public override Dictionary<RessourceType, int> InputRecipe => new Dictionary<RessourceType, int> { { TradeInput, RessourceLimit - 1 } };
         public override Dictionary<RessourceType, int> OutputRecipe => new Dictionary<RessourceType, int> { { TradeOutput, 1 } };
 
 
@@ -58,10 +58,13 @@ namespace Shared.Structures
             byte Health,
             TroopInventory TroopInventory,
             BuildingInventory Inventory,
-            int Progress
+            int Progress,
+            RessourceType TradeInput,
+            RessourceType TradeOutput
             ) : base(Cell, Tribe, Level, Health, TroopInventory, Inventory, Progress)
         {
-            
+            this.TradeInput = TradeInput;
+            this.TradeOutput = TradeOutput;
         }
 
         public override bool IsPlaceable(HexCell cell)
@@ -81,6 +84,10 @@ namespace Shared.Structures
             }
             this.Inventory.AddRessource(inputRessource);
             this.Inventory.AddRessource(outputRessource);
+
+            this.Inventory.RessourceLimits.Clear();
+            this.Inventory.RessourceLimits.Add(inputRessource, this.RessourceLimit - 1);
+            this.Inventory.RessourceLimits.Add(outputRessource, 1);
 
             this.TradeInput = inputRessource;
             this.TradeOutput = outputRessource;

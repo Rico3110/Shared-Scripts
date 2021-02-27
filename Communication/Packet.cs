@@ -394,7 +394,17 @@ namespace Shared.Communication
         /// <param name="_value">The RefineryBuilding to add.</param>
         private void Write(RefineryBuilding _value)
         {
-
+            if (_value is Market)
+            {
+                Write((Market)_value);
+            }
+        }
+        /// <summary>Adds a Market to the packet.</summary>
+        /// <param name="_value">The Market to add.</param>
+        private void Write(Market _value)
+        {
+            Write((byte)_value.TradeInput);
+            Write((byte)_value.TradeOutput);
         }
         /// <summary>Adds an Inventory to the packet.</summary>
         /// <param name="_value">The Inventory to add.</param>
@@ -1193,6 +1203,9 @@ namespace Shared.Communication
             {
                 Type type = ReadByte(_moveReadPos).ToType();
 
+                if (typeof(Market).IsAssignableFrom(type))
+                    return ReadMarket(_moveReadPos);
+
                 byte Tribe = ReadByte(_moveReadPos);
                 byte Level = ReadByte(_moveReadPos);
                 byte Health = ReadByte(_moveReadPos);
@@ -1208,6 +1221,41 @@ namespace Shared.Communication
                     TroopInventory,
                     Inventory,
                     Progress
+                });
+                return _value;
+            }
+            catch
+            {
+                throw new Exception("Could not read value of type 'RefineryBuilding'!");
+            }
+        }
+        /// <summary>Reads a Market from the packet.</summary>
+        /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
+        public Market ReadMarket(bool _moveReadPos = true)
+        {
+            try
+            {
+                Type type = ReadByte(_moveReadPos).ToType();
+
+                byte Tribe = ReadByte(_moveReadPos);
+                byte Level = ReadByte(_moveReadPos);
+                byte Health = ReadByte(_moveReadPos);
+                TroopInventory TroopInventory = ReadTroopInventory(_moveReadPos);
+                BuildingInventory Inventory = ReadBuildingInventory(_moveReadPos);
+                int Progress = ReadInt(_moveReadPos);
+                RessourceType TradeInput = (RessourceType) ReadByte(_moveReadPos);
+                RessourceType TradeOutput = (RessourceType)ReadByte(_moveReadPos);
+
+                Market _value = (Market)Activator.CreateInstance(type, new object[]{
+                    null,
+                    Tribe,
+                    Level,
+                    Health,
+                    TroopInventory,
+                    Inventory,
+                    Progress,
+                    TradeInput,
+                    TradeOutput
                 });
                 return _value;
             }
