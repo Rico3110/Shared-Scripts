@@ -79,6 +79,8 @@ namespace Shared.Structures
             this.InputRecipe.Add(inputRessource, 10);
             this.OutputRecipe.Clear();
             this.OutputRecipe.Add(outputRessource, 1);
+            this.Inventory.UpdateIncoming(new List<RessourceType> { inputRessource });
+            this.Inventory.UpdateOutgoing(new List<RessourceType> { outputRessource });
         }
     }
 }
