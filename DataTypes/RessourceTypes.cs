@@ -11,8 +11,9 @@ namespace Shared.DataTypes
         BIG_ROCK, ROCK, SCRUB, TREES, BIG_TREES, FISH, WHEAT
     }
 
+
     public enum RessourceType
     {
-        WOOD, STONE, IRON_ORE, IRON, COAL, FISH, WHEAT
+        WOOD, STONE, IRON, COAL, FISH, WHEAT, COW, FOOD
     }
 }

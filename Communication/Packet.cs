@@ -1432,14 +1432,12 @@ namespace Shared.Communication
             new Tuple<Type, byte>(typeof(Grass), 5),
             new Tuple<Type, byte>(typeof(Quarry), 6),
             new Tuple<Type, byte>(typeof(LandRoad), 7),
-            new Tuple<Type, byte>(typeof(IronOre), 8),
             new Tuple<Type, byte>(typeof(CoalOre), 9),
             new Tuple<Type, byte>(typeof(Wheat), 10),
             new Tuple<Type, byte>(typeof(Storage), 11 ),
             new Tuple<Type, byte>(typeof(Headquarter), 12 ),
             new Tuple<Type, byte>(typeof(CoalMine), 13 ),
             new Tuple<Type, byte>(typeof(Smelter), 14),
-            new Tuple<Type, byte>(typeof(IronMine), 15),
             new Tuple<Type, byte>(typeof(Fisher), 16),
             new Tuple<Type, byte>(typeof(Bridge), 17)
         };
