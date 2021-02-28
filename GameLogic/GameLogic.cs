@@ -96,7 +96,7 @@ namespace Shared.Game
 
 #endregion
 
-        public static void Harvest(byte tribeID, HexCoordinates coords)
+        public static bool Harvest(byte tribeID, HexCoordinates coords)
         {
             HexCell cell = grid.GetCell(coords);
             Tribe tribe = GetTribe(tribeID);
@@ -109,10 +109,11 @@ namespace Shared.Game
                     {
                         ressource.Harvest();
                         tribe.HQ.Inventory.AddRessource(ressource.ressourceType, 1);
+                        return true;
                     }
                 }
             }
-
+            return false;
         }
 
 #region BUILDINGS
