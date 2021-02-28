@@ -23,6 +23,7 @@ namespace Shared.Communication
         applyBuildHQ = 10,
         broadcastMoveTroops = 11,
         broadcastFight = 12,
+        broadcastHarvest = 13,
         testBuilding = 420
     }
 
@@ -39,6 +40,7 @@ namespace Shared.Communication
         requestJoinTribe = 8,
         requestMoveTroops = 9,
         requestFight = 10,
+        requestHarvest = 11,
         testBuilding = 420
     }
 

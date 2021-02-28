@@ -96,6 +96,25 @@ namespace Shared.Game
 
 #endregion
 
+        public static void Harvest(byte tribeID, HexCoordinates coords)
+        {
+            HexCell cell = grid.GetCell(coords);
+            Tribe tribe = GetTribe(tribeID);
+            if (cell != null)
+            {
+                if (cell.Structure is Ressource)
+                {
+                    Ressource ressource = (Ressource)cell.Structure;
+                    if (ressource.Harvestable())
+                    {
+                        ressource.Harvest();
+                        tribe.HQ.Inventory.AddRessource(ressource.ressourceType, 1);
+                    }
+                }
+            }
+
+        }
+
 #region BUILDINGS
 
         public static bool PlayerInRange(HexCoordinates coords, Player player)
