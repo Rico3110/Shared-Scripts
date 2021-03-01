@@ -179,19 +179,19 @@ namespace Shared.Structures
             {
                 if (this.type == troop.type)
                 {
-                    Console.WriteLine(this.type.ToString() + " Draw " + troop.type.ToString());
+                    //Console.WriteLine(this.type.ToString() + " Draw " + troop.type.ToString());
                     this.health -= 1;
                     troop.health -= 1;
                 }
                 else if (this.type == (TroopType)(((int)troop.type + 1) % 3))
                 {
-                    Console.WriteLine(this.type.ToString() + " Wins " + troop.type.ToString());
+                    //Console.WriteLine(this.type.ToString() + " Wins " + troop.type.ToString());
                     this.health -= 1;
                     troop.health -= 6;
                 }
                 else 
                 {
-                    Console.WriteLine(this.type.ToString() + " Loose " + troop.type.ToString());
+                    //Console.WriteLine(this.type.ToString() + " Loose " + troop.type.ToString());
                     this.health -= 6;
                     troop.health -= 1;
                 }

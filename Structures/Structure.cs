@@ -27,5 +27,10 @@ namespace Shared.Structures
         {
             return false;
         }
+
+        public string GetName()
+        {
+            return this.GetType().ToString().Split('.').Last();
+        }
     }
 }

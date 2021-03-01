@@ -133,8 +133,9 @@ namespace Shared.Game
             return false;            
         }
 
-        public static bool VerifyBuild(HexCoordinates coords, Building building, Player player)
+        public static bool VerifyBuild(HexCoordinates coords, Type buildingType, Player player)
         {
+            Building building = (Building)Activator.CreateInstance(buildingType);
             if (building == null)
                 return false;
             if (player.Tribe == null)
@@ -160,8 +161,9 @@ namespace Shared.Game
             return true;
         }
 
-        public static HexCell ApplyBuild(HexCoordinates coords, Building building, Tribe tribe)
+        public static HexCell ApplyBuild(HexCoordinates coords, Type buildingType, Tribe tribe)
         {
+            Building building = (Building)Activator.CreateInstance(buildingType);
             HexCell cell = grid.GetCell(coords);
             if (cell.Structure != null)
             {
