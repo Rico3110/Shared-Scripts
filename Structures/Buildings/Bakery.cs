@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Shared.Structures
 {
-    class Fisher : ProductionBuilding
+    class Bakery : RefineryBuilding
     {
         public override byte MaxLevel => 1;
         public override byte[] MaxHealths => new byte[]{
@@ -17,33 +17,33 @@ namespace Shared.Structures
         };
 
         public override int[] RessourceLimits => new int[] {
-            4
+            6,
+            12,
+            26
         };
-        public override RessourceType ProductionType => RessourceType.FOOD;
-        public override byte Gain => 4;
+
         public override int MaxProgress => 10;
-        private const int elevationThreshold = 40;
+        public override Dictionary<RessourceType, int> InputRecipe => new Dictionary<RessourceType, int> { { RessourceType.WHEAT, 2 }, { RessourceType.WOOD, 1 } };
+        public override Dictionary<RessourceType, int> OutputRecipe => new Dictionary<RessourceType, int> { { RessourceType.FOOD, 1 } };
+
 
         public override Dictionary<RessourceType, int>[] Recipes
         {
             get
             {
                 Dictionary<RessourceType, int>[] result = {
-                    new Dictionary<RessourceType, int>{ { RessourceType.WOOD, 4}, { RessourceType.STONE, 1} },
-                    new Dictionary<RessourceType, int>{ { RessourceType.WOOD, 10}, { RessourceType.IRON, 2} },
-                    new Dictionary<RessourceType, int>{ { RessourceType.WOOD, 5}, { RessourceType.IRON, 4 } }
+                    new Dictionary<RessourceType, int>{ { RessourceType.WOOD, 3 }, { RessourceType.STONE, 2 }  }
                 };
                 return result;
             }
         }
 
-        public Fisher() : base()
+        public Bakery() : base()
         {
-            this.Inventory.Storage.Add(RessourceType.FOOD, 0);
-            this.Inventory.RessourceLimit = 20;
+            
         }
 
-        public Fisher(
+        public Bakery(
             HexCell Cell,
             byte Tribe,
             byte Level,
@@ -53,7 +53,12 @@ namespace Shared.Structures
             int Progress
             ) : base(Cell, Tribe, Level, Health, TroopInventory, Inventory, Progress)
         {
+            
+        }
 
+        public override bool IsPlaceable(HexCell cell)
+        {            
+            return base.IsPlaceable(cell) ;
         }
     }
 }

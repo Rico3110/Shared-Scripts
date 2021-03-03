@@ -15,9 +15,9 @@ namespace Shared.Game
         public Dictionary<Type, int> CurrentBuildings;
 
         public static Dictionary<Type, int>[] BuildingLimits = {
-            new Dictionary<Type, int>{ { typeof(Woodcutter), 2 }, { typeof(LandRoad), 10 }, { typeof(Bridge), 10 }, { typeof(Market), 1 } },
-            new Dictionary<Type, int>{ { typeof(Woodcutter), 2 }, { typeof(LandRoad), 15 }, { typeof(Bridge), 10 }, { typeof(Storage), 1 }, { typeof(Quarry), 2 } },
-            new Dictionary<Type, int>{ { typeof(Woodcutter), 2 }, { typeof(LandRoad), 20 }, { typeof(Bridge), 10 }, { typeof(Storage), 2 }, { typeof(Quarry), 2 }, { typeof(CoalMine), 1 }, { typeof(Smelter), 1 } }
+            new Dictionary<Type, int>{ { typeof(Woodcutter), 2 }, { typeof(LandRoad), 10 }, { typeof(Bridge), 10 }, { typeof(Market), 1 }, { typeof(WheatFarm), 1 }, { typeof(CowFarm), 1 }, { typeof(Fisher), 1 } },
+            new Dictionary<Type, int>{ { typeof(Woodcutter), 2 }, { typeof(LandRoad), 15 }, { typeof(Bridge), 10 }, { typeof(Market), 1 }, { typeof(WheatFarm), 1 }, { typeof(CowFarm), 1 }, { typeof(Fisher), 2 }, { typeof(Bakery), 1 }, { typeof(Storage), 1 }, { typeof(Quarry), 2 } },
+            new Dictionary<Type, int>{ { typeof(Woodcutter), 2 }, { typeof(LandRoad), 20 }, { typeof(Bridge), 10 }, { typeof(Market), 2 }, { typeof(WheatFarm), 2 }, { typeof(CowFarm), 2 }, { typeof(Fisher), 2 }, { typeof(Bakery), 2 }, { typeof(Storage), 2 }, { typeof(Quarry), 2 }, { typeof(CoalMine), 1 }, { typeof(Smelter), 1 } }
         };
 
         public Dictionary<Type, int> BuildingLimit { get { return BuildingLimits[this.HQ.Level - 1]; } }

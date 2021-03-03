@@ -9,41 +9,50 @@ using UnityEngine;
 
 namespace Shared.Structures
 {
-    class Fisher : ProductionBuilding
+    public class WheatFarm : ProductionBuilding
     {
-        public override byte MaxLevel => 1;
+        public override byte MaxLevel => 3;
+
         public override byte[] MaxHealths => new byte[]{
-            50
+            50,
+            100,
+            200
         };
 
         public override int[] RessourceLimits => new int[] {
-            4
+            4,
+            10,
+            20
         };
-        public override RessourceType ProductionType => RessourceType.FOOD;
+
+        public override int MaxProgress => 2;
+        
+        public override RessourceType ProductionType => RessourceType.WHEAT;
+
         public override byte Gain => 4;
-        public override int MaxProgress => 10;
-        private const int elevationThreshold = 40;
+
+
 
         public override Dictionary<RessourceType, int>[] Recipes
         {
             get
             {
                 Dictionary<RessourceType, int>[] result = {
-                    new Dictionary<RessourceType, int>{ { RessourceType.WOOD, 4}, { RessourceType.STONE, 1} },
-                    new Dictionary<RessourceType, int>{ { RessourceType.WOOD, 10}, { RessourceType.IRON, 2} },
-                    new Dictionary<RessourceType, int>{ { RessourceType.WOOD, 5}, { RessourceType.IRON, 4 } }
+                    new Dictionary<RessourceType, int>{ },
+                    new Dictionary<RessourceType, int>{ { RessourceType.WOOD, 1} },
+                    new Dictionary<RessourceType, int>{ { RessourceType.WOOD, 5} }
                 };
                 return result;
             }
         }
 
-        public Fisher() : base()
+        public WheatFarm() : base()
         {
-            this.Inventory.Storage.Add(RessourceType.FOOD, 0);
-            this.Inventory.RessourceLimit = 20;
+            this.Inventory.Storage.Add(RessourceType.WHEAT, 0);
+            this.Inventory.Outgoing.Add(RessourceType.WHEAT);
         }
 
-        public Fisher(
+        public WheatFarm(
             HexCell Cell,
             byte Tribe,
             byte Level,
