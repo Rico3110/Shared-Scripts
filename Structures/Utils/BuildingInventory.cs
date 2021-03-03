@@ -115,9 +115,10 @@ namespace Shared.Structures
             }
         }
 
-        public override void MoveInto(BuildingInventory receiver, int count)
+        public override int MoveInto(BuildingInventory receiver, int count)
         {
             BuildingInventory sender = this;
+            int startCount = count;
 
             bool transmittedARessource = true;
             while (count > 0 && transmittedARessource)
@@ -143,6 +144,7 @@ namespace Shared.Structures
                     }
                 }
             }
+            return startCount - count;
         }
     }
 }

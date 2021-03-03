@@ -94,9 +94,10 @@ namespace Shared.Structures
             return RessourceLimit - totalCount;
         } 
 
-        public virtual void MoveInto(BuildingInventory receiver, int count)
+        public virtual int MoveInto(BuildingInventory receiver, int count)
         {
             Inventory sender = this;
+            int startCount = count;
 
             bool transmittedARessource = true;
             while (count > 0 && transmittedARessource)
@@ -122,6 +123,7 @@ namespace Shared.Structures
                     }
                 }
             }
+            return startCount - count;
         }
 
         public bool RecipeApplicable(Dictionary<RessourceType, int> recipe)
@@ -168,7 +170,7 @@ namespace Shared.Structures
 
         public void Clear()
         {
-            foreach(RessourceType ressourceType in Storage.Keys)
+            foreach (RessourceType ressourceType in Storage.Keys.ToList())
             {
                 Storage[ressourceType] = 0;
             }

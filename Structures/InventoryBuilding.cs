@@ -71,7 +71,6 @@ namespace Shared.Structures
             try
             {
                 destination = this.FindDestination();
-                //destination = this.ConnectedInventories.First();
             }
             catch(Exception e)
             {
@@ -95,7 +94,11 @@ namespace Shared.Structures
 
         public bool UnloadCart(Cart cart)
         {
-            cart.Inventory.MoveInto(this.Inventory, int.MaxValue);
+            int movedRessources = cart.Inventory.MoveInto(this.Inventory, int.MaxValue);
+            if (movedRessources == 0)
+            {
+                cart.Inventory.Clear();
+            }
             if (cart.Inventory.IsEmpty())
             {
                 cart.Destination = cart.Origin;
@@ -107,6 +110,12 @@ namespace Shared.Structures
                         this.Carts.Remove(cart);
                         ((Road)neighbor.Structure).AddCart(cart);
                     }
+                } 
+                //No connection to origin anymore -> Delete Cart and add the cart at origin
+                else
+                {
+                    this.Carts.Remove(cart);
+                    cart.Origin.AddCart(cart);
                 }
                 return true;
             }
@@ -129,10 +138,6 @@ namespace Shared.Structures
                         }
                     }
                 }
-                //if (kvp.Key.HasEmptyRessource(this))
-                //{
-                //    return kvp;
-                //}
             }
             //Then check if a building can be found that has space for any fitting ressourceType
             foreach (KeyValuePair<InventoryBuilding, Tuple<HexDirection, int, int>> kvp in this.ConnectedInventories)
@@ -148,14 +153,6 @@ namespace Shared.Structures
                         }
                     }
                 }
-                //foreach (RessourceType ressourceType in this.Inventory.Outgoing)
-                //{
-                //    if (kvp.Key.Inventory.Incoming.Contains(ressourceType))
-                //    {
-                //        if (kvp.Key.Inventory.AvailableSpace(ressourceType) > 0)
-                //            return kvp;
-                //    }
-                //}
             }
             throw new Exception("No fitting destination found");
         }
