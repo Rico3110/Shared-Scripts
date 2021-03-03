@@ -41,6 +41,7 @@ namespace Shared.Communication
         requestMoveTroops = 9,
         requestFight = 10,
         requestHarvest = 11,
+        requestChangeAllowedRessource = 12,
         testBuilding = 420
     }
 
