@@ -118,22 +118,44 @@ namespace Shared.Structures
             //First check if there is a building which has an empty ressource which can be send.
             foreach (KeyValuePair<InventoryBuilding, Tuple<HexDirection, int, int>> kvp in this.ConnectedInventories)
             {
-                if (kvp.Key.HasEmptyRessource(this))
+                InventoryBuilding possibleDestination = kvp.Key;
+                foreach (KeyValuePair<RessourceType, bool> kvp2 in AllowedRessources[kvp.Key])
                 {
-                    return kvp;
+                    if (kvp2.Value)
+                    {
+                        if (possibleDestination.Inventory.Storage[kvp2.Key] == 0 && possibleDestination.Inventory.AvailableSpace(kvp2.Key) > 0)
+                        {
+                            return kvp;
+                        }
+                    }
                 }
+                //if (kvp.Key.HasEmptyRessource(this))
+                //{
+                //    return kvp;
+                //}
             }
             //Then check if a building can be found that has space for any fitting ressourceType
             foreach (KeyValuePair<InventoryBuilding, Tuple<HexDirection, int, int>> kvp in this.ConnectedInventories)
             {
-                foreach (RessourceType ressourceType in this.Inventory.Outgoing)
+                InventoryBuilding possibleDestination = kvp.Key;
+                foreach (KeyValuePair<RessourceType, bool> kvp2 in AllowedRessources[kvp.Key])
                 {
-                    if (kvp.Key.Inventory.Incoming.Contains(ressourceType))
+                    if (kvp2.Value)
                     {
-                        if (kvp.Key.Inventory.AvailableSpace(ressourceType) > 0)
+                        if (possibleDestination.Inventory.AvailableSpace(kvp2.Key) > 0)
+                        {
                             return kvp;
+                        }
                     }
                 }
+                //foreach (RessourceType ressourceType in this.Inventory.Outgoing)
+                //{
+                //    if (kvp.Key.Inventory.Incoming.Contains(ressourceType))
+                //    {
+                //        if (kvp.Key.Inventory.AvailableSpace(ressourceType) > 0)
+                //            return kvp;
+                //    }
+                //}
             }
             throw new Exception("No fitting destination found");
         }
@@ -160,15 +182,18 @@ namespace Shared.Structures
                 ressourceAdded = false;
                 foreach(RessourceType ressourceType in destination.Incoming)
                 {
-                    if (origin.Inventory.Outgoing.Contains(ressourceType))
+                    if (origin.AllowedRessources[this][ressourceType])
                     {
-                        if (cart.Inventory.AvailableSpace() > 0)
+                        if (origin.Inventory.Outgoing.Contains(ressourceType))
                         {
-                            if (origin.Inventory.GetRessourceAmount(ressourceType) > 0)
+                            if (cart.Inventory.AvailableSpace() > 0)
                             {
-                                cart.Inventory.AddRessource(ressourceType, 1);
-                                origin.Inventory.RemoveRessource(ressourceType, 1);
-                                ressourceAdded = true;
+                                if (origin.Inventory.GetRessourceAmount(ressourceType) > 0)
+                                {
+                                    cart.Inventory.AddRessource(ressourceType, 1);
+                                    origin.Inventory.RemoveRessource(ressourceType, 1);
+                                    ressourceAdded = true;
+                                }
                             }
                         }
                     }

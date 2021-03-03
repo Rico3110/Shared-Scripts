@@ -41,6 +41,7 @@ namespace Shared.Structures
         {
             this.Inventory.Storage = BuildingInventory.GetDictionaryForAllRessources();
             this.Inventory.Incoming = BuildingInventory.GetListOfAllRessources();
+            this.Inventory.Outgoing = BuildingInventory.GetListOfAllRessources();
             this.Inventory.UpdateRessourceLimits(new Dictionary<RessourceType, int> { { RessourceType.WOOD, 40 }, { RessourceType.STONE, 20 }, { RessourceType.IRON, 20 }, { RessourceType.COAL, 10 } });
         }
 
