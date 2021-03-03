@@ -361,6 +361,22 @@ namespace Shared.Game
             }
         }
 
+        public static bool ChangeAllowedRessource(HexCoordinates origin, HexCoordinates destination, RessourceType ressourceType, bool newValue)
+        {
+            HexCell originCell = grid.GetCell(origin);
+            HexCell destinationCell = grid.GetCell(destination);
+
+            if (originCell.Structure is InventoryBuilding && destinationCell.Structure is InventoryBuilding)
+            {
+                InventoryBuilding originBuilding = (InventoryBuilding)originCell.Structure;
+                InventoryBuilding destinationBuilding = (InventoryBuilding)destinationCell.Structure;
+
+                originBuilding.AllowedRessources[destinationBuilding][ressourceType] = newValue;
+                return true;
+            }
+            return false;
+        }
+
 #endregion
 
         public static void DoTick()

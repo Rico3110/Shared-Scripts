@@ -24,6 +24,7 @@ namespace Shared.Communication
         broadcastMoveTroops = 11,
         broadcastFight = 12,
         broadcastHarvest = 13,
+        broadcastChangeAllowedRessource = 14,
         testBuilding = 420
     }
 
