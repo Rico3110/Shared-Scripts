@@ -18,7 +18,7 @@ namespace Shared.Structures
         
         public Dictionary<InventoryBuilding, Tuple<HexDirection, int, int>> ConnectedInventories;
 
-        public Dictionary<InventoryBuilding, Dictionary<RessourceType, bool>> allowedRessources; 
+        public Dictionary<InventoryBuilding, Dictionary<RessourceType, bool>> AllowedRessources; 
 
         public List<Cart> Carts { get; set; }
 
@@ -29,6 +29,7 @@ namespace Shared.Structures
             this.Inventory = new BuildingInventory();
             this.Inventory.RessourceLimit = this.RessourceLimit;
             this.ConnectedInventories = new Dictionary<InventoryBuilding, Tuple<HexDirection, int, int>>();
+            this.AllowedRessources = new Dictionary<InventoryBuilding, Dictionary<RessourceType, bool>>();
             this.Carts = new List<Cart>();
             for (int i = 0; i < this.MaxCartCount; i++)
             {

@@ -265,11 +265,14 @@ namespace Shared.Communication
 
             Write(_value.cells);
             List<Building> buildings = new List<Building>();
+            List<InventoryBuilding> inventoryBuildings = new List<InventoryBuilding>();
             foreach (HexCell cell in _value.cells)
             {
                 Write(cell.Structure);
                 if (cell.Structure is ICartHandler)
                     buildings.Add((Building)cell.Structure);
+                if (cell.Structure is InventoryBuilding)
+                    inventoryBuildings.Add((InventoryBuilding)cell.Structure);
             }
 
             //Write Carts
@@ -278,6 +281,14 @@ namespace Shared.Communication
             {
                 Write(building.Cell.coordinates);
                 Write(((ICartHandler)building).Carts);
+            }
+
+            //Write Allowed Ressources
+            Write(inventoryBuildings.Count);
+            foreach (InventoryBuilding building in inventoryBuildings)
+            {
+                Write(building.Cell.coordinates);
+                Write(building.AllowedRessources);
             }
         }
         /// <summary>Adds a List<Cart> to the packet.</summary>
@@ -288,6 +299,28 @@ namespace Shared.Communication
             foreach (Cart cart in _value)
             {
                 Write(cart);
+            }
+        }
+        /// <summary>Adds a Dictionary<InventoryBuilding, Dictionary<RessourceType, bool>> to the packet.</summary>
+        /// <param name="_value">The List<Cart> to add.</param>
+        public void Write(Dictionary<InventoryBuilding, Dictionary<RessourceType, bool>> _value)
+        {
+            Write(_value.Count);
+            foreach (KeyValuePair<InventoryBuilding, Dictionary<RessourceType, bool>> kvp in _value)
+            {
+                Write(kvp.Key.Cell.coordinates);
+                Write(kvp.Value);
+            }
+        }
+        /// <summary>Adds a Dictionary<RessourceType, bool> to the packet.</summary>
+        /// <param name="_value">The List<Cart> to add.</param>
+        public void Write(Dictionary<RessourceType, bool> _value)
+        {
+            Write(_value.Count);
+            foreach (KeyValuePair<RessourceType, bool> kvp in _value)
+            {
+                Write((byte)kvp.Key);
+                Write(kvp.Value);
             }
         }
         /// <summary>Adds a Cart to the packet.</summary>
@@ -878,6 +911,15 @@ namespace Shared.Communication
                     ((ICartHandler)_value.GetCell(coords).Structure).Carts = carts;
                 }
 
+                //Read Allowed Ressources
+                int inventoryBuildingCount = ReadInt(_moveReadPos);
+                for (int i = 0; i < inventoryBuildingCount; i++)
+                {
+                    HexCoordinates coords = ReadHexCoordinates(_moveReadPos);
+                    Dictionary<InventoryBuilding, Dictionary<RessourceType, bool>> allowedRessources = ReadAllowedRessources(_value, _moveReadPos);
+                    ((InventoryBuilding)_value.GetCell(coords).Structure).AllowedRessources = allowedRessources;
+                }
+
                 return _value;
             }
             catch
@@ -923,6 +965,51 @@ namespace Shared.Communication
             catch
             {
                 throw new Exception("Could not read value of type 'List<Cart>'!");
+            }
+        }
+        /// <summary>Reads a Dictionary<InventoryBuilding, Dictionary<RessourceType, bool>> from the packet.</summary>
+        /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
+        public Dictionary<InventoryBuilding, Dictionary<RessourceType, bool>> ReadAllowedRessources(HexGrid.HexGrid grid, bool _moveReadPos = true)
+        {
+            try
+            {
+                Dictionary<InventoryBuilding, Dictionary<RessourceType, bool>> _value = new Dictionary<InventoryBuilding, Dictionary<RessourceType, bool>>();
+
+                int size = ReadInt(_moveReadPos);
+                for (int i = 0; i < size; i++)
+                {
+                    HexCoordinates coords = ReadHexCoordinates(_moveReadPos);
+                    InventoryBuilding key = (InventoryBuilding)grid.GetCell(coords).Structure;
+                    Dictionary<RessourceType, bool> dictionary = ReadDictionaryOfRessourceTypeAndBool(_moveReadPos);
+                    _value.Add(key, dictionary);
+                }
+                return _value;
+            }
+            catch
+            {
+                throw new Exception("Could not read value of type 'Dictionary<InventoryBuilding, Dictionary<RessourceType, bool>>'!");
+            }
+        }
+        /// <summary>Reads a Dictionary<RessourceType, bool> from the packet.</summary>
+        /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
+        public Dictionary<RessourceType, bool> ReadDictionaryOfRessourceTypeAndBool(bool _moveReadPos = true)
+        {
+            try
+            {
+                Dictionary<RessourceType, bool> _value = new Dictionary<RessourceType, bool>();
+
+                int size = ReadInt(_moveReadPos);
+                for (int i = 0; i < size; i++)
+                {
+                    RessourceType ressourceType = (RessourceType)ReadByte(_moveReadPos);
+                    bool allowed = ReadBool();
+                    _value.Add(ressourceType, allowed);
+                }
+                return _value;
+            }
+            catch
+            {
+                throw new Exception("Could not read value of type 'Dictionary<RessourceType, bool>'!");
             }
         }
 

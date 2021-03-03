@@ -476,6 +476,23 @@ namespace Shared.Game
                     {
                         inventoryBuilding.ConnectedInventories.Add(origin, new Tuple<HexDirection, int, int>(dir.Opposite(), minRoadLevel, depth + 1));
                     }
+
+                    //Init allowed Ressources for origin Building
+                    if (!origin.AllowedRessources.ContainsKey(inventoryBuilding))
+                    {
+                        origin.AllowedRessources.Add(inventoryBuilding, new Dictionary<RessourceType, bool>());
+                    }
+                    foreach (RessourceType ressourceType in origin.Inventory.Outgoing)
+                    {
+                        if (inventoryBuilding.Inventory.Incoming.Contains(ressourceType))
+                        {
+                            if (!origin.AllowedRessources[inventoryBuilding].ContainsKey(ressourceType))
+                            {
+                                origin.AllowedRessources[inventoryBuilding].Add(ressourceType, true);
+                            }
+                        }
+                    }
+
                 }
                 
             }
