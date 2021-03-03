@@ -38,7 +38,12 @@ namespace Shared.Game
                 { typeof(CoalMine), 0 },
                 { typeof(Smelter), 0 },
                 { typeof(Bridge), 0 },
-                { typeof(Market), 0 }
+                { typeof(Market), 0 },
+                { typeof(Fisher), 0},
+                { typeof(WheatFarm), 0},
+                { typeof(CowFarm), 0},
+                { typeof(Bakery), 0},
+                
             };
         }
 
