@@ -1582,8 +1582,8 @@ namespace Shared.Communication
             new Tuple<Type, byte>(typeof(Bridge), 17),
             new Tuple<Type, byte>(typeof(Market), 18),
             new Tuple<Type, byte>(typeof(WheatFarm), 19),
-            new Tuple<Type, byte>(typeof(CowFarm), 19),
-            new Tuple<Type, byte>(typeof(Bakery), 19)
+            new Tuple<Type, byte>(typeof(CowFarm), 20),
+            new Tuple<Type, byte>(typeof(Bakery), 21)
         };
 
         internal static byte ToByte(this Structure structure)
