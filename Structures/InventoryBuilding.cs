@@ -182,7 +182,7 @@ namespace Shared.Structures
                 ressourceAdded = false;
                 foreach(RessourceType ressourceType in destination.Incoming)
                 {
-                    if (origin.AllowedRessources[this][ressourceType])
+                    if (origin.Inventory.Outgoing.Contains(ressourceType) && origin.AllowedRessources[this][ressourceType])
                     {
                         if (origin.Inventory.Outgoing.Contains(ressourceType))
                         {
