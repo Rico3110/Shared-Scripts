@@ -377,7 +377,7 @@ namespace Shared.Game
             return false;
         }
 
-        public static void ChangeTroopRecipeOfBarracks(HexCoordinates barracksCoordinates, TroopType troopType)
+        public static bool ChangeTroopRecipeOfBarracks(HexCoordinates barracksCoordinates, TroopType troopType)
         {
             HexCell cell = grid.GetCell(barracksCoordinates);
             if (cell != null)
@@ -385,8 +385,10 @@ namespace Shared.Game
                 if (cell.Structure is Barracks)
                 {
                     ((Barracks)cell.Structure).ChangeTroopRecipe(troopType);
+                    return true;
                 }
             }
+            return false;
         }
 
 #endregion
