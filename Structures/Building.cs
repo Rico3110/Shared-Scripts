@@ -24,7 +24,7 @@ namespace Shared.Structures
 
         public Building() : base()
         {
-            this.Tribe = 0;
+            this.Tribe = 255;
             this.Level = 1;
             this.Health = MaxHealth;
         }
@@ -56,7 +56,7 @@ namespace Shared.Structures
         public override bool IsPlaceable(HexCell cell) 
         {
             List<Building> buildings = cell.GetNeighborStructures<Building>(2);
-            if (buildings.Find(elem => elem.Tribe != this.Tribe) != null)
+            if (buildings.FindIndex(elem => elem.Tribe != this.Tribe) != -1)
                 return false;
 
             if (cell.Structure != null && typeof(Building).IsAssignableFrom(cell.Structure.GetType()))

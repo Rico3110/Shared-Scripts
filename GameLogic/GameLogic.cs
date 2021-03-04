@@ -145,6 +145,7 @@ namespace Shared.Game
                 return false;
             
             HexCell cell = grid.GetCell(coords);
+            building.Tribe = player.Tribe.Id;
 
             //check if the building can be placed at the position
             if (!building.IsPlaceable(cell))
@@ -298,6 +299,8 @@ namespace Shared.Game
             {
                 return false;
             }
+
+            hq.Tribe = (byte)Tribes.Count;
 
             //check if the building can be placed at the position
             if (!hq.IsPlaceable(cell))

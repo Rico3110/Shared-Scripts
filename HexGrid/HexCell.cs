@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Shared.DataTypes;
 using Shared.Structures;
+using System;
 
 namespace Shared.HexGrid
 {
@@ -80,7 +81,8 @@ namespace Shared.HexGrid
 
         protected List<HexCell> GetNeighbors(int depth, List<HexCell> cells)
         {
-            cells.Add(this);
+            if (!cells.Contains(this))
+                cells.Add(this);
             if (depth <= 0)
                 return cells;
 
@@ -89,10 +91,7 @@ namespace Shared.HexGrid
                 HexCell neighbor = this.GetNeighbor(d);
                 if (neighbor == null)
                     continue;
-                if (!cells.Contains(neighbor))
-                {
-                    neighbor.GetNeighbors(depth - 1, cells);
-                }
+                neighbor.GetNeighbors(depth - 1, cells);
             }
             return cells;
         }
