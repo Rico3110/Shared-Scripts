@@ -25,6 +25,7 @@ namespace Shared.Communication
         broadcastFight = 12,
         broadcastHarvest = 13,
         broadcastChangeAllowedRessource = 14,
+        broadcastChangeTroopRecipeOfBarracks = 15,
         testBuilding = 420
     }
 
@@ -43,6 +44,7 @@ namespace Shared.Communication
         requestFight = 10,
         requestHarvest = 11,
         requestChangeAllowedRessource = 12,
+        requestChangeTroopRecipeOfBarracks = 13,
         testBuilding = 420
     }
 
