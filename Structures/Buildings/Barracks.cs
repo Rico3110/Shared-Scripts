@@ -106,9 +106,11 @@ namespace Shared.Structures
                     this.Inventory.RemoveRessource(ressourceType);
             }
             this.Inventory.Incoming.Clear();
+            this.Inventory.RessourceLimits.Clear();
             foreach (RessourceType ressourceType in this.InputRecipe.Keys)
             {
                 this.Inventory.AddRessource(ressourceType);
+                this.Inventory.RessourceLimits[ressourceType] = this.RessourceLimit / this.InputRecipe.Count();
                 this.Inventory.Incoming.Add(ressourceType);
             }
         }
