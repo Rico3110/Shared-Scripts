@@ -105,9 +105,11 @@ namespace Shared.Structures
                 if (!this.InputRecipe.Keys.Contains(ressourceType))
                     this.Inventory.RemoveRessource(ressourceType);
             }
+            this.Inventory.Incoming.Clear();
             foreach (RessourceType ressourceType in this.InputRecipe.Keys)
             {
                 this.Inventory.AddRessource(ressourceType);
+                this.Inventory.Incoming.Add(ressourceType);
             }
         }
     }
