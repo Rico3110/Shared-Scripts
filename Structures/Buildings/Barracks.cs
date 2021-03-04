@@ -99,6 +99,7 @@ namespace Shared.Structures
                     break;
                 }
             }
+            this.OutputTroop = troopType;
 
             foreach (RessourceType ressourceType in this.Inventory.Storage.Keys)
             {
