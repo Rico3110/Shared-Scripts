@@ -55,6 +55,10 @@ namespace Shared.Structures
 
         public override bool IsPlaceable(HexCell cell) 
         {
+            List<Building> buildings = this.Cell.GetNeighborStructures<Building>(2);
+            if (buildings.Find(elem => elem.Tribe != this.Tribe) != null)
+                return false;
+
             if (cell.Structure != null && typeof(Building).IsAssignableFrom(cell.Structure.GetType()))
             {
                 return false;
