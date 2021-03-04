@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Shared.Structures
 {
-    class Barracks: ProgressBuilding
+    public class Barracks: ProgressBuilding
     {
         public override byte MaxLevel => 1;
         public override byte[] MaxHealths => new byte[]{

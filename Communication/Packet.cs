@@ -421,6 +421,10 @@ namespace Shared.Communication
             else if (_value is RefineryBuilding)
             {
                 Write((RefineryBuilding) _value);
+            } 
+            else if (_value is Barracks)
+            {
+                Write((Barracks)_value);
             }
         }
         /// <summary>Adds an ProductionBuilding to the packet.</summary>
@@ -437,6 +441,12 @@ namespace Shared.Communication
             {
                 Write((Market)_value);
             }
+        }
+        /// <summary>Adds a Barracks to the packet.</summary>
+        /// <param name="_value">The Barracks to add.</param>
+        private void Write(Barracks _value)
+        {
+            Write((byte) _value.OutputTroop);
         }
         /// <summary>Adds a Market to the packet.</summary>
         /// <param name="_value">The Market to add.</param>
@@ -1231,6 +1241,8 @@ namespace Shared.Communication
                     return ReadProductionBuilding(_moveReadPos);
                 if (typeof(RefineryBuilding).IsAssignableFrom(type))
                     return ReadRefineryBuilding(_moveReadPos);
+                if (typeof(Barracks).IsAssignableFrom(type))
+                    return ReadBarracks(_moveReadPos);
 
                 ReadByte(_moveReadPos);
 
@@ -1321,6 +1333,39 @@ namespace Shared.Communication
             catch
             {
                 throw new Exception("Could not read value of type 'RefineryBuilding'!");
+            }
+        }
+        /// <summary>Reads a Barracks from the packet.</summary>
+        /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
+        public Barracks ReadBarracks(bool _moveReadPos = true)
+        {
+            try
+            {
+                Type type = ReadByte(_moveReadPos).ToType();
+
+                byte Tribe = ReadByte(_moveReadPos);
+                byte Level = ReadByte(_moveReadPos);
+                byte Health = ReadByte(_moveReadPos);
+                TroopInventory TroopInventory = ReadTroopInventory(_moveReadPos);
+                BuildingInventory Inventory = ReadBuildingInventory(_moveReadPos);
+                int Progress = ReadInt(_moveReadPos);
+                TroopType troopType = (TroopType)ReadByte(_moveReadPos);
+
+                Barracks _value = (Barracks)Activator.CreateInstance(type, new object[]{
+                    null,
+                    Tribe,
+                    Level,
+                    Health,
+                    TroopInventory,
+                    Inventory,
+                    Progress
+                });
+                _value.ChangeTroopRecipe(troopType);
+                return _value;
+            }
+            catch
+            {
+                throw new Exception("Could not read value of type 'Barracks'!");
             }
         }
         /// <summary>Reads a Market from the packet.</summary>
