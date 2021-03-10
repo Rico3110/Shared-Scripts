@@ -42,6 +42,13 @@ namespace Shared.Structures
             this.Strategy = strategy;
         }
 
+        public void UpdateStrategy(int oldIndex, int newIndex)
+        {
+            Tuple<TroopType, bool> tpl = this.Strategy[oldIndex]; 
+            this.Strategy.RemoveAt(oldIndex);
+            this.Strategy.Insert(newIndex, tpl);
+        }
+
         public void UpdateTroopLimit(int newValue)
         {
             this.TroopLimit = newValue;

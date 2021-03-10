@@ -396,6 +396,20 @@ namespace Shared.Game
             return false;
         }
 
+        public static bool ChangeStrategyOfProtectedBuilding(HexCoordinates coordinates, int oldIndex, int newIndex)
+        {
+            HexCell cell = grid.GetCell(coordinates);
+            if (cell != null)
+            {
+                if (cell.Structure is ProtectedBuilding)
+                {
+                    ((ProtectedBuilding)cell.Structure).TroopInventory.UpdateStrategy(oldIndex, newIndex);
+                    return true;
+                }
+            }
+            return false;
+        }
+
 #endregion
 
         public static void DoTick()

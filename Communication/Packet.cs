@@ -26,6 +26,7 @@ namespace Shared.Communication
         broadcastHarvest = 13,
         broadcastChangeAllowedRessource = 14,
         broadcastChangeTroopRecipeOfBarracks = 15,
+        broadcastChangeStrategy = 16,
         testBuilding = 420
     }
 
