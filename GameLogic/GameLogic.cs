@@ -353,6 +353,8 @@ namespace Shared.Game
         {
             TroopInventory attackerInventory = attacker.TroopInventory;
             Building defender = (Building)grid.GetCell(defenderCoordinates).Structure;
+            if (defender == null)
+                return;
             if(defender is ProtectedBuilding)
             {
                 if (attackerInventory.Fight(((ProtectedBuilding)defender).TroopInventory))
