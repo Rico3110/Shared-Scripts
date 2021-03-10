@@ -410,6 +410,17 @@ namespace Shared.Game
             return false;
         }
 
+        public static bool ChangeStrategyOfPlayer(string playerName, int oldIndex, int newIndex)
+        {
+            Player player = GetPlayer(playerName);
+            if (player != null)
+            {
+                player.TroopInventory.UpdateStrategy(oldIndex, newIndex);
+                return true;
+            }
+            return false;
+        }
+
 #endregion
 
         public static void DoTick()
