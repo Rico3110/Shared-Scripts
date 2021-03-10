@@ -45,6 +45,7 @@ namespace Shared.Communication
         requestHarvest = 11,
         requestChangeAllowedRessource = 12,
         requestChangeTroopRecipeOfBarracks = 13,
+        requestChangeOrderOfStrategy = 14,
         testBuilding = 420
     }
 
