@@ -82,7 +82,7 @@ namespace Shared.Structures
             return false;
         }
 
-        public bool HasBuilding(HexDirection direction)
+        public virtual bool HasBuilding(HexDirection direction)
         {
             if (Cell == null)
                 return false;

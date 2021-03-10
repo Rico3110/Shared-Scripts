@@ -67,6 +67,11 @@ namespace Shared.Structures
             base.DoTick();
         }
 
+        public override bool HasBuilding(HexDirection direction)
+        {
+            return HasRoad(direction);
+        }
+
         public override int GetElevation()
         {
             return this.Cell.Data.Elevation + this.BridgeHeight;
