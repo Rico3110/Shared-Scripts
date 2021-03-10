@@ -26,7 +26,8 @@ namespace Shared.Communication
         broadcastHarvest = 13,
         broadcastChangeAllowedRessource = 14,
         broadcastChangeTroopRecipeOfBarracks = 15,
-        broadcastChangeStrategy = 16,
+        broadcastChangeStrategyOfProtectedBuilding = 16,
+        broadcastChangeStrategyOfName = 17,
         testBuilding = 420
     }
 
