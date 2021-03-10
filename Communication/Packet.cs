@@ -29,7 +29,6 @@ namespace Shared.Communication
         broadcastChangeStrategyOfProtectedBuilding = 16,
         broadcastChangeStrategyOfName = 17,
         testBuilding = 420        
-
     }
 
     /// <summary>Sent from client to server.</summary>
