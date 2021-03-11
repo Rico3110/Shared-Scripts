@@ -299,6 +299,11 @@ namespace Shared.Game
                     Building building = (Building)structure;
                     buildings.RemoveAll(elem => elem == building);
                     carts.RemoveAll(elem => elem.Origin == building);
+                    foreach(Building b in buildings)
+                    {
+                        if (b is ICartHandler)
+                            ((ICartHandler)b).Carts.RemoveAll(elem => elem.Origin == building);
+                    }
                     if(structure is ICartHandler)
                     {
                         ComputeConnectedStorages();
