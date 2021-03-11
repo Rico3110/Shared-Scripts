@@ -237,6 +237,25 @@ namespace Shared.Game
             }
         }
 
+        private static void ApplyDowngrade(HexCoordinates coords)
+        {
+            HexCell cell = grid.GetCell(coords);
+            Structure structure = cell.Structure;
+            if (structure != null)
+            {
+                if (typeof(Building).IsAssignableFrom(structure.GetType()))
+                {
+                    Building building = (Building)structure;
+                    if (building.Level == 1)
+                        DestroyStructure(coords);
+                    else
+                    {
+                        building.Downgrade();
+                    }
+                }
+            }
+        }
+
         private static void AddStructureToList(Structure structure)
         {           
             if (typeof(Building).IsAssignableFrom(structure.GetType()))
@@ -273,11 +292,15 @@ namespace Shared.Game
             {
                 if (typeof(Building).IsAssignableFrom(structure.GetType()))
                 {
-                    buildings.RemoveAll(elem => elem == structure);
+                    Building building = (Building)structure;
+                    buildings.RemoveAll(elem => elem == building);
+                    carts.RemoveAll(elem => elem.Origin == building);
                     if(structure is ICartHandler)
                     {
                         ComputeConnectedStorages();
                     }
+                    Tribe tribe = GetTribe(building.Tribe);
+                    tribe.RemoveBuilding(building.GetType());
                 }
                 else if (typeof(Ressource).IsAssignableFrom(structure.GetType()))
                 {
@@ -358,11 +381,13 @@ namespace Shared.Game
             if(defender is ProtectedBuilding)
             {
                 if (attackerInventory.Fight(((ProtectedBuilding)defender).TroopInventory))
-                    attackerInventory.Fight(defender);
+                    if (attackerInventory.Fight(defender))
+                        ApplyDowngrade(defender.Cell.coordinates);
             }
             else 
             {
-                attackerInventory.Fight(defender);
+                if (attackerInventory.Fight(defender))
+                    ApplyDowngrade(defender.Cell.coordinates);
             }
         }
 
