@@ -30,6 +30,8 @@ namespace Shared.Communication
         broadcastChangeStrategyOfName = 17,
         broadcastChangeStrategyActivePlayer = 18,
         broadcastChangeStrategyActiveBuilding = 19,
+        broadcastMoveRessources = 20,
+        broadcastChangeRessourceLimit = 21,
         testBuilding = 420        
     }
 

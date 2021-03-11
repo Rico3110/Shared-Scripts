@@ -482,6 +482,49 @@ namespace Shared.Game
             return false;
         }
 
+        public static bool MoveRessources(HexCoordinates originCoordinates, HexCoordinates destinationCoordinates, RessourceType type, int amount)
+        {
+            HexCell originCell = grid.GetCell(originCoordinates);
+            HexCell destinationCell = grid.GetCell(destinationCoordinates);
+            if (originCell != null && destinationCell != null)
+            {
+                if (originCell.Structure is InventoryBuilding && destinationCell.Structure is InventoryBuilding)
+                {
+                    InventoryBuilding origin = (InventoryBuilding)originCell.Structure;
+                    InventoryBuilding destination = (InventoryBuilding)destinationCell.Structure;
+                    if (origin.Inventory.GetRessourceAmount(type) >= amount && destination.Inventory.AvailableSpace() >= amount)
+                    {
+                        origin.Inventory.RemoveRessource(type, amount);
+                        destination.Inventory.AddRessource(type, amount);
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        public static bool UpdateRessourceLimit(HexCoordinates coordinates, RessourceType type, int newValue)
+        {
+            HexCell cell = grid.GetCell(coordinates);
+            if (cell != null)
+            {
+                if (cell.Structure is InventoryBuilding)
+                {
+                    InventoryBuilding building = (InventoryBuilding)cell.Structure;
+                    if (newValue < 0 || building.Inventory.RessourceLimit < newValue)
+                        return false;
+                    if (building.Inventory.RessourceLimits.ContainsKey(type))
+                        building.Inventory.RessourceLimits[type] = newValue;
+                    else
+                        building.Inventory.RessourceLimits.Add(type, newValue);
+                    if (building.Inventory.GetRessourceAmount(type) > newValue)
+                        building.Inventory.Storage[type] = newValue;
+                    return true;
+                }
+            }
+            return false;
+        }
+
         #endregion
 
         public static void DoTick()
