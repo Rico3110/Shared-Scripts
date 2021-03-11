@@ -421,7 +421,34 @@ namespace Shared.Game
             return false;
         }
 
-#endregion
+        public static bool ChangeActiveStrategyOfBuilding(HexCoordinates coordinates, TroopType type, bool newValue)
+        {
+            HexCell cell = grid.GetCell(coordinates);
+            if (cell != null)
+            {
+                if (cell.Structure is ProtectedBuilding)
+                {
+                    int index = ((ProtectedBuilding)cell.Structure).TroopInventory.Strategy.FindIndex(tpl => tpl.Item1 == type);
+                    ((ProtectedBuilding)cell.Structure).TroopInventory.Strategy[index] = new Tuple<TroopType, bool>(type, newValue);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public static bool ChangeActiveStrategyOfPlayer(String playerName, TroopType type, bool newValue)
+        {
+            Player player = GetPlayer(playerName);
+            if (player != null)
+            {
+                int index = player.TroopInventory.Strategy.FindIndex(tpl => tpl.Item1 == type);
+                player.TroopInventory.Strategy[index] = new Tuple<TroopType, bool>(type, newValue);
+                return true;
+            }
+            return false;
+        }
+
+        #endregion
 
         public static void DoTick()
         {   
