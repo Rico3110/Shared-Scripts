@@ -239,6 +239,8 @@ namespace Shared.Game
 
         private static void ApplyDowngrade(HexCoordinates coords)
         {
+
+            Console.WriteLine("downgrade");
             HexCell cell = grid.GetCell(coords);
             Structure structure = cell.Structure;
             if (structure != null)
@@ -286,10 +288,12 @@ namespace Shared.Game
 
         public static void DestroyStructure(HexCoordinates coords)
         {
+            Console.WriteLine("structure has been destroyed");
             HexCell cell = grid.GetCell(coords);
             Structure structure = cell.Structure;
             if (structure != null)
             {
+                cell.Structure = null;
                 if (typeof(Building).IsAssignableFrom(structure.GetType()))
                 {
                     Building building = (Building)structure;
