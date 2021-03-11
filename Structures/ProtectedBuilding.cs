@@ -33,6 +33,7 @@ namespace Shared.Structures
             base.DoTick();
         }
 
+
         public override bool IsPlaceable(HexCell cell)
         {
             if (!base.IsPlaceable(cell))

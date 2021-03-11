@@ -48,9 +48,15 @@ namespace Shared.Structures
 
         public virtual void Upgrade()
         {
-
             if(Level < MaxLevel)
                 Level++;
+        }
+
+        public virtual void Downgrade()
+        {
+            if (Level > 0)
+                Level--;
+            Health = MaxHealth;
         }
 
         public override bool IsPlaceable(HexCell cell) 
