@@ -52,6 +52,8 @@ namespace Shared.Communication
         requestChangeOrderOfStrategy = 14,
         requestChangeActiveOfStrategyPlayer = 15,
         requestChangeActiveOfStrategyBuilding = 16,
+        requestChangeRessourceLimit = 17,
+        requestMoveRessource = 18,
         testBuilding = 420
     }
 
