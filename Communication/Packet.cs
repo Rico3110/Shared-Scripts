@@ -48,6 +48,8 @@ namespace Shared.Communication
         requestChangeAllowedRessource = 12,
         requestChangeTroopRecipeOfBarracks = 13,
         requestChangeOrderOfStrategy = 14,
+        requestChangeActiveOfStrategyPlayer = 15,
+        requestChangeActiveOfStrategyBuilding = 16,
         testBuilding = 420
     }
 
