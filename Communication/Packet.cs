@@ -28,6 +28,8 @@ namespace Shared.Communication
         broadcastChangeTroopRecipeOfBarracks = 15,
         broadcastChangeStrategyOfProtectedBuilding = 16,
         broadcastChangeStrategyOfName = 17,
+        broadcastChangeStrategyActivePlayer = 18,
+        broadcastChangeStrategyActiveBuilding = 19,
         testBuilding = 420        
     }
 
