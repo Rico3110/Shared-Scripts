@@ -68,7 +68,7 @@ namespace Shared.Structures
 
         public bool MoveTroops(TroopInventory destination, TroopType troopType, int amount)
         {
-            if (this.Troops[troopType] - amount >= 0 && destination.GetTroopCount() + amount < destination.TroopLimit)
+            if (this.Troops[troopType] - amount >= 0 && destination.GetTroopCount() + amount <= destination.TroopLimit)
             {
                 //Move troops
                 this.Troops[troopType] -= amount;
