@@ -30,6 +30,8 @@ namespace Shared.Communication
         broadcastChangeStrategyOfName = 17,
         broadcastChangeStrategyActivePlayer = 18,
         broadcastChangeStrategyActiveBuilding = 19,
+        broadcastMoveRessources = 20,
+        broadcastChangeRessourceLimit = 21,
         testBuilding = 420        
     }
 
@@ -52,6 +54,8 @@ namespace Shared.Communication
         requestChangeOrderOfStrategy = 14,
         requestChangeActiveOfStrategyPlayer = 15,
         requestChangeActiveOfStrategyBuilding = 16,
+        requestChangeRessourceLimit = 17,
+        requestMoveRessource = 18,
         testBuilding = 420
     }
 
