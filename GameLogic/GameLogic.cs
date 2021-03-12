@@ -302,7 +302,12 @@ namespace Shared.Game
                     foreach(Building b in buildings)
                     {
                         if (b is ICartHandler)
+                        {
                             ((ICartHandler)b).Carts.RemoveAll(elem => elem.Origin == building);
+                            if (b is InventoryBuilding)
+                                if(building is InventoryBuilding)
+                                    ((InventoryBuilding)b).AllowedRessources.Remove((InventoryBuilding)building);
+                        }
                     }
                     if(structure is ICartHandler)
                     {
