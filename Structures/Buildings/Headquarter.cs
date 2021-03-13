@@ -13,15 +13,15 @@ namespace Shared.Structures
         public override byte MaxLevel => 3;
 
         public override byte[] MaxHealths => new byte[]{
-            100,
-            200,
-            255
+            40,
+            60,
+            80
         };
 
         public override int[] RessourceLimits => new int[] {
+            40,
             80,
-            100,
-            140
+            110
         };
 
         public override Dictionary<RessourceType, int>[] Recipes
@@ -30,8 +30,8 @@ namespace Shared.Structures
             {
                 Dictionary<RessourceType, int>[] result = {
                     new Dictionary<RessourceType, int>{ },
-                    new Dictionary<RessourceType, int>{ { RessourceType.WOOD, 5 } },
-                    new Dictionary<RessourceType, int>{ { RessourceType.WOOD, 10 }, { RessourceType.STONE, 2 } }
+                    new Dictionary<RessourceType, int>{ { RessourceType.WOOD, 20 }, { RessourceType.STONE, 10 } },
+                    new Dictionary<RessourceType, int>{ { RessourceType.WOOD, 25 }, { RessourceType.STONE, 20 }, { RessourceType.IRON, 10 } }
                 };
                 return result;
             }

@@ -25,7 +25,11 @@ namespace Shared.Structures
             20
         };
 
-        public override int MaxProgress => 2;
+        public override int MaxProgresses => new int[] {
+            2,
+            2, 
+            2
+        };
         
         public override RessourceType ProductionType => RessourceType.COW;
 

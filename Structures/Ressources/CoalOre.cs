@@ -12,7 +12,7 @@ namespace Shared.Structures
     {
         public override int MaxProgress => 4;
         public override RessourceType ressourceType => RessourceType.COAL;
-        public override byte harvestReduction => 4;
+        public override int harvestReduction => 4;
 
         public CoalOre() : base()
         {

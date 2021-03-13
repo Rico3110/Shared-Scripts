@@ -10,15 +10,15 @@ namespace Shared.Structures
 {
     public abstract class Ressource : Structure
     {
-        public byte Progress;
+        public int Progress;
 
         public abstract int MaxProgress { get; }
         public abstract RessourceType ressourceType { get; }
-        public abstract byte harvestReduction { get; }
+        public abstract int harvestReduction { get; }
 
         public Ressource() : base()
         {
-            this.Progress = 0;
+            this.Progress = MaxProgress;
         }
 
         public Ressource(HexCell Cell, byte Progress) : base(Cell)

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Shared.HexGrid;
+using Shared.Communication;
 using UnityEngine;
 
 namespace Shared.Structures
@@ -14,22 +15,26 @@ namespace Shared.Structures
         public override byte MaxLevel => 3;
 
         public override byte[] MaxHealths => new byte[]{
-            50,
-            100,
-            200
+            10,
+            20,
+            25
         };
 
         public override int[] RessourceLimits => new int[] {
             4,
-            10,
-            20
+            8,
+            12
         };
 
-        public override int MaxProgress => 2;
-        
+        public override int[] MaxProgresses => new int[] {
+            Constants.MinutesToGameTicks(40),
+            Constants.MinutesToGameTicks(35),
+            Constants.MinutesToGameTicks(30)
+        };
+
         public override RessourceType ProductionType => RessourceType.WOOD;
 
-        public override byte Gain => 4;
+        public override byte Gain => 1;
 
 
 

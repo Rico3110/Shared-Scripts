@@ -11,7 +11,7 @@ namespace Shared.Structures
     public class Scrub : Ressource
     {
         public override int MaxProgress => 10;
-        public override byte harvestReduction => 10;
+        public override int harvestReduction => 10;
         public override RessourceType ressourceType => RessourceType.WOOD;
 
         public Scrub() : base()

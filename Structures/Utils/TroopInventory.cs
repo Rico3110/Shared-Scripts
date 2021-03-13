@@ -18,8 +18,8 @@ namespace Shared.Structures
 
         public TroopInventory()
         {
-            TroopLimit = 100;
-            Troops = new Dictionary<TroopType, int>() { { TroopType.ARCHER, 20 }, { TroopType.KNIGHT, 20 }, { TroopType.SPEARMAN, 20 } };
+            TroopLimit = 10;
+            Troops = new Dictionary<TroopType, int>() { { TroopType.ARCHER, 0 }, { TroopType.KNIGHT, 0 }, { TroopType.SPEARMAN, 0 } };
             
             Strategy = new List<Tuple<TroopType, bool>>();
             Strategy.Add(new Tuple<TroopType, bool>(TroopType.ARCHER, true));
@@ -27,7 +27,6 @@ namespace Shared.Structures
             Strategy.Add(new Tuple<TroopType, bool>(TroopType.SPEARMAN, true));
         }
 
-        //TODO
         public TroopInventory(Dictionary<TroopType, int> troops, int troopLimit, List<Tuple<TroopType, bool>> strategy)
         {
             this.TroopLimit = troopLimit;

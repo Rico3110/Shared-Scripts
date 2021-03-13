@@ -22,7 +22,12 @@ namespace Shared.Structures
             26
         };
 
-        public override int MaxProgress => 10;
+        public override int MaxProgresses => new int[] {
+            2,
+            2, 
+            2
+        };
+        
         public override Dictionary<RessourceType, int> InputRecipe => new Dictionary<RessourceType, int> { { RessourceType.WHEAT, 2 }, { RessourceType.WOOD, 1 } };
         public override Dictionary<RessourceType, int> OutputRecipe => new Dictionary<RessourceType, int> { { RessourceType.FOOD, 1 } };
 

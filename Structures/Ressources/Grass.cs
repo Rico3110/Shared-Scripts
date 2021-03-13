@@ -12,7 +12,7 @@ namespace Shared.Structures
     {
         public override int MaxProgress => 4;
         public override RessourceType ressourceType => RessourceType.COW;
-        public override byte harvestReduction => 2;
+        public override int harvestReduction => 2;
 
         public Grass() : base()
         {

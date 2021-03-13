@@ -9,7 +9,9 @@ namespace Shared.Structures
 {
     public abstract class ProgressBuilding : InventoryBuilding
     {
-        public abstract int MaxProgress { get; }
+        public int MaxProgress { get { return MaxProgresses[Level - 1]; } }
+        public abstract int[] MaxProgresses { get; }
+
         public int Progress;
         
 

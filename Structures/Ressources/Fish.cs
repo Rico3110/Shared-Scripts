@@ -12,7 +12,7 @@ namespace Shared.Structures
     {
         public override int MaxProgress => 10;
         public override RessourceType ressourceType => RessourceType.FOOD;
-        public override byte harvestReduction => 5;
+        public override int harvestReduction => 5;
 
         public Fish() : base()
         {
