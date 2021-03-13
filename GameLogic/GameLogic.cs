@@ -57,7 +57,7 @@ namespace Shared.Game
                 tribe.AddBuilding(building.GetType());
             }
         }
-        
+
 #region PLAYERS
 
         public static Player AddPlayer(string name, Tribe tribe)
@@ -65,6 +65,25 @@ namespace Shared.Game
             Player newPlayer = new Player(name, tribe);
             Players.Add(newPlayer);
             return newPlayer;
+        }
+
+        public static void AddPlayer(string playerName, int tribeId, HexCoordinates coordinates, TroopInventory troopInventory)
+        {
+            Tribe tribe = GameLogic.GetTribe(tribeId);
+
+            Player player = GameLogic.GetPlayer(playerName);
+            if (player == null)
+            {
+                player = AddPlayer(playerName, tribe);
+                player.Position = coordinates;
+                player.TroopInventory = troopInventory;
+            }
+            else
+            {
+                player.Tribe = tribe;
+                player.Position = coordinates;
+                player.TroopInventory = troopInventory;
+            }
         }
 
         public static Player GetPlayer(string name)
