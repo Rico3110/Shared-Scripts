@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Shared.HexGrid;
 using UnityEngine;
+using Shared.Communication;
 
 namespace Shared.Structures
 {
@@ -25,10 +26,10 @@ namespace Shared.Structures
             20
         };
 
-        public override int MaxProgresses => new int[] {
-            2,
-            2, 
-            2
+        public override int[] MaxProgresses => new int[] {
+            Constants.MinutesToGameTicks(40),
+            Constants.MinutesToGameTicks(35),
+            Constants.MinutesToGameTicks(30)
         };
         
         public override RessourceType ProductionType => RessourceType.WHEAT;

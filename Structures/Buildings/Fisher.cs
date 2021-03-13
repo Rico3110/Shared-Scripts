@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Shared.HexGrid;
 using UnityEngine;
+using Shared.Communication;
 
 namespace Shared.Structures
 {
@@ -21,10 +22,10 @@ namespace Shared.Structures
         };
         public override RessourceType ProductionType => RessourceType.FOOD;
         public override byte Gain => 4;
-        public override int MaxProgresses => new int[] {
-            2,
-            2,
-            2
+        public override int[] MaxProgresses => new int[] {
+            Constants.MinutesToGameTicks(120),
+            Constants.MinutesToGameTicks(90),
+            Constants.MinutesToGameTicks(60)
         };
         private const int elevationThreshold = 40;
 

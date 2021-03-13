@@ -22,11 +22,13 @@ namespace Shared.Structures
             10,
             20
         };
-        public override int MaxProgresses => new int[] {
+
+        public override int[] MaxProgresses => new int[] {
             Constants.MinutesToGameTicks(120),
             Constants.MinutesToGameTicks(90),
             Constants.MinutesToGameTicks(60),
         };
+
         public override RessourceType ProductionType => RessourceType.STONE;
         public override byte Gain => 2;
 

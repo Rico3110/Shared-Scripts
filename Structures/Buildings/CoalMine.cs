@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Shared.DataTypes;
 using Shared.HexGrid;
+using Shared.Communication;
 
 namespace Shared.Structures
 {
@@ -24,15 +25,15 @@ namespace Shared.Structures
             20
         };
 
+        public override int[] MaxProgresses => new int[] {
+            Constants.MinutesToGameTicks(120),
+            Constants.MinutesToGameTicks(90),
+            Constants.MinutesToGameTicks(60)
+        };
+
         public override RessourceType ProductionType => RessourceType.COAL;
         
         public override byte Gain => 4;
-
-        public override int MaxProgresses => new int[] {
-            2,
-            2, 
-            2
-        };
 
         public override Dictionary<RessourceType, int>[] Recipes
         {

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Shared.HexGrid;
 using UnityEngine;
+using Shared.Communication;
 
 namespace Shared.Structures
 {
@@ -24,7 +25,11 @@ namespace Shared.Structures
             7
         };
 
-        public override int MaxProgress => 10;
+        public override int[] MaxProgresses => new int[] {
+            Constants.MinutesToGameTicks(120),
+            Constants.MinutesToGameTicks(90),
+            Constants.MinutesToGameTicks(60)
+        };
 
         public RessourceType TradeInput;
 
