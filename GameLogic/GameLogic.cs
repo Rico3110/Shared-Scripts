@@ -561,6 +561,7 @@ namespace Shared.Game
                         market.ChangeInputRecipe(type);
                     else
                         market.ChangeOutputRecipe(type);
+                    ComputeConnectedStorages();
                     return true;
                 }
             }
