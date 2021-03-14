@@ -32,6 +32,7 @@ namespace Shared.Communication
         broadcastChangeStrategyActiveBuilding = 19,
         broadcastMoveRessources = 20,
         broadcastChangeRessourceLimit = 21,
+        broadcastUpdateMarketRessource = 22,
         testBuilding = 420        
     }
 
@@ -56,6 +57,7 @@ namespace Shared.Communication
         requestChangeActiveOfStrategyBuilding = 16,
         requestChangeRessourceLimit = 17,
         requestMoveRessource = 18,
+        requestUpdateMarketRessource = 19,
         testBuilding = 420
     }
 

@@ -549,6 +549,24 @@ namespace Shared.Game
             return false;
         }
 
+        public static bool UpdateMarketRessource(HexCoordinates coordinates, RessourceType type, bool isInput)
+        {
+            HexCell cell = grid.GetCell(coordinates);
+            if (cell != null)
+            {
+                if (cell.Structure is Market)
+                {
+                    Market market = (Market)cell.Structure;
+                    if (isInput)
+                        market.ChangeInputRecipe(type);
+                    else
+                        market.ChangeOutputRecipe(type);
+                    return true;
+                }
+            }
+            return false;
+        }
+
         #endregion
 
         public static void DoTick()

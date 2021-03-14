@@ -80,6 +80,40 @@ namespace Shared.Structures
             this.Inventory.RessourceLimits.Add(TradeOutput, 1);
         }
 
+        public void ChangeInputRecipe(RessourceType inputRessource)
+        {
+            foreach (RessourceType type in this.InputRecipe.Keys)
+            {
+                this.Inventory.RemoveRessource(type);
+            }
+
+            this.Inventory.AddRessource(inputRessource);
+            
+            this.TradeInput = inputRessource;
+            
+            this.Inventory.RessourceLimits.Clear();
+            this.Inventory.RessourceLimits.Add(TradeInput, this.RessourceLimit - 1);
+            this.Inventory.RessourceLimits.Add(TradeOutput, 1);
+            
+            this.Inventory.UpdateIncoming(new List<RessourceType> { inputRessource });
+        }
+
+        public void ChangeOutputRecipe(RessourceType outputRessource)
+        {
+            foreach (RessourceType type in this.OutputRecipe.Keys)
+            {
+                this.Inventory.RemoveRessource(type);
+            }
+            this.Inventory.AddRessource(outputRessource);
+            this.TradeOutput = outputRessource;
+            
+            this.Inventory.RessourceLimits.Clear();
+            this.Inventory.RessourceLimits.Add(TradeInput, this.RessourceLimit - 1);
+            this.Inventory.RessourceLimits.Add(TradeOutput, 1);
+
+            this.Inventory.UpdateOutgoing(new List<RessourceType> { outputRessource });
+        }
+
         public void ChangeInOutputRecipes(RessourceType inputRessource, RessourceType outputRessource)
         {
             foreach (RessourceType type in this.InputRecipe.Keys)
