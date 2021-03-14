@@ -83,10 +83,11 @@ namespace Shared.Structures
 
         public void ChangeInputRecipe(RessourceType inputRessource)
         {
-            this.Inventory.RemoveRessource(TradeInput);
+            this.Progress = 0;
+            this.Inventory.Storage.Clear();
             
-            if(!this.Inventory.Storage.ContainsKey(inputRessource))
-                this.Inventory.AddRessource(inputRessource);
+            this.Inventory.AddRessource(inputRessource);
+            this.Inventory.AddRessource(TradeOutput);
             
             this.TradeInput = inputRessource;
 
@@ -102,10 +103,11 @@ namespace Shared.Structures
 
         public void ChangeOutputRecipe(RessourceType outputRessource)
         {
-            this.Inventory.RemoveRessource(TradeOutput);
-
-            if (!this.Inventory.Storage.ContainsKey(outputRessource))
-                this.Inventory.AddRessource(outputRessource);
+            this.Progress = 0;
+            this.Inventory.Storage.Clear();
+            
+            this.Inventory.AddRessource(TradeInput);
+            this.Inventory.AddRessource(outputRessource);
 
             this.TradeOutput = outputRessource;
             
