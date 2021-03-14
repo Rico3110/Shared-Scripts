@@ -89,11 +89,14 @@ namespace Shared.Structures
                 this.Inventory.AddRessource(inputRessource);
             
             this.TradeInput = inputRessource;
-            
+
             this.Inventory.RessourceLimits.Clear();
             this.Inventory.RessourceLimits.Add(TradeInput, this.RessourceLimit - 1);
-            this.Inventory.RessourceLimits.Add(TradeOutput, 1);
-            
+            if (this.Inventory.RessourceLimits.ContainsKey(TradeOutput))
+                this.Inventory.RessourceLimits[TradeOutput] = this.RessourceLimit;
+            else
+                this.Inventory.RessourceLimits.Add(TradeOutput, 1);
+
             this.Inventory.UpdateIncoming(new List<RessourceType> { inputRessource });
         }
 
@@ -108,7 +111,10 @@ namespace Shared.Structures
             
             this.Inventory.RessourceLimits.Clear();
             this.Inventory.RessourceLimits.Add(TradeInput, this.RessourceLimit - 1);
-            this.Inventory.RessourceLimits.Add(TradeOutput, 1);
+            if (this.Inventory.RessourceLimits.ContainsKey(TradeOutput))
+                this.Inventory.RessourceLimits[TradeOutput] = this.RessourceLimit;
+            else
+                this.Inventory.RessourceLimits.Add(TradeOutput, 1);
 
             this.Inventory.UpdateOutgoing(new List<RessourceType> { outputRessource });
         }
