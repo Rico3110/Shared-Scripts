@@ -85,7 +85,8 @@ namespace Shared.Structures
         {
             foreach (RessourceType type in this.InputRecipe.Keys)
             {
-                this.Inventory.RemoveRessource(type);
+                if (type != TradeOutput)
+                    this.Inventory.RemoveRessource(type);
             }
 
             this.Inventory.AddRessource(inputRessource);
@@ -103,7 +104,8 @@ namespace Shared.Structures
         {
             foreach (RessourceType type in this.OutputRecipe.Keys)
             {
-                this.Inventory.RemoveRessource(type);
+                if (type != TradeInput)
+                    this.Inventory.RemoveRessource(type);
             }
 
             this.Inventory.AddRessource(outputRessource);
