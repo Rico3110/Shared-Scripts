@@ -172,6 +172,7 @@ namespace Shared.Structures
 
         public virtual bool FillCart(Cart cart, InventoryBuilding origin)
         {
+            cart.Inventory.RessourceLimit = this.ConnectedInventories[origin].Item2;
             BuildingInventory destination = this.Inventory;
             bool ressourceAdded = true;
             while (ressourceAdded)
