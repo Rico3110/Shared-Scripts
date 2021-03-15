@@ -305,12 +305,12 @@ namespace Shared.Game
             }
         }
 
-        public static void DestroyStructure(HexCoordinates coords)
+        public static bool DestroyStructure(HexCoordinates coords)
         {
             Console.WriteLine("structure has been destroyed");
             HexCell cell = grid.GetCell(coords);
             if (cell == null)
-                return;
+                return false;
             Structure structure = cell.Structure;
             if (structure != null)
             {
@@ -342,6 +342,7 @@ namespace Shared.Game
                     ressources.RemoveAll(elem => elem == structure);
                 }
             }
+            return true;
         }
 
         public static bool VerifyBuildHQ(HexCoordinates coords, Headquarter hq, Player player)
