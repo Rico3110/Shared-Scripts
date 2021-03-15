@@ -309,6 +309,8 @@ namespace Shared.Game
         {
             Console.WriteLine("structure has been destroyed");
             HexCell cell = grid.GetCell(coords);
+            if (cell == null)
+                return;
             Structure structure = cell.Structure;
             if (structure != null)
             {

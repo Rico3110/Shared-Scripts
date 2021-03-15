@@ -33,6 +33,7 @@ namespace Shared.Communication
         broadcastMoveRessources = 20,
         broadcastChangeRessourceLimit = 21,
         broadcastUpdateMarketRessource = 22,
+        broadcastDestroyBuilding = 23,
         testBuilding = 420        
     }
 
@@ -58,6 +59,7 @@ namespace Shared.Communication
         requestChangeRessourceLimit = 17,
         requestMoveRessource = 18,
         requestUpdateMarketRessource = 19,
+        requestDestroyBuilding = 20,
         testBuilding = 420
     }
 
