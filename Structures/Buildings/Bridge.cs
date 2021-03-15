@@ -13,9 +13,9 @@ namespace Shared.Structures
         public override byte MaxLevel => 3;
 
         public override byte[] MaxHealths => new byte[]{
-            30,
-            50,
-            100,
+            5,
+            7,
+            10
         };
 
         private int BridgeHeight = 2;

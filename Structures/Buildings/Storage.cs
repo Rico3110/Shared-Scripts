@@ -13,15 +13,15 @@ namespace Shared.Structures
         public override byte MaxLevel => 1;
         
         public override byte[] MaxHealths => new byte[]{
-            100,
-            200,
-            255
+            12,
+            14,
+            16
         };
 
         public override int[] RessourceLimits => new int[] {
+            40,
             80,
-            140,
-            200
+            120
         };
 
         public override Dictionary<RessourceType, int>[] Recipes

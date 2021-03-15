@@ -19,8 +19,8 @@ namespace Shared.Structures
 
         public override int[] RessourceLimits => new int[] {
             6,
-            12,
-            26
+            8,
+            12
         };
 
         public override int[] MaxProgresses => new int[] {

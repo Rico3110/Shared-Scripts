@@ -15,9 +15,9 @@ namespace Shared.Structures
         public override byte MaxLevel => 3;
 
         public override byte[] MaxHealths => new byte[]{
-            10,
-            20,
-            25
+            6,
+            8,
+            12
         };
 
         public override int[] RessourceLimits => new int[] {

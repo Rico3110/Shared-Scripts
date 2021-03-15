@@ -14,7 +14,9 @@ namespace Shared.Structures
     {
         public override byte MaxLevel => 1;
         public override byte[] MaxHealths => new byte[]{
-            50
+            12,
+            14,
+            16
         };
 
         public override int[] RessourceLimits => new int[] {
@@ -49,6 +51,7 @@ namespace Shared.Structures
 
         public Barracks() : base()
         {
+            this.TroopInventory.TroopLimit = 60;
             this.ChangeTroopRecipe(TroopType.ARCHER);
         }
 
@@ -82,7 +85,7 @@ namespace Shared.Structures
 
         public override void OnMaxProgress()
         {
-            this.TroopInventory.AddUnit(this.OutputTroop, 1);
+            this.TroopInventory.AddUnit(this.OutputTroop, 2);
         }
 
         public void ChangeTroopRecipe(TroopType troopType)

@@ -18,7 +18,7 @@ namespace Shared.Structures
 
         public TroopInventory()
         {
-            TroopLimit = 10;
+            TroopLimit = 20;
             Troops = new Dictionary<TroopType, int>() { { TroopType.ARCHER, 0 }, { TroopType.KNIGHT, 0 }, { TroopType.SPEARMAN, 0 } };
             
             Strategy = new List<Tuple<TroopType, bool>>();

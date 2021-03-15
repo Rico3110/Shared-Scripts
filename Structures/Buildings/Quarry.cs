@@ -13,9 +13,9 @@ namespace Shared.Structures
     {
         public override byte MaxLevel => 3;
         public override byte[] MaxHealths => new byte[]{
-            50,
-            100,
-            200
+            8,
+            10,
+            12
         };
         public override int[] RessourceLimits => new int[] {
             4,
@@ -30,7 +30,7 @@ namespace Shared.Structures
         };
 
         public override RessourceType ProductionType => RessourceType.STONE;
-        public override byte Gain => 2;
+        public override byte Gain => 1;
 
         public override Dictionary<RessourceType, int>[] Recipes
         {

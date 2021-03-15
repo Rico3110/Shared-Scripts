@@ -14,14 +14,16 @@ namespace Shared.Structures
     {
         public override byte MaxLevel => 1;
         public override byte[] MaxHealths => new byte[]{
-            50
+            4,
+            8,
+            12
         };
 
         public override int[] RessourceLimits => new int[] {
             4
         };
         public override RessourceType ProductionType => RessourceType.FOOD;
-        public override byte Gain => 4;
+        public override byte Gain => 1;
         public override int[] MaxProgresses => new int[] {
             Constants.MinutesToGameTicks(60),
             Constants.MinutesToGameTicks(25),
