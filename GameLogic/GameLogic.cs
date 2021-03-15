@@ -124,10 +124,10 @@ namespace Shared.Game
                 if (cell.Structure is Ressource)
                 {
                     Ressource ressource = (Ressource)cell.Structure;
-                    if (ressource.Harvestable())
+                    if (ressource.ManuallyHarvestable())
                     {
-                        ressource.Harvest();
-                        tribe.HQ.Inventory.AddRessource(ressource.ressourceType, 1);
+                        int gain = ressource.HarvestManually();
+                        tribe.HQ.Inventory.AddRessource(ressource.ressourceType, gain);
                         return true;
                     }
                 }
