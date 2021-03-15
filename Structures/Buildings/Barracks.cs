@@ -33,7 +33,7 @@ namespace Shared.Structures
             get
             {
                 Dictionary<RessourceType, int>[] result = {
-                    new Dictionary<RessourceType, int>{ { RessourceType.WOOD, 30 }, { RessourceType.STONE, 20 }, { RessourceType.IRON, 15 }, },
+                    new Dictionary<RessourceType, int>{ { RessourceType.WOOD, 1 }, },
                     new Dictionary<RessourceType, int>{ { RessourceType.WOOD, 10 }, { RessourceType.STONE, 8 }, { RessourceType.IRON, 4 }, },
                     new Dictionary<RessourceType, int>{ { RessourceType.WOOD, 8 }, { RessourceType.STONE, 12 }, { RessourceType.IRON, 10 }, }
                 };
@@ -101,11 +101,7 @@ namespace Shared.Structures
             }
             this.OutputTroop = troopType;
 
-            foreach (RessourceType ressourceType in this.Inventory.Storage.Keys)
-            {
-                if (!this.InputRecipe.Keys.Contains(ressourceType))
-                    this.Inventory.RemoveRessource(ressourceType);
-            }
+            this.Inventory.Storage.Clear();
             this.Inventory.Incoming.Clear();
             this.Inventory.RessourceLimits.Clear();
             foreach (RessourceType ressourceType in this.InputRecipe.Keys)
