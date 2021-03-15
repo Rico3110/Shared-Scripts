@@ -26,9 +26,9 @@ namespace Shared.Structures
         };
 
         public override int[] MaxProgresses => new int[] {
-            Constants.MinutesToGameTicks(120),
-            Constants.MinutesToGameTicks(90),
-            Constants.MinutesToGameTicks(60)
+            Constants.MinutesToGameTicks(900),
+            Constants.MinutesToGameTicks(500),
+            Constants.MinutesToGameTicks(200)
         };
 
         public RessourceType TradeInput;

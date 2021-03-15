@@ -5,14 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Shared.HexGrid;
+using Shared.Communication;
 
 namespace Shared.Structures
 {
     class CoalOre : Ressource
     {
-        public override int MaxProgress => 4;
+        public override int MaxProgress => Constants.HoursToGameTicks(4);
         public override RessourceType ressourceType => RessourceType.COAL;
-        public override int harvestReduction => 4;
+        public override int harvestReduction => Constants.HoursToGameTicks(3);
 
         public CoalOre() : base()
         {

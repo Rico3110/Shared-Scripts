@@ -11,9 +11,9 @@ namespace Shared.Structures
 {
     public class Rock : Ressource
     {
-        public override int MaxProgress => Constants.HoursToGameTicks(16);
+        public override int MaxProgress => Constants.HoursToGameTicks(2);
         public override RessourceType ressourceType => RessourceType.STONE;
-        public override int harvestReduction => Constants.HoursToGameTicks(8);
+        public override int harvestReduction => Constants.HoursToGameTicks(2);
 
         public Rock() : base()
         {

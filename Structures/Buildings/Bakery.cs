@@ -24,9 +24,9 @@ namespace Shared.Structures
         };
 
         public override int[] MaxProgresses => new int[] {
+            Constants.MinutesToGameTicks(180),
             Constants.MinutesToGameTicks(120),
-            Constants.MinutesToGameTicks(90),
-            Constants.MinutesToGameTicks(60)
+            Constants.MinutesToGameTicks(50)
         };
         
         public override Dictionary<RessourceType, int> InputRecipe => new Dictionary<RessourceType, int> { { RessourceType.WHEAT, 2 }, { RessourceType.WOOD, 1 } };

@@ -27,9 +27,9 @@ namespace Shared.Structures
         };
 
         public override int[] MaxProgresses => new int[] {
-            Constants.MinutesToGameTicks(40),
-            Constants.MinutesToGameTicks(35),
-            Constants.MinutesToGameTicks(30)
+            Constants.MinutesToGameTicks(90),
+            Constants.MinutesToGameTicks(60),
+            Constants.MinutesToGameTicks(25)
         };
         
         public override RessourceType ProductionType => RessourceType.WHEAT;

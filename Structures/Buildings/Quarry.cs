@@ -24,8 +24,8 @@ namespace Shared.Structures
         };
 
         public override int[] MaxProgresses => new int[] {
+            Constants.MinutesToGameTicks(180),
             Constants.MinutesToGameTicks(120),
-            Constants.MinutesToGameTicks(90),
             Constants.MinutesToGameTicks(60),
         };
 

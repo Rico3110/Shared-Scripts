@@ -23,9 +23,9 @@ namespace Shared.Structures
         public override RessourceType ProductionType => RessourceType.FOOD;
         public override byte Gain => 4;
         public override int[] MaxProgresses => new int[] {
-            Constants.MinutesToGameTicks(120),
-            Constants.MinutesToGameTicks(90),
-            Constants.MinutesToGameTicks(60)
+            Constants.MinutesToGameTicks(60),
+            Constants.MinutesToGameTicks(25),
+            Constants.MinutesToGameTicks(12)
         };
         private const int elevationThreshold = 40;
 

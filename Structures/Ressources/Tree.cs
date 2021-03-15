@@ -12,9 +12,9 @@ namespace Shared.Structures
 {
     public class Tree : Ressource
     {
-        public override int MaxProgress => Constants.HoursToGameTicks(12);
+        public override int MaxProgress => Constants.HoursToGameTicks(4);
         public override RessourceType ressourceType => RessourceType.WOOD;
-        public override int harvestReduction => Constants.HoursToGameTicks(4);
+        public override int harvestReduction => Constants.HoursToGameTicks(1);
 
         public Tree() : base()
         {

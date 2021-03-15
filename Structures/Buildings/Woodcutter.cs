@@ -27,9 +27,9 @@ namespace Shared.Structures
         };
 
         public override int[] MaxProgresses => new int[] {
-            Constants.MinutesToGameTicks(40),
-            Constants.MinutesToGameTicks(35),
-            Constants.MinutesToGameTicks(30)
+            Constants.MinutesToGameTicks(90),
+            Constants.MinutesToGameTicks(50),
+            Constants.MinutesToGameTicks(20)
         };
 
         public override RessourceType ProductionType => RessourceType.WOOD;
