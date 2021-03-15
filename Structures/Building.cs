@@ -17,6 +17,8 @@ namespace Shared.Structures
 
         public abstract byte MaxLevel { get; }
 
+        public abstract string description { get; }
+
         public byte MaxHealth { get { return MaxHealths[Level - 1]; } }
         public abstract byte[] MaxHealths { get; }
 

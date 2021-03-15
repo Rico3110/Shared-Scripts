@@ -11,6 +11,8 @@ namespace Shared.Structures
 {
     public class WheatFarm : ProductionBuilding
     {
+        public override string description => "The Wheatfarm is used to produce Wheat from nearby crops. The Wheatfarm needs to be placed adjacent to atleast one Crop. More adjacent Crops will increase the efficiency of the farm.";
+        
         public override byte MaxLevel => 3;
 
         public override byte[] MaxHealths => new byte[]{

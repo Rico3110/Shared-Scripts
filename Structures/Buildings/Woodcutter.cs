@@ -11,6 +11,7 @@ namespace Shared.Structures
 {
     public class Woodcutter : ProductionBuilding
     {
+        public override string description => "The Woodcutter is used to produce Wood from nearby Woodressources. The Woodcutter needs to be placed adjacent atleast one Tree or Bush. More adjacent Trees or Bushes will increase the efficiency and Trees are more efficient than Bushes.";
         public override byte MaxLevel => 3;
 
         public override byte[] MaxHealths => new byte[]{

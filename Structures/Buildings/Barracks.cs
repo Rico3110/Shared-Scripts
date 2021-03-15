@@ -11,6 +11,7 @@ namespace Shared.Structures
 {
     public class Barracks: ProgressBuilding
     {
+        public override string description => "Barracks are used to produce Troops which are needed to attack other Tribes or to defend your own Buildings from being attacked. Different Troops need different Ressources. An Archer requires 4 Wood, 1 Leather and 1 Food. A Knight requires 2 Iron and 1 Food and a Spearman requires 1 Iron, 1 Leather and 1 Food.";
         public override byte MaxLevel => 1;
         public override byte[] MaxHealths => new byte[]{
             50

@@ -10,6 +10,7 @@ namespace Shared.Structures
 {
     class CoalMine : ProductionBuilding
     {
+        public override string description => "The Coalmine is used to produce Coal from a nearby Coalressource. The Coalmine needs to be placed adjacent to atleast one Coalressource. More adjacent Coalressources will improve the efficiency of the mine.";
         public override byte MaxLevel => 3;
 
         public override byte[] MaxHealths => new byte[]{

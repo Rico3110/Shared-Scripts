@@ -11,6 +11,9 @@ namespace Shared.Structures
 {
     public class Market : RefineryBuilding
     {
+
+        public override string description => "The Market can be used to exchange any Ressource into any other Ressource. Higher levels of the market offer will offer a better trade ratio between those Ressources.";
+        
         public override byte MaxLevel => 3;
         public override byte[] MaxHealths => new byte[]{
             50,

@@ -10,6 +10,7 @@ namespace Shared.Structures
 {
     class Storage : InventoryBuilding
     {
+        public override string description => "The Storage is used to store Ressources. Higher Levels will improve the Capacity of the Storage. The Storage can also be used as a distributor for the Ressources.";
         public override byte MaxLevel => 1;
         
         public override byte[] MaxHealths => new byte[]{

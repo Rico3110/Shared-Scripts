@@ -10,6 +10,7 @@ namespace Shared.Structures
 {
     public class Bridge : Road
     {
+        public override string description => "The Bridge can be used to connect buildings so that those can transfer ressources between each other. A bridge needs to be placed on water.";
         public override byte MaxLevel => 3;
 
         public override byte[] MaxHealths => new byte[]{

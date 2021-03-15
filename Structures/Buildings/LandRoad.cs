@@ -10,6 +10,8 @@ namespace Shared.Structures
 {
     class LandRoad : Road
     {
+        public override string description => "The Landroad can be used to connect Buildings with each other so that they can exchange Ressources.";
+
         public override byte MaxLevel => 3;
 
         public override byte[] MaxHealths => new byte[]{
