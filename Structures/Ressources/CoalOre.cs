@@ -20,7 +20,7 @@ namespace Shared.Structures
 
         }
 
-        public CoalOre(HexCell Cell, byte Progress) : base(Cell, Progress)
+        public CoalOre(HexCell Cell, int Progress) : base(Cell, Progress)
         {
 
         }

@@ -22,7 +22,7 @@ namespace Shared.Structures
 
         }
 
-        public Wheat(HexCell Cell, byte Progress) : base(Cell, Progress)
+        public Wheat(HexCell Cell, int Progress) : base(Cell, Progress)
         {
 
         }

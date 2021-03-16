@@ -20,7 +20,7 @@ namespace Shared.Structures
 
         }
 
-        public Rock(HexCell Cell, byte Progress) : base(Cell, Progress)
+        public Rock(HexCell Cell, int Progress) : base(Cell, Progress)
         {
             
         }
