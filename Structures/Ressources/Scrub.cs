@@ -25,7 +25,7 @@ namespace Shared.Structures
 
         }
 
-        public Scrub(HexCell Cell, byte Progress) : base(Cell, Progress)
+        public Scrub(HexCell Cell, int Progress) : base(Cell, Progress)
         {
             
         }

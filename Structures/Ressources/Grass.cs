@@ -24,7 +24,7 @@ namespace Shared.Structures
 
         }
 
-        public Grass(HexCell Cell, byte Progress) : base(Cell, Progress)
+        public Grass(HexCell Cell, int Progress) : base(Cell, Progress)
         {
             
         }

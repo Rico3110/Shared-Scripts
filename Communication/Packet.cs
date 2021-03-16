@@ -1106,7 +1106,7 @@ namespace Shared.Communication
                 Type type = ReadByte(_moveReadPos).ToType();
 
                                
-                byte progress = ReadByte(_moveReadPos);
+                int progress = ReadInt(_moveReadPos);
 
                 Ressource _value = (Ressource)Activator.CreateInstance(type, new object[]{
                     null,
