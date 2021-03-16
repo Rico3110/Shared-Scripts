@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Shared.HexGrid;
 using Shared.DataTypes;
-using GameServer;
 using Shared.Communication;
 
 namespace Shared.Structures

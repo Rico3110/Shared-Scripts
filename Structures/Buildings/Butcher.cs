@@ -13,7 +13,7 @@ namespace Shared.Structures
     class Butcher: RefineryBuilding
     {
         public override string description => "The Butcher is used to process Cows into Food.";
-        public override byte MaxLevel => 1;
+        public override byte MaxLevel => 3;
         public override byte[] MaxHealths => new byte[]{
             8,
             12,

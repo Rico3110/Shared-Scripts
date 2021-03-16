@@ -14,7 +14,7 @@ namespace Shared.Structures
     {
 
         public override string description => "The Bakery is used to process Wheat and Wood into Food.";
-        public override byte MaxLevel => 1;
+        public override byte MaxLevel => 3;
         public override byte[] MaxHealths => new byte[]{
             12,
             14,

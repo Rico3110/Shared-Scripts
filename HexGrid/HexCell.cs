@@ -58,6 +58,17 @@ namespace Shared.HexGrid
             return difference;
         }
 
+        public int GetElevationDifference(HexCell neighbor)
+        {
+            int difference = 0;
+            if (neighbor != null)
+            {
+                difference = Elevation - neighbor.Elevation;
+            }
+
+            return difference;
+        }
+
         public HexCell GetNeighbor(HexDirection direction)
         {
             return neighbors[(int)direction];
