@@ -22,6 +22,11 @@ namespace Shared.Structures
 
         }
 
+        public Wheat(HexCell cell) : base(cell)
+        {
+
+        }
+
         public Wheat(HexCell Cell, byte Progress) : base(Cell, Progress)
         {
 

@@ -22,6 +22,11 @@ namespace Shared.Structures
 
         }
 
+        public Cow(HexCell cell) : base(cell)
+        {
+
+        }
+
         public Cow(HexCell Cell, byte Progress) : base(Cell, Progress)
         {
 

@@ -20,6 +20,11 @@ namespace Shared.Structures
 
         }
 
+        public Fish(HexCell cell) : base(cell)
+        {
+
+        }
+
         public Fish(HexCell Cell, byte Progress) : base(Cell, Progress)
         {
             

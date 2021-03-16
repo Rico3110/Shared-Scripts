@@ -20,6 +20,11 @@ namespace Shared.Structures
             
         }
 
+        public Tree(HexCell cell) : base(cell)
+        {
+
+        }
+
         public Tree(HexCell Cell, byte Progress) : base(Cell, Progress)
         {
             

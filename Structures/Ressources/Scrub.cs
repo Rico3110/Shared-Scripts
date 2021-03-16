@@ -20,6 +20,11 @@ namespace Shared.Structures
 
         }
 
+        public Scrub(HexCell cell) : base(cell)
+        {
+
+        }
+
         public Scrub(HexCell Cell, byte Progress) : base(Cell, Progress)
         {
             

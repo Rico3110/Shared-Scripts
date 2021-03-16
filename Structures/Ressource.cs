@@ -21,6 +21,11 @@ namespace Shared.Structures
             this.Progress = MaxProgress;
         }
 
+        public Ressource(HexCell cell) : base(cell)
+        {
+            this.Progress = MaxProgress;
+        }
+
         public Ressource(HexCell Cell, byte Progress) : base(Cell)
         {
             this.Progress = Progress;
