@@ -52,9 +52,20 @@ namespace Shared.HexGrid
             int difference = 0;
             if(neighbor != null)
             {
-                difference = (int)Elevation - (int)GetNeighbor(direction).Elevation;
+                difference = Elevation - GetNeighbor(direction).Elevation;
             }
             
+            return difference;
+        }
+
+        public int GetElevationDifference(HexCell neighbor)
+        {
+            int difference = 0;
+            if (neighbor != null)
+            {
+                difference = Elevation - neighbor.Elevation;
+            }
+
             return difference;
         }
 
