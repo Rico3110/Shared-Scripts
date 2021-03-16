@@ -42,9 +42,9 @@ namespace Shared.Structures
             get
             {
                 Dictionary<RessourceType, int>[] result = {
-                    new Dictionary<RessourceType, int>{ { RessourceType.WOOD, 1 }, },
-                    new Dictionary<RessourceType, int>{ { RessourceType.WOOD, 10 }, { RessourceType.STONE, 8 }, { RessourceType.IRON, 4 }, },
-                    new Dictionary<RessourceType, int>{ { RessourceType.WOOD, 8 }, { RessourceType.STONE, 12 }, { RessourceType.IRON, 10 }, }
+                    new Dictionary<RessourceType, int>{ { RessourceType.WOOD, 4 }, { RessourceType.STONE, 8 }, { RessourceType.IRON, 3 }},
+                    new Dictionary<RessourceType, int>{ { RessourceType.STONE, 10 }, { RessourceType.IRON, 5 }, { RessourceType.LEATHER, 2 } },
+                    new Dictionary<RessourceType, int>{ { RessourceType.STONE, 14 }, { RessourceType.IRON, 6 }, { RessourceType.LEATHER, 4 } }
                 };
                 return result;
             }

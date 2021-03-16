@@ -33,7 +33,8 @@ namespace Shared.Game
                 { typeof(Quarry), 2 }, 
                 { typeof(Storage), 1 }, 
                 { typeof(Tanner), 1 }, 
-                { typeof(Woodcutter), 3 }, 
+                { typeof(WheatFarm), 1 }, 
+                { typeof(Woodcutter), 3 },
             },
             new Dictionary<Type, int>{ 
                 { typeof(Bakery), 2 }, 

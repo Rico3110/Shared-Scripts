@@ -39,8 +39,8 @@ namespace Shared.Structures
             {
                 Dictionary<RessourceType, int>[] result = {
                     new Dictionary<RessourceType, int>{ {RessourceType.WOOD, 5 } },
-                    new Dictionary<RessourceType, int>{ {RessourceType.STONE, 5 } },
-                    new Dictionary<RessourceType, int>{ {RessourceType.IRON, 2 } }
+                    new Dictionary<RessourceType, int>{ {RessourceType.WOOD, 10 }, { RessourceType.LEATHER, 2 } },
+                    new Dictionary<RessourceType, int>{ {RessourceType.WOOD, 10 }, { RessourceType.LEATHER, 2 }, { RessourceType.IRON, 4 } }
                 };
                 return result;
             }

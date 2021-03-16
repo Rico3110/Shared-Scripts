@@ -15,7 +15,9 @@ namespace Shared.Structures
         public override string description => "The Butcher is used to process Cows into Food.";
         public override byte MaxLevel => 1;
         public override byte[] MaxHealths => new byte[]{
-            50
+            8,
+            12,
+            16
         };
 
         public override int[] RessourceLimits => new int[] {
@@ -38,9 +40,9 @@ namespace Shared.Structures
             get
             {
                 Dictionary<RessourceType, int>[] result = {
-                    new Dictionary<RessourceType, int>{ { RessourceType.WOOD, 3 }, { RessourceType.STONE, 2 }, { RessourceType.IRON, 2 }, },
-                    new Dictionary<RessourceType, int>{ { RessourceType.WOOD, 10 }, { RessourceType.STONE, 8 }, { RessourceType.IRON, 4 }, },
-                    new Dictionary<RessourceType, int>{ { RessourceType.WOOD, 8 }, { RessourceType.STONE, 12 }, { RessourceType.IRON, 10 }, }
+                    new Dictionary<RessourceType, int>{ { RessourceType.WOOD, 6 }, { RessourceType.STONE, 4 } },
+                    new Dictionary<RessourceType, int>{ { RessourceType.WOOD, 6 }, { RessourceType.STONE, 8 }, { RessourceType.IRON, 1 }, },
+                    new Dictionary<RessourceType, int>{ { RessourceType.WOOD, 6 }, { RessourceType.STONE, 12 }, { RessourceType.IRON, 4 }, }
                 };
                 return result;
             }
