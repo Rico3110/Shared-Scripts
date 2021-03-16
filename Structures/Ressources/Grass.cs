@@ -11,8 +11,8 @@ namespace Shared.Structures
     public class Grass : Ressource
     {
         public override int MaxProgress => 4;
-        public override RessourceType ressourceType => RessourceType.COW;
-        public override int harvestReduction => 4;
+        public override RessourceType ressourceType => RessourceType.LEATHER;
+        public override int harvestReduction => 2;
 
         public Grass() : base()
         {
@@ -30,6 +30,11 @@ namespace Shared.Structures
         }
 
         public override bool Harvestable()
+        {
+            return false;
+        }
+
+        public override bool ManuallyHarvestable()
         {
             return false;
         }

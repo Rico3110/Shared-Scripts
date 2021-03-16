@@ -124,10 +124,10 @@ namespace Shared.Game
                 if (cell.Structure is Ressource)
                 {
                     Ressource ressource = (Ressource)cell.Structure;
-                    if (ressource.Harvestable())
+                    if (ressource.ManuallyHarvestable())
                     {
-                        ressource.Harvest();
-                        tribe.HQ.Inventory.AddRessource(ressource.ressourceType, 1);
+                        int gain = ressource.HarvestManually();
+                        tribe.HQ.Inventory.AddRessource(ressource.ressourceType, gain);
                         return true;
                     }
                 }
@@ -305,10 +305,12 @@ namespace Shared.Game
             }
         }
 
-        public static void DestroyStructure(HexCoordinates coords)
+        public static bool DestroyStructure(HexCoordinates coords)
         {
             Console.WriteLine("structure has been destroyed");
             HexCell cell = grid.GetCell(coords);
+            if (cell == null)
+                return false;
             Structure structure = cell.Structure;
             if (structure != null)
             {
@@ -340,6 +342,7 @@ namespace Shared.Game
                     ressources.RemoveAll(elem => elem == structure);
                 }
             }
+            return true;
         }
 
         public static bool VerifyBuildHQ(HexCoordinates coords, Headquarter hq, Player player)
@@ -543,6 +546,25 @@ namespace Shared.Game
                         building.Inventory.RessourceLimits.Add(type, newValue);
                     if (building.Inventory.GetRessourceAmount(type) > newValue)
                         building.Inventory.Storage[type] = newValue;
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public static bool UpdateMarketRessource(HexCoordinates coordinates, RessourceType type, bool isInput)
+        {
+            HexCell cell = grid.GetCell(coordinates);
+            if (cell != null)
+            {
+                if (cell.Structure is Market)
+                {
+                    Market market = (Market)cell.Structure;
+                    if (isInput)
+                        market.ChangeInputRecipe(type);
+                    else
+                        market.ChangeOutputRecipe(type);
+                    ComputeConnectedStorages();
                     return true;
                 }
             }

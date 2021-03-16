@@ -11,6 +11,7 @@ namespace Shared.Structures
 {
     class Quarry : ProductionBuilding
     {
+        public override string description => "The Quarry is used to produce Stone from nearby Rocks. The Quarry needs to be placed adjacent to atleast one Rock. More adjacent Rocks will improve the efficiency of the Quarry.";
         public override byte MaxLevel => 3;
         public override byte[] MaxHealths => new byte[]{
             8,

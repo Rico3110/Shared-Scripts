@@ -12,6 +12,9 @@ namespace Shared.Structures
 {
     public class Market : RefineryBuilding
     {
+
+        public override string description => "The Market can be used to exchange any Ressource into any other Ressource. Higher levels of the market offer will offer a better trade ratio between those Ressources.";
+        
         public override byte MaxLevel => 3;
         public override byte[] MaxHealths => new byte[]{
             8,
@@ -53,7 +56,8 @@ namespace Shared.Structures
 
         public Market() : base()
         {
-            this.ChangeInOutputRecipes(RessourceType.WOOD, RessourceType.IRON);
+            this.ChangeInputRecipe(RessourceType.WOOD);
+            this.ChangeOutputRecipe(RessourceType.IRON);
         }
 
         public Market(
@@ -85,26 +89,43 @@ namespace Shared.Structures
             this.Inventory.RessourceLimits.Add(TradeOutput, 1);
         }
 
-        public void ChangeInOutputRecipes(RessourceType inputRessource, RessourceType outputRessource)
+        public void ChangeInputRecipe(RessourceType inputRessource)
         {
-            foreach (RessourceType type in this.InputRecipe.Keys)
-            {
-                this.Inventory.RemoveRessource(type);
-            }
-            foreach (RessourceType type in this.OutputRecipe.Keys)
-            {
-                this.Inventory.RemoveRessource(type);
-            }
+            this.Progress = 0;
+            this.Inventory.Storage.Clear();
+            
             this.Inventory.AddRessource(inputRessource);
-            this.Inventory.AddRessource(outputRessource);
+            this.Inventory.AddRessource(TradeOutput);
+            
+            this.TradeInput = inputRessource;
 
             this.Inventory.RessourceLimits.Clear();
-            this.Inventory.RessourceLimits.Add(inputRessource, this.RessourceLimit - 1);
-            this.Inventory.RessourceLimits.Add(outputRessource, 1);
+            this.Inventory.RessourceLimits.Add(TradeInput, this.RessourceLimit - 1);
+            if (this.Inventory.RessourceLimits.ContainsKey(TradeOutput))
+                this.Inventory.RessourceLimits[TradeOutput] = this.RessourceLimit;
+            else
+                this.Inventory.RessourceLimits.Add(TradeOutput, 1);
 
-            this.TradeInput = inputRessource;
-            this.TradeOutput = outputRessource;
             this.Inventory.UpdateIncoming(new List<RessourceType> { inputRessource });
+        }
+
+        public void ChangeOutputRecipe(RessourceType outputRessource)
+        {
+            this.Progress = 0;
+            this.Inventory.Storage.Clear();
+            
+            this.Inventory.AddRessource(TradeInput);
+            this.Inventory.AddRessource(outputRessource);
+
+            this.TradeOutput = outputRessource;
+            
+            this.Inventory.RessourceLimits.Clear();
+            this.Inventory.RessourceLimits.Add(TradeInput, this.RessourceLimit - 1);
+            if (this.Inventory.RessourceLimits.ContainsKey(TradeOutput))
+                this.Inventory.RessourceLimits[TradeOutput] = this.RessourceLimit;
+            else
+                this.Inventory.RessourceLimits.Add(TradeOutput, 1);
+
             this.Inventory.UpdateOutgoing(new List<RessourceType> { outputRessource });
         }
     }

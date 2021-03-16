@@ -12,6 +12,7 @@ namespace Shared.Structures
 {
     public class Barracks: ProgressBuilding
     {
+        public override string description => "Barracks are used to produce Troops which are needed to attack other Tribes or to defend your own Buildings from being attacked. Different Troops need different Ressources. An Archer requires 4 Wood, 1 Leather and 1 Food. A Knight requires 2 Iron and 1 Food and a Spearman requires 1 Iron, 1 Leather and 1 Food.";
         public override byte MaxLevel => 1;
         public override byte[] MaxHealths => new byte[]{
             12,
@@ -41,7 +42,7 @@ namespace Shared.Structures
             get
             {
                 Dictionary<RessourceType, int>[] result = {
-                    new Dictionary<RessourceType, int>{ { RessourceType.WOOD, 30 }, { RessourceType.STONE, 20 }, { RessourceType.IRON, 15 }, },
+                    new Dictionary<RessourceType, int>{ { RessourceType.WOOD, 1 }, },
                     new Dictionary<RessourceType, int>{ { RessourceType.WOOD, 10 }, { RessourceType.STONE, 8 }, { RessourceType.IRON, 4 }, },
                     new Dictionary<RessourceType, int>{ { RessourceType.WOOD, 8 }, { RessourceType.STONE, 12 }, { RessourceType.IRON, 10 }, }
                 };
@@ -110,11 +111,7 @@ namespace Shared.Structures
             }
             this.OutputTroop = troopType;
 
-            foreach (RessourceType ressourceType in this.Inventory.Storage.Keys)
-            {
-                if (!this.InputRecipe.Keys.Contains(ressourceType))
-                    this.Inventory.RemoveRessource(ressourceType);
-            }
+            this.Inventory.Storage.Clear();
             this.Inventory.Incoming.Clear();
             this.Inventory.RessourceLimits.Clear();
             foreach (RessourceType ressourceType in this.InputRecipe.Keys)

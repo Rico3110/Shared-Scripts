@@ -12,6 +12,7 @@ namespace Shared.Structures
 {
     class Smelter : RefineryBuilding
     {
+        public override string description => "The Smelter is used to process Stone and Coal into Iron.";
         public override byte MaxLevel => 1;
         public override byte[] MaxHealths => new byte[]{
             10,

@@ -12,6 +12,7 @@ namespace Shared.Structures
 {
     class Fisher : ProductionBuilding
     {
+        public override string description => "The Fisher is used to gain Food from a nearby Fishressource. The Fisher needs to be placed adjacent to Fishressource. More adjacent Fish will impove the efficiency of the Fisher.";
         public override byte MaxLevel => 1;
         public override byte[] MaxHealths => new byte[]{
             4,

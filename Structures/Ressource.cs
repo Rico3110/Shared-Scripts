@@ -48,5 +48,19 @@ namespace Shared.Structures
                 Progress++;
             }
         }
+
+        public virtual bool ManuallyHarvestable()
+        {
+            if (Progress == MaxProgress)
+                return true;
+            else
+                return false;
+        }
+
+        public virtual int HarvestManually()
+        {
+            Progress = 0;
+            return 1;
+        }
     }
 }

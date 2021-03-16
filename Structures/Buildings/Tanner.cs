@@ -12,6 +12,7 @@ namespace Shared.Structures
 {
     class Tanner: RefineryBuilding
     {
+        public override string description => "The Tanner is used to process Cows into Leather.";
         public override byte MaxLevel => 1;
         public override byte[] MaxHealths => new byte[]{
             8,

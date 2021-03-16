@@ -10,6 +10,8 @@ namespace Shared.Structures
 {
     public class Headquarter : InventoryBuilding
     {
+        public override string description => "The Headquarter can be placed to found a new Tribe. Different levels of the Headquarter grant access to other Buildings. The Headquarter also includes an Inventory for the Tribe which can be accessed from anywhere. Ressources in the Inventory can be used to build other Buildings or be refined into better Ressources or Troops.";
+
         public override byte MaxLevel => 3;
 
         public override byte[] MaxHealths => new byte[]{

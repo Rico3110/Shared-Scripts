@@ -12,6 +12,7 @@ namespace Shared.Structures
 {
     public class CowFarm : ProductionBuilding
     {
+        public override string description => "The Cowfarm is used to get Cows from a nearby Cowressource. The Cowfarm needs to be placed adjacent to atleast one Cow. More adjacent Cows will improve the efficiency of the farm.";
         public override byte MaxLevel => 3;
 
         public override byte[] MaxHealths => new byte[]{
