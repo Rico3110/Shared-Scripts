@@ -17,7 +17,7 @@ namespace Shared.Communication
 
         public static int MinutesToGameTicks(int minutes)
         {
-            return (minutes * (1 / SEC_PER_GAMETICK));
+            return (int)(minutes * (1f / (float)SEC_PER_GAMETICK));
         }
 
         public static int HoursToGameTicks(int hours)
