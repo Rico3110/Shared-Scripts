@@ -35,7 +35,7 @@ namespace Shared.Structures
 
         public override RessourceType ProductionType => RessourceType.WOOD;
 
-        public override byte Gain => 1;
+        public override byte Gain => 4;
 
 
 
@@ -44,9 +44,9 @@ namespace Shared.Structures
             get
             {
                 Dictionary<RessourceType, int>[] result = {
-                    new Dictionary<RessourceType, int>{ { RessourceType.WOOD, 2 } },
-                    new Dictionary<RessourceType, int>{ { RessourceType.WOOD, 5 }, { RessourceType.STONE, 2 } },
-                    new Dictionary<RessourceType, int>{ { RessourceType.WOOD, 8 }, { RessourceType.STONE, 4 }, { RessourceType.IRON, 2 } }
+                    new Dictionary<RessourceType, int>{ { RessourceType.WOOD, 4 } },
+                    new Dictionary<RessourceType, int>{ { RessourceType.STONE, 3 } },
+                    new Dictionary<RessourceType, int>{ { RessourceType.IRON, 2 } }
                 };
                 return result;
             }

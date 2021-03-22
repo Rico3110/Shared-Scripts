@@ -31,7 +31,7 @@ namespace Shared.Structures
         };
 
         public override RessourceType ProductionType => RessourceType.STONE;
-        public override byte Gain => 1;
+        public override byte Gain => 4;
 
         public override Dictionary<RessourceType, int>[] Recipes
         {

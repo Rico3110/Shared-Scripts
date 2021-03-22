@@ -36,7 +36,7 @@ namespace Shared.Structures
         
         public override RessourceType ProductionType => RessourceType.WHEAT;
 
-        public override byte Gain => 1;
+        public override byte Gain => 4;
 
 
 
